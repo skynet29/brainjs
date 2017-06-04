@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BrainJS Demo</title>
+
+	<link rel="stylesheet" type="text/css" href="brain/brain.css">
+</head>
+<body>
+
+<h1>BrainJS Demo</h1>
+
+<div id="main">
+
+<h2>Text binding</h2>
+  <p bn-text="@getName"></p>
+
+<h2>Event binding</h2>
+    <button bn-event="click: onUpdate">Update</button><br>
+
+<h2>CSS binding</h2>
+  <p bn-text="email" bn-style="color: color"></p>
+
+ <h2>Input bi-directional binding</h2>
+  <input type="text" bn-model="age" bn-update="input">
+  <p>Age: <span bn-text="age"></span></p>
+
+  <h2>Filtered Table</h2>
+  <input type="text" bn-model="filter" placeholder="filter by name" bn-update="input"><br>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>City</th>
+        <th>Action</th>
+			</tr>
+		</thead>
+
+		<tbody bn-each="@getFilteredClients">
+			<tr>
+				<td bn-text="name"></td>
+				<td bn-text="@getCity"></td>
+        <td><button bn-event="click: onDelete">Delete</button></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h2>SVG attribute binding</h2>
+  <svg width="250" height="150">
+    <circle cx="125" cy="75" bn-attr="r: radius" fill="green"></circle>
+  </svg> 
+  <input type="range" bn-model="radius" bn-update="input"> 
+
+  <h2>List</h2>
+  <ul bn-each="names">
+  	<li bn-text="$item"></li>
+  </ul>
+
+  <h2>Checkbox</h2>
+  <p>
+  	<label>Visible</label>
+  	<input type="checkbox" bn-model="isVisible" bn-update="click">
+  	<span bn-text="isVisible"></span>
+  </p>
+
+  <div bn-visible="isVisible">
+	  <h2>Checkgroup</h2>
+	  <div bn-control="checkgroup" bn-model="fruits" bn-update="checkgroupChange">
+	  	<label>Orange</label><input type="checkbox" value="orange">
+	  	<label>Apple</label><input type="checkbox" value="apple">
+	  	<label>Ananas</label><input type="checkbox" value="ananas">
+	  </div>
+	  <span bn-text="fruits"></span>
+  </div>
+
+  <h2>Radiogroup</h2>
+  <div bn-control="radiogroup" bn-model="gender" bn-update="radiogroupChange">
+  	<label>Male</label><input type="radio" value="male">
+  	<label>Female</label><input type="radio" value="female">
+  	<label>Other</label><input type="radio" value="other">
+  </div>
+  <span bn-text="gender"></span>
+
+  <h2>MenuBar</h2>
+  <ul bn-control="menu" bn-model="curPage" bn-update="menuChange">
+  	<li value="page1">Item 1</li>
+  	<li value="page2">Item 2</li>
+  	<li value="page3">Item 3</li>
+  </ul>
+
+  <h2>Pager</h2>
+  <div bn-control="pager" bn-attr="page: curPage">
+  	<div name="page1">Page 1</div>
+  	<div name="page2">Page 2</div>
+  	<div name="page3">Page 3</div>
+  </div>
+
+  <h2>Custom control</h2>
+  <div bn-control="MyTable" bn-attr="toto: name"></div>
+  
+</div>
+
+
+<!-- <p data-height="265" data-theme-id="0" data-slug-hash="ObPgem" data-default-tab="html,result" data-user="skynet29" data-embed-version="2" data-pen-title="example 11" class="codepen">See the Pen <a href="https://codepen.io/skynet29/pen/ObPgem/">example 11</a> by Marc Delomez (<a href="https://codepen.io/skynet29">@skynet29</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+ -->
+
+	<script type="text/javascript" src="jquery/jquery.min.js"></script> 
+	<script type="text/javascript" src="brain/brain.min.js"></script>
+
+	<script type="text/javascript" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "brainjs",
+  "version": "1.0.0",
+  "description": "javascript binding library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^3.0.0"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "jquery": "^3.2.1"
+  }
+}
