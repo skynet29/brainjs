@@ -36,7 +36,7 @@ var ctrl = new brain.ViewControler('#main', {
 ctrl.render()
 ````
 
-To update your data model, you can ever modify your attributs and call the update method, or call directly the setData method with the new value.
+To update your data model, you can either modify your attributs and call the update method, or call directly the setData method with the new value.
 
 HTML code
 ````html
