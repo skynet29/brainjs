@@ -1,4 +1,4 @@
-# brainjs
+# BrainJs
 BrainJS is a javascript binding library
 
 A binding library is a library to bind a data model (methods and attributs of an object) to HTML elements. 
