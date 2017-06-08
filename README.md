@@ -16,7 +16,7 @@ Like angularjs (i.e angular 1), brainjs use proprietary HTML attributs starting 
 - bn-each
 - bn-control
 
-To attach an HTML fragment to a view model, you must create a ViewControler object by specifying a CSS selector to identify the fragment and a object with an init method to initialize your model attributs. Once created, call the render method to activate the binding
+To attach an HTML fragment to a view model, you must create a ViewControler object by specifying a CSS selector to identify the fragment and a object with an init method to initialize your model attributs. Once created, call the render method to activate the binding.
 
 HTML code
 ````html
@@ -35,6 +35,33 @@ var ctrl = new brain.ViewControler('#main', {
 ctrl.render()
 ````
 
+To update your data model, you can ever modify your attributs and call the update method, or call directly the setData method with the new value.
+
+HTML code
+````html
+<div id="main">
+  <p>Welcome  <span bn-text="name"/></p><br/>
+  <button bn-event="click: onClick">Update</button>
+</div>
+````
+
+Javascript code
+````javascript
+var ctrl = new brain.ViewControler('#main', {
+  init: function() {
+    this.name = 'Marc'
+  },
+  methods: {
+    onClick: function(ev) {
+      this.setData({name: 'Quentin'})
+    }
+  }
+})
+ctrl.render()
+````
+As you can see, the event handler must be defined in the **methods** attribut of your model. All methods referenced by your HTML code must be defined in the **methods** attribut.
+
+# Getting started
 
 To get started, see the examples on my codepen page https://codepen.io/collection/AKgVOW
 
