@@ -41,7 +41,7 @@ To update your data model, you can ever modify your attributs and call the updat
 HTML code
 ````html
 <div id="main">
-  <p bn-style="color: black">Welcome  <span bn-text="name"/></p><br/>
+  <p bn-style="color: color">Welcome  <span bn-text="name"/></p><br/>
   <button bn-event="click: onClick">Update</button>
 </div>
 ````
@@ -51,6 +51,7 @@ Javascript code
 var ctrl = new brain.ViewControler('#main', {
   init: function() {
     this.name = 'Marc'
+    this.color = 'black'
   },
   methods: {
     onClick: function(ev) {
