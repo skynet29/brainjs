@@ -19,14 +19,14 @@ Like angularjs (i.e angular 1), brainjs use proprietary HTML attributs starting 
 To attach an HTML fragment to a view model, you must create a ViewControler object by specifying a CSS selector to identify the fragment and a object with an init method to initialize your model attributs. Once created, call the render method to activate the binding
 
 HTML code
-````
+````html
 <div id="main">
   <p>Welcome  <span bn-text="name"/></p>
 </div>
 ````
 
 Javascript code
-````
+````javascript
 var ctrl = new brain.ViewControler('#main', {
   init: function() {
     this.name = 'Marc'
