@@ -3,8 +3,8 @@ BrainJS is a javascript binding library
 
 A binding library is a library to bind a data model (methods and attributs of an object) to HTML elements. 
 
-I started writting this library after my experience with other popular binding libraries like angularjs, reactjs and vuejs.
-I love working with angularjs directive but writting your own directive to make component was a real pain.
+I started writting this library after my experience with other popular binding libraries like angularjs, reactjs and vuejs. At the begining, it was just like a challenge for me.
+I love working with Angularjs directive but writting your own directive to make component was a real pain.
 React is really cool but there is no more separation between HTML, CSS and javascript code
 
 Like angularjs (i.e angular 1), brainjs use proprietary HTML attributs starting with bn- prefix:
