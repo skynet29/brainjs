@@ -10,6 +10,7 @@ React is really cool but there is no more separation between HTML, CSS and javas
 Like angularjs (i.e angular 1), brainjs use proprietary HTML attributs starting with bn- prefix:
 - bn-text
 - bn-attr
+- bn-style
 - bn-model
 - bn-event
 - bn-visible
@@ -40,7 +41,7 @@ To update your data model, you can ever modify your attributs and call the updat
 HTML code
 ````html
 <div id="main">
-  <p>Welcome  <span bn-text="name"/></p><br/>
+  <p bn-style="color: black">Welcome  <span bn-text="name"/></p><br/>
   <button bn-event="click: onClick">Update</button>
 </div>
 ````
@@ -53,7 +54,7 @@ var ctrl = new brain.ViewControler('#main', {
   },
   methods: {
     onClick: function(ev) {
-      this.setData({name: 'Quentin'})
+      this.setData({name: 'Quentin', color: 'green'})
     }
   }
 })
