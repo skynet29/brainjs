@@ -55,6 +55,11 @@ var ctrl = new brain.ViewControler('#main', {
   methods: {
     onClick: function(ev) {
       this.setData({name: 'Quentin', color: 'green'})
+      /* another solution, useful when modifying array attributs
+        this.name = 'Quentin'
+        this.color = 'green'
+        this.update('name, color')
+      */
     }
   }
 })
