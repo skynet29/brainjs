@@ -16,7 +16,7 @@ Like angularjs (i.e angular 1), brainjs use proprietary HTML attributs starting 
 - bn-each
 - bn-control
 
-To attach an HTML fragment to a view model, you must create a ViewControler object by specifying a CSS selector to identify the fragment and a object with an init methods to initialize your model attributs
+To attach an HTML fragment to a view model, you must create a ViewControler object by specifying a CSS selector to identify the fragment and a object with an init method to initialize your model attributs
 
 HTML code
 ````
