@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test 5</title>
+
+	<script src="lib/brainjs-bundle.js"></script>
+</head>
+<body>
+	<style type="text/css">
+		table {
+			border-collapse: collapse;		
+		}
+
+		th, td {
+			border: 1px solid green;
+			padding: 5px;
+		}
+	</style>
+
+	<div id=main>
+
+		<h2>Clients:</h2>
+		<table>
+			<thead>
+			  <tr>
+			    <th>Name</th>
+			    <th>Age</th>
+			  </tr>
+			</thead>
+			<tbody bn-each="c of clients">
+				<tr>
+					<td bn-text="c.name"></td>
+					<td bn-text="c.age"></td>
+				</tr>
+
+			</tbody>
+		 
+		</table>	
+  	</div>
+
+	<script>
+		const ctrl = window.app = $$.viewController('#main', {
+			data: {
+			    clients: [
+			      {name: 'Marc', age: 20},
+			      {name: 'Brigitte', age: 18}
+			    ]
+			}
+
+		})
+
+	</script>
+
+</body>
+</html>

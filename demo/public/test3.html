@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test 3</title>
+
+	<script src="lib/brainjs-bundle.js"></script>
+</head>
+<body>
+
+	<div id=main>
+
+		<h1>Clients</h1>
+		<ul bn-each="c of clients">
+			<li bn-text="c"></li>
+		</ul>
+  	</div>
+
+	<script>
+		window.app = $$.viewController('#main', {
+			data: {
+				clients: ['Marc', 'Brigitte']
+			}
+		})
+
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test 11</title>
+
+	<script src="lib/brainjs-bundle.js"></script>
+</head>
+<body>
+	<style type="text/css">
+		table {
+			border-collapse: collapse;		
+		}
+
+		th, td {
+			border: 1px solid green;
+			padding: 5px;
+		}
+
+	</style>
+
+	<div id="main">
+	  
+	  <h2>Custom control</h2>
+	  <div bn-control="MyTable" bn-data="clients: myClients"></div>
+	  <hr>
+	  <div bn-control="MyTable" bn-data="clients: myClients2"></div>
+	</div>
+
+	<script>
+		var html = `
+			<table border="1">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>City</th>
+					</tr>
+				</thead>
+
+				<tbody bn-each="c of clients">
+					<tr>
+						<td bn-text="c.name"></td>
+						<td bn-text="c.city"></td>
+					</tr>
+				</tbody>
+			</table>
+		`
+
+		$$.control.registerControl('MyTable', {   
+		    props: ['clients'],
+		    template: html,
+		    init: function(elt) {
+		    	console.log('init', this.props)
+		      
+		      $$.viewController(elt, {
+		        template: html,
+		        data: {
+		          clients: this.props.clients
+		        }
+		      })
+		    } 
+		  }
+		)
+
+		  
+		  var ctrl = $$.viewController('#main', {
+		    data: { 
+		      myClients: [
+		        {name: 'Quentin', city: 'Rennes'},
+		        {name: 'Marc', city: 'Bethune'}
+		      ],
+		      myClients2: [
+		        {name: 'Brigitte', city: 'Le Mans'},
+		        {name: 'Georges', city: 'Verquin'}
+		      ]      
+		    }    
+		  })
+
+		 
+
+	</script>
+
+</body>
+</html>

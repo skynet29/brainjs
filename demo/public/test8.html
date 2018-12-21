@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test 8</title>
+
+	<script src="lib/brainjs-bundle.js"></script>
+</head>
+<body>
+
+
+	<div id="main">
+	  <h2>Fruits</h2>
+	  <select bn-val="favoriteFruit" bn-update="change" bn-each="f of fruits">
+	  	<option bn-text="f"></option>
+	  </select>
+	    <p>Your favorit fruit: <span bn-text="favoriteFruit"></span></p>
+	</div>
+
+	<script>
+		const ctrl = window.app = $$.viewController('#main', {
+			data: {
+			  fruits:['orange', 'apple', 'bananas', 'lemon'],
+			  favoriteFruit:'apple'
+			}
+
+		})
+
+	</script>
+
+</body>
+</html>

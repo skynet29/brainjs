@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test 4</title>
+
+	<script src="lib/brainjs-bundle.js"></script>
+</head>
+<body>
+
+	<div id=main>
+
+		<h1>Clients</h1>
+		<ul bn-each="c of clients">
+			<li bn-text="c"></li>
+		</ul>
+
+  		<h1>Add client</h1>
+		<form bn-event="submit: onAddClient">
+			<input type="text" placeholder="name" name="name" autofocus="">
+			<button type="submit">Add</button>
+		</form>		
+  	</div>
+
+	<script>
+		const ctrl = window.app = $$.viewController('#main', {
+			data: {
+				clients: ['Marc', 'Brigitte']
+			},
+			events: {
+				onAddClient: function(ev) {
+					console.log('onAddClient')
+					ev.preventDefault()
+					ctrl.model.clients.push($(this).getFormData().name)
+					ctrl.update('clients')
+					$(this).resetForm()
+
+				}
+			}
+		})
+
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test 2</title>
+
+	<script src="lib/brainjs-bundle.js"></script>
+</head>
+<body>
+
+	<div id=main>
+	  <input type="text" bn-val="message" bn-update="input">
+	  <p>Message: <span bn-text="message"></span></p>
+  	</div>
+
+	<script>
+		window.app = $$.viewController('#main', {
+			data: {
+				message: 'Hello World'
+			}
+		})
+
+	</script>
+
+</body>
+</html>

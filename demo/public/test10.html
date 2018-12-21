@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test 10</title>
+
+	<script src="lib/brainjs-bundle.js"></script>
+</head>
+<body>
+
+	<div id="main">
+	  
+	<svg height="100" width="100">
+	  <circle cx="50" cy="50" bn-attr="r: radius" stroke="black" stroke-width="3" fill="red" />
+	</svg>
+	  
+	  <input type="range" bn-val="radius" bn-update="input">
+	  
+	</div>
+
+	<script>
+		const ctrl = window.app = $$.viewController('#main', {
+			data: {
+			  radius:10
+			}
+			 
+
+		})
+
+	</script>
+
+</body>
+</html>

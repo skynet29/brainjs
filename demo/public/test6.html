@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test 6</title>
+
+	<script src="lib/brainjs-bundle.js"></script>
+</head>
+<body>
+	<style type="text/css">
+		table {
+			border-collapse: collapse;		
+		}
+
+		th, td {
+			border: 1px solid green;
+			padding: 5px;
+		}
+		input {
+			margin-bottom: 5px;
+		}
+	</style>
+
+	<div id=main>
+
+		<h2>Clients:</h2>
+		<table>
+			<thead>
+			  <tr>
+			    <th>Name</th>
+			    <th>Age</th>
+			    <th>Action</th>
+			  </tr>
+			</thead>
+			<tbody bn-each="c of clients" bn-event="click.delBtn: onRemoveClient">
+				<tr bn-data="item: c">
+					<td bn-text="c.name"></td>
+					<td bn-text="c.age"></td>
+					<td><button class="delBtn" title="Delete">Delete</button>
+				</tr>
+
+			</tbody>
+		 
+		</table>	
+
+		<h1>Add client</h1>
+			<form bn-event="submit: onAddClient">
+				<input type="text" placeholder="name" name="name" required><br>
+				<input type="number" placeholder="age" name="age" required><br>
+				<input type="submit" value="Add">
+			</form>		
+  	</div>
+
+	<script>
+		const ctrl = window.app = $$.viewController('#main', {
+			data: {
+			    clients: [
+			      {name: 'Marc', age: 20},
+			      {name: 'Brigitte', age: 18}
+			    ]
+			},
+			events: {
+				onAddClient: function(ev) {
+					console.log('onAddClient')
+					ev.preventDefault();
+					ctrl.model.clients.push($(this).getFormData())
+					ctrl.update('clients')
+					$(this).resetForm()
+				},
+				onRemoveClient: function(ev) {
+					var data = $(this).closest('tr').data('item')
+      				var idx = ctrl.model.clients.indexOf(data)
+      				console.log('onRemoveClient', idx, data)
+					ctrl.model.clients.splice(idx, 1)
+					ctrl.update('clients')
+				}
+			}
+
+		})
+
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test 9</title>
+
+	<script src="lib/brainjs-bundle.js"></script>
+</head>
+<body>
+	<style type="text/css">
+		table {
+			border-collapse: collapse;		
+		}
+
+		th, td {
+			border: 1px solid green;
+			padding: 5px;
+		}
+		input {
+			margin-bottom: 5px;
+		}
+	</style>
+
+	<div id="main">
+	  <h2>Clients:</h2>
+	  <input type="text" placeholder="filter by name" bn-val="filter" bn-update="input">
+	  <table border="1" class="clients">
+	    <thead>
+	      <tr>
+	        <th>Name</th>
+	        <th>Age</th>
+	      </tr>
+	    </thead>
+	    <tbody bn-each="client of getFilteredClients">
+	      <tr>
+	        <td bn-text="client.name"></td>
+	        <td bn-text="client.age"></td>
+	      </tr>
+	    </tbody>
+	     
+	  </table>
+	  
+
+	 
+	</div>
+
+	<script>
+		const ctrl = window.app = $$.viewController('#main', {
+			data: {
+			   clients:[
+			     {name: 'Marc', age: 20},
+			     {name: 'Brigitte', age: 18},
+			     {name: 'Lucas', age: 22},
+			     {name: 'Quentin', age: 15},
+			     {name: 'Laurent', age: 32}
+			   ],
+			   filter:'',
+			   getFilteredClients: function() {
+			     var filter = this.filter
+			     return this.clients.filter(function(client) {
+			       return client.name.startsWith(filter);
+			     })
+			   }    
+
+			 }
+			 
+
+		})
+
+	</script>
+
+</body>
+</html>

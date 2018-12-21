@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test 7</title>
+
+	<script src="lib/brainjs-bundle.js"></script>
+</head>
+<body>
+
+
+	<div id=main>
+		<button bn-event="click: toggle">Toggle</button><br>
+		<img bn-attr="src: logoUrl" bn-show="logoVisible">
+  	</div>
+
+	<script>
+		const ctrl = window.app = $$.viewController('#main', {
+			data: {
+			  logoUrl: 'images/brain.jpg',
+			  logoVisible: false
+			},
+			events: {
+			  toggle: function(evt) {
+			    ctrl.setData({logoVisible: !ctrl.model.logoVisible})
+			  }
+			}
+
+		})
+
+	</script>
+
+</body>
+</html>
