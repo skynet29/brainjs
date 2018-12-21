@@ -69,9 +69,9 @@ As you can see, the event handler must be defined in the **events** attribut of 
 
 ## Getting started
 
-To get started, see the examples on <a href="https://codepen.io/collection/AKgVOW" target="_blank">my codepen page</a>  
+To get started, see the examples on the demo directory.
 
-ViewController is based on the jQuery library. jQuery is bundeled in the file view.js in the hmi/dist folder.
+ViewController is based on the jQuery library. jQuery is bundeled in the file brainjs-bundle.js in the dist folder.
 
 # Controls
 
