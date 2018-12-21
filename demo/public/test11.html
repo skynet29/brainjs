@@ -46,7 +46,9 @@
 		`
 
 		$$.control.registerControl('MyTable', {   
-		    props: ['clients'],
+		    props: {
+		    	clients: []
+		    },
 		    template: html,
 		    init: function(elt) {
 		    	console.log('init', this.props)

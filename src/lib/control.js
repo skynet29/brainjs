@@ -53,10 +53,10 @@ function createControl(controlName, elt) {
 		}
 
 		let {init, props, template} = ctrl.options
-		props = props || []
+		props = props || {}
 
-		props.forEach(function(propName) {
-			iface.props[propName] = elt.data(propName)
+		Object.keys(props).forEach(function(propName) {
+			iface.props[propName] = elt.data(propName) || props[propName]
 		})
 
 		if (typeof template == 'string') {
