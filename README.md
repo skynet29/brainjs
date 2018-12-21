@@ -1,8 +1,7 @@
 
-# ViewController
-ViewController is a class for binding data model to a view (aka HTML)
+# BrainJS
 
-A binding library is a library to bind a data model (methods and attributs of an object) to HTML elements. 
+BrainJS is a library to bind a data model (methods and attributs of an object) to HTML elements. 
 
 I started writting this library after my experience with other popular binding libraries like angularjs, reactjs and vuejs. At the begining, it was just like a challenge for me.
 I love working with Angularjs directive but writting your own directive to make component was a real pain.
@@ -10,6 +9,7 @@ React is really cool but there is no more separation between HTML, CSS and javas
 
 Like angularjs (i.e angular 1), brainjs use proprietary HTML attributs starting with bn- prefix:
 - bn-text
+- bn-html
 - bn-attr
 - bn-style
 - bn-val
@@ -77,29 +77,10 @@ ViewController is based on the jQuery library. jQuery is bundeled in the file vi
 
 ## Using controls
 
-To use a control in your HTML, add a **bn-control** parameter to an HTML tag depending of the control type (most of the time a **div** tag) with the name of the control to create and optionally a **bn-options** parameter to specify controls options. The value of the options parameter must be an object declared in the viewControler data. This object is passed to the control constructor function.
+To use a control in your HTML, add a **bn-control** parameter to an HTML tag depending of the control type (most of the time a **div** tag) with the name of the control to create.
 
-Example 1 with bn-options
-
-HTML code
-````html
-<div id="main">
-  <div bn-control="MyControl" bn-options="myCtrlOptions"></div>  
-</div>  
-
-````
-
-Javascript code
-````javascript
-var ctrl = $$.viewController('#main', {
-  data: {
-    myCtrlOptions: {
-      title: 'Hello World'
-    }
-  }
-})
-````
-Another way to parameter your control is to use custom HTML parameters
+``
+A way to parameter your control is to use custom HTML parameters
 
 Example 2 with static custom parameter
 
@@ -133,21 +114,26 @@ var ctrl = $$.viewController('#main', {
 
 ## Create a new control
 
-To create a new control, use the framework **registerControl** or **registerControlEx** function:
+To create a new control, use the framework **registerControl** function:
 
 Javascript code (file mycontrol.js)
 
 ````javascript
-$$.registerControl('MyControl', function(elt, options) {
-  const title = options.title || 'No title!!'
+$$.control.registerControl('MyControl', {
+  props: {
+    title: 'No title'
+  }
+  init: function(elt) {
+    const title = this.props.title
   
-  elt.append(`<h1>${title}</h1>`)
+    elt.append(`<h1>${title}</h1>`)
+  }
 })
 ````
 
 **elt** is a jQuery object of the HTML tag with bn-control directive.
 
-As you can see, you do not have to use viewControler. Here we use ES6 template string.
+As you can see, you do not have to use viewController. Here we use ES6 template string.
 
 
 ## Create a control using services
@@ -156,9 +142,9 @@ Here you are creating a control which use the HTTP service to retrieve data from
 
 Javascript code (file mycontrol2.js)
 ````javascript
-$$.registerControlEx('MyControl', {
+$$.control.registerControl('MyControl', {
   deps: ['HttpService'],
-  init: function(elt, options, http) {
+  init: function(elt, http) {
     var ctrl = $$.viewControler(elt, {
       data: {
         users: []
@@ -192,8 +178,8 @@ HTML file (mycontrol2.html)
 
 Javascript code (mycontrol3.js file)
 ````javascript
-$$.registerControlEx('MyControl3', {
-  init: function(elt, options) {
+$$.control.registerControl('MyControl3', {
+  init: function(elt) {
 		
     elt.append(`<label>Name</label><input type="text">`)
 
@@ -270,7 +256,7 @@ It is the opportunity for your control to clean up its data (stop running timers
 
 Example of code:
 ````javascript
-$$.registerControlEx(‘MyControl5’, {
+$$.control.registerControl(‘MyControl5’, {
 	deps: ['WebSocketService'],
 	init: function(elt, options, client) 	{
 
@@ -294,7 +280,7 @@ If you want to create a control which has the same behavior as HTML input tag (i
 
 To create a new service, the framework porvides the **registerService** function.
 ````javascript
-$$.registerService('UsersService', ['HttpService'], function(http) {
+$$.service.registerService('UsersService', ['HttpService'], function(http) {
 	return {
 		getUsers: function() {
 			return http.get('/api/users')
@@ -312,7 +298,7 @@ Like controls, services use dependancies injection mechanism.
 To configure a service, use the framework **configureService** function.
 
 ````javascript
-$$.configReady(function(config) {
+$(function() {
 
 	$$.configureService('WebSocketService', {id: 'ClientsMonitoring'})
 
