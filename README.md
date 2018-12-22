@@ -196,7 +196,7 @@ $$.control.registerControl('MyControl3', {
 
 Exported function has to be added to the **this** object.
 
-To access an interface control use the jQuery **interface** function or use the **bn-iface** directive to bind the interface to your controler scope object.
+To access an interface control use the jQuery **iface** function or use the **bn-iface** directive to bind the interface to your controler scope object.
 
 ````html
 <div id="main">
@@ -217,18 +217,18 @@ $(function() {
 
 Javascript code (mycontrol4.js file)
 ````javascript
-$$.registerControlEx('MyControl4', {
+$$.control.registerControl('MyControl4', {
 
 	props: {
-		roll: {val: 0, set: 'setRoll'},
-		pitch: {val: 0, set: 'setPitch'}
+		roll: 0,
+		pitch: 0
 	},
 	init: function(elt, options) {
 		
 		const ctrl = $$.viewControler(elt, {
 			data: {
-				roll: options.roll,
-				pitch: options.pitch
+				roll: this.props.roll,
+				pitch: this.props.pitch
 			}
 			
 		})
@@ -245,7 +245,7 @@ $$.registerControlEx('MyControl4', {
 })
 ````
 
-To add custom parameter, add the name to the **props** object and export the setter function in the **this** object in the constructor function. The **val** attribute define the default value of the parameter if the parameter is not set in the HTML.
+To add custom parameter, add the name to the **props** object and export the setter function in the **this** object in the constructor function.
 
 ## control specific interface function
 
@@ -300,7 +300,7 @@ To configure a service, use the framework **configureService** function.
 ````javascript
 $(function() {
 
-	$$.configureService('WebSocketService', {id: 'ClientsMonitoring'})
+	$$.service.configureService('WebSocketService', {id: 'ClientsMonitoring'})
 
 	...
 })
