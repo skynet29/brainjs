@@ -30,8 +30,11 @@ $.fn.iface = function() {
 $.fn.setData = function(name, value) {
   const iface = this.iface()
 
-  if (iface && typeof iface.setProp == 'function') {
-    iface.setProp(name, value)
+  const funcName = 'set' + name.substr(0,1).toUpperCase() + name.substr(1)
+  //console.log('funcName', funcName)
+
+  if (iface && iface.props[name] && typeof iface[funcName] == 'function') {
+    iface[funcName](value)
   }
   else {
     this.data(name, value)

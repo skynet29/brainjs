@@ -26,38 +26,43 @@
 	  <div bn-control="MyTable" bn-data="clients: myClients2"></div>
 	</div>
 
-	<script>
-		var html = `
-			<table border="1">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>City</th>
-					</tr>
-				</thead>
+	<div id="template" hidden="">
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>City</th>
+				</tr>
+			</thead>
 
-				<tbody bn-each="c of clients">
-					<tr>
-						<td bn-text="c.name"></td>
-						<td bn-text="c.city"></td>
-					</tr>
-				</tbody>
-			</table>
-		`
+			<tbody bn-each="c of clients">
+				<tr>
+					<td bn-text="c.name"></td>
+					<td bn-text="c.city"></td>
+				</tr>
+			</tbody>
+		</table>		
+	</div>
+
+	<script>
 
 		$$.control.registerControl('MyTable', {   
 		    props: {
 		    	clients: []
 		    },
-		    template: html,
+		    template: $('#template'),
 		    init: function(elt) {
 		    	console.log('init', this.props)
 		      
-		      $$.viewController(elt, {
+		      const ctrl = $$.viewController(elt.children(), {
 		        data: {
 		          clients: this.props.clients
 		        }
 		      })
+
+		      this.setClients = function(clients) {
+		      	ctrl.setData({clients})
+		      }
 		    } 
 		  }
 		)

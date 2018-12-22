@@ -60,7 +60,11 @@ function createControl(controlName, elt) {
 		})
 
 		if (typeof template == 'string') {
-			elt = $(template).appendTo(elt)
+			$(template).appendTo(elt)
+		}
+
+		if (template instanceof jQuery) {
+			template.children().clone().appendTo(elt)
 		}
 
 		if (typeof init == 'function') {
