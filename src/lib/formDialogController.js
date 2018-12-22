@@ -1,4 +1,4 @@
-$$.formDialogController = function(title, options) {
+$$.formDialogController = function(options) {
 	var div = $('<div>', {title: options.title || 'Dialog'})
 
 	var private = {}
@@ -10,6 +10,7 @@ $$.formDialogController = function(title, options) {
 			div.dialog('close')
 			if (typeof private.onApply == 'function') {
 				private.onApply($(this).getFormData())
+				$(this).resetForm()
 			}				
 		})
 
@@ -17,9 +18,12 @@ $$.formDialogController = function(title, options) {
 		$(options.template).appendTo(form)
 	}	
 
-	var submitBtn = $('<input>', {type: 'submit', hidden: true}).appendTo(form)
+	if (options.template instanceof jQuery) {
+		console.log(options.template.children().length)
+		options.template.children().clone().appendTo(form)
+	}
 
-	var ctrl = $$.viewController(form, options)
+	var submitBtn = $('<input>', {type: 'submit', hidden: true}).appendTo(form)
 
 	var dlgOptions = $.extend({
 		autoOpen: false,
@@ -38,11 +42,15 @@ $$.formDialogController = function(title, options) {
 
 	div.dialog(dlgOptions)
 
-	ctrl.show = function(data, onApply) {
-		private.onApply = onApply
-		form.setFormData(data)
-		div.dialog('open')
-	}
 
-	return ctrl
+	return {
+		show: function(onApply) {
+			private.onApply = onApply			
+			div.dialog('open')			
+		},
+		setData: function(data) {
+			form.setFormData(data)
+			return this
+		}
+	}
 };

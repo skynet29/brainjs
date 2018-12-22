@@ -1,4 +1,5 @@
 var gulp = require('gulp')
+var path = require('path')
 
 var concat = require('gulp-concat')
 var sourcemaps = require('gulp-sourcemaps')
@@ -28,4 +29,19 @@ gulp.task('brainjs-bundle', function() {
 		.pipe(gulp.dest(dest))
 })
 
-gulp.task('default', ['brainjs', 'brainjs-bundle'])
+gulp.task('brainjs-bundle.css', function() {
+	return gulp.src([
+		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.css',
+		])
+		.pipe(concat('brainjs-bundle.css'))
+		.pipe(gulp.dest(dest))
+})
+
+gulp.task('images', function() {
+	return gulp.src([
+		'./externals/jquery-ui-1.12.1.custom/images/*',
+		])
+		.pipe(gulp.dest(path.join(dest, 'images')))
+})
+
+gulp.task('default', ['brainjs', 'brainjs-bundle', 'brainjs-bundle.css', 'images'])
