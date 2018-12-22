@@ -6,6 +6,10 @@ class ViewController {
     	if (typeof elt == 'string') {
     		elt = $(elt)
     	}
+        if (elt.hasClass('CustomControl')) {
+            console.error('don\'t use viewController on control tag')
+            return
+        }
 
     	options = $.extend({}, options)
         this.elt = elt
