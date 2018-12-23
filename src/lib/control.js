@@ -37,7 +37,7 @@ function getControl(name) {
 }
 
 function createControl(controlName, elt) {
-	elt.addClass(controlName)
+	elt.addClass(controlName.replace('.', '-'))
 	elt.addClass('CustomControl').uniqueId()	
 	var ctrl = getControl(controlName)
 		

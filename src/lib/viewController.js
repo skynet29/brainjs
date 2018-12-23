@@ -100,5 +100,8 @@ $$.viewController = function(elt, options) {
     return new ViewController(elt, options)
 }
 
+$$.isViewController = function(o) {
+    return o instanceof ViewController
+}
 
 })();

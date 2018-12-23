@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test 12</title>
+
+	<script src="lib/brainjs-bundle.js"></script>
+</head>
+<body>
+	<style type="text/css">
+		table {
+			border-collapse: collapse;		
+		}
+
+		th, td {
+			border: 1px solid green;
+			padding: 5px;
+		}
+
+	</style>
+
+	<div id="main">
+	  <h2>Fruits</h2>
+	  <div bn-control="brainjs.checkgroup" bn-val="favoriteFruits" bn-update="input">
+	    <input type="checkbox" value="orange">Orange
+	    <input type="checkbox" value="bananas">Bananas
+	    <input type="checkbox" value="apple">Apple
+	    <input type="checkbox" value="lemon">Lemon
+	  </div>
+	  
+	    <p>Your favorit fruits: <span bn-text="favoriteFruits"></span></p>
+
+	  <h2>Gender</h2>
+	  <div bn-control="brainjs.radiogroup" bn-val="gender" bn-update="input">
+	    <input type="radio" value="male">Male
+	    <input type="radio" value="female">Female
+	  </div>
+	  <p>Gender: <span bn-text="gender"></span></p>
+
+	</div>
+
+	<script>
+
+		var ctrl = $$.viewController('#main', {
+		  data: {
+		    favoriteFruits:['apple', 'orange'],
+		    gender: 'male'
+		  }
+		})
+
+
+		 
+
+	</script>
+
+</body>
+</html>

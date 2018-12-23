@@ -21,7 +21,9 @@ gulp.task('brainjs-bundle', function() {
 		'./externals/jquery.min.js',
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.js',
 		'./src/index.js',
-		'./src/lib/*.js'
+		'./src/lib/*.js',
+		'./src/controls/*.js',
+		'./src/services/*.js'
 		])
 		.pipe(sourcemaps.init())
 		.pipe(concat('brainjs-bundle.js'))

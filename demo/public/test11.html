@@ -54,15 +54,12 @@
 		    init: function(elt) {
 		    	console.log('init', this.props)
 		      
-		      const ctrl = $$.viewController(elt.children(), {
+		      this.ctrl = $$.viewController(elt.children(), {
 		        data: {
 		          clients: this.props.clients
 		        }
 		      })
 
-		      this.setClients = function(clients) {
-		      	ctrl.setData({clients})
-		      }
 		    } 
 		  }
 		)
