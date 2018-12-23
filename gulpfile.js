@@ -3,6 +3,8 @@ var path = require('path')
 
 var concat = require('gulp-concat')
 var sourcemaps = require('gulp-sourcemaps')
+var injectHTML = require('gulp-inject-stringified-html')
+
 
 var dest = './dist'
 
@@ -46,4 +48,15 @@ gulp.task('images', function() {
 		.pipe(gulp.dest(path.join(dest, 'images')))
 })
 
-gulp.task('default', ['brainjs', 'brainjs-bundle', 'brainjs-bundle.css', 'images'])
+gulp.task('demo-app', function() {
+	return gulp.src([
+		'./demo/src/*.js',
+		])
+		.pipe(injectHTML())
+		.pipe(sourcemaps.init())
+		.pipe(concat('app.js'))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest('./demo/public/app'))
+})
+
+gulp.task('default', ['brainjs', 'brainjs-bundle', 'brainjs-bundle.css', 'images', 'demo-app'])

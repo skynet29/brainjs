@@ -113,7 +113,7 @@ function update(ctx, data, vars, excludeElt) {
 }
 
 function processEvents(root, events) {
-  root.find(`[bn-event]`).each(function() {
+  root.bnFind(`[bn-event]`).each(function() {
       let elt = $(this)
       let attrValue = elt.attr('bn-event')
       elt.removeAttr('bn-event')
