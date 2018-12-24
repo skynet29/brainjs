@@ -14,7 +14,7 @@
 		}
 
 		.menu {
-			width: 300px;
+			min-width: 300px;
 		}
 
 		.content {
@@ -29,19 +29,19 @@
 	<h1>BrainJS Examples</h1>
 
 	<div id=main>
-		<div class="menu">
-			<ul>
-				<li><a href="#/test1">Simple test binding</a></li>
-				<li><a href="#/test2">Two way binding</a></li>
-				<li><a href="#/test3">List binding</a></li>
-				<li><a href="#/test4">Dynamic list binding</a></li>
-				<li><a href="#/test5">Table binding</a></li>
-				<li><a href="#/test6">Dynamic table binding</a></li>
-				<li><a href="#/test7">Form dialog example</a></li>
-				<li><a href="#/test8">Select input binding</a></li>
-				<li><a href="#/test9">Use of computed properties</a></li>
-				<li><a href="#/test10">SVG attributes binding</a></li>
-			</ul>
+		<div class="menu" bn-control="brainjs.navbar">
+			<a href="#/test1">Simple test binding</a>
+			<a href="#/test2">Two way binding</a>
+			<a href="#/test3">List binding</a>
+			<a href="#/test4">Dynamic list binding</a>
+			<a href="#/test5">Table binding</a>
+			<a href="#/test6">Dynamic table binding</a>
+			<a href="#/test7">Form dialog example</a>
+			<a href="#/test8">Select input binding</a>
+			<a href="#/test9">Use of computed properties</a>
+			<a href="#/test10">SVG attributes binding</a>
+			<a href="#/test11">Custom Control</a>
+			<a href="#/test12">Use of checkgroup and radiogroup</a>
 		</div>
 		<div bn-control="brainjs.router" bn-data="routes: routes" class="content"></div>
 	</div>

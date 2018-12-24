@@ -36,6 +36,7 @@ gulp.task('brainjs-bundle', function() {
 gulp.task('brainjs-bundle.css', function() {
 	return gulp.src([
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.css',
+		'./externals/w3.css'
 		])
 		.pipe(concat('brainjs-bundle.css'))
 		.pipe(gulp.dest(dest))

@@ -1,0 +1,45 @@
+<style type="text/css">
+	table {
+		border-collapse: collapse;		
+	}
+
+	th, td {
+		border: 1px solid green;
+		padding: 5px;
+	}
+
+	form input {
+		margin-bottom: 5px;
+	}
+</style>
+
+<div bn-control="brainjs.tabs">
+
+	<div title="Result">
+		<h2>Fruits</h2>
+		<div bn-control="brainjs.checkgroup" bn-val="favoriteFruits" bn-update="input">
+		  <input type="checkbox" value="orange">Orange
+		  <input type="checkbox" value="bananas">Bananas
+		  <input type="checkbox" value="apple">Apple
+		  <input type="checkbox" value="lemon">Lemon
+		</div>
+		
+		  <p>Your favorit fruits: <span bn-text="favoriteFruits"></span></p>
+
+		<h2>Gender</h2>
+		<div bn-control="brainjs.radiogroup" bn-val="gender" bn-update="input">
+		  <input type="radio" value="male">Male
+		  <input type="radio" value="female">Female
+		</div>
+		<p>Gender: <span bn-text="gender"></span></p>
+	</div>
+
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+22
+

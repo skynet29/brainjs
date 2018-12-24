@@ -1,0 +1,33 @@
+<style type="text/css">
+	table {
+		border-collapse: collapse;		
+	}
+
+	th, td {
+		border: 1px solid green;
+		padding: 5px;
+	}
+
+	form input {
+		margin-bottom: 5px;
+	}
+</style>
+
+<div bn-control="brainjs.tabs">
+
+	<div title="Result">
+		  <h2>Custom control</h2>
+		  <div bn-control="MyTable" bn-data="clients: myClients"></div>
+		  <hr>
+		  <div bn-control="MyTable" bn-data="clients: myClients2"></div>
+		</div>
+
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+22
+

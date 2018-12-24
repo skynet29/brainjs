@@ -36,6 +36,7 @@
 		return newRoute
 	}
 
+	$$.getNewRoute = getNewRoute
 
 	$$.control.registerControl('brainjs.router', {
 
