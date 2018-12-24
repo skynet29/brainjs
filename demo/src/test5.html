@@ -9,20 +9,28 @@
 	}
 </style>
 
-<h2>Clients</h2>
-<table>
-	<thead>
-	  <tr>
-	    <th>Name</th>
-	    <th>Age</th>
-	  </tr>
-	</thead>
-	<tbody bn-each="c of clients">
-		<tr>
-			<td bn-text="c.name"></td>
-			<td bn-text="c.age"></td>
-		</tr>
+<div bn-control="brainjs.tabs">
+	<div title="Result">
+		<table>
+			<thead>
+			  <tr>
+			    <th>Name</th>
+			    <th>Age</th>
+			  </tr>
+			</thead>
+			<tbody bn-each="c of clients">
+				<tr>
+					<td bn-text="c.name"></td>
+					<td bn-text="c.age"></td>
+				</tr>
 
-	</tbody>
- 
-</table>
+			</tbody>		 
+		</table>
+	</div>
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>

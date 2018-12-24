@@ -1,2 +1,14 @@
-<input type="text" bn-val="message" bn-update="input">
-<p>Message: <span bn-text="message"></span></p>	
+<div bn-control="brainjs.tabs">
+	<div title="Result">
+		<input type="text" bn-val="message" bn-update="input">
+		<p>Message: <span bn-text="message"></span></p>	
+	</div>
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+
+

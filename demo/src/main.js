@@ -1,18 +1,20 @@
 
 $(function() {
 
+	let routes = [
+		{href: '/', redirect: '/test1'}
+	]
+	for(let i = 1; i <= 10; i++ ) {
+		routes.push({
+			href: '/test' + i, control: 'test' + i
+		})
+	}
+
+
+
 	$$.viewController('#main', {
 		data: {
-			routes: [
-				{href: '/', redirect: '/test1'},
-				{href: '/test1', control: 'test1'},
-				{href: '/test2', control: 'test2'},
-				{href: '/test3', control: 'test3'},
-				{href: '/test4', control: 'test4'},
-				{href: '/test5', control: 'test5'},
-				{href: '/test6', control: 'test6'},
-				{href: '/test7', control: 'test7'}
-			]
+			routes
 		}
 	})
 });

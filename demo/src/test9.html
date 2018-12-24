@@ -1,0 +1,42 @@
+<style type="text/css">
+	table {
+		border-collapse: collapse;		
+	}
+
+	th, td {
+		border: 1px solid green;
+		padding: 5px;
+	}
+	input {
+		margin-bottom: 5px;
+	}
+</style>
+
+<div bn-control="brainjs.tabs">
+  <div title="Result">
+    <h2>Clients</h2>
+    <input type="text" placeholder="filter by name" bn-val="filter" bn-update="input">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+        </tr>
+      </thead>
+      <tbody bn-each="client of getFilteredClients">
+        <tr>
+          <td bn-text="client.name"></td>
+          <td bn-text="client.age"></td>
+        </tr>
+      </tbody>
+       
+    </table>
+  </div>
+  <div title="HTML">
+    <pre bn-text="htmlCode"></pre>
+  </div>
+  <div title="Javascript">
+    <pre bn-text="jsCode"></pre>
+  </div>  
+</div>
+

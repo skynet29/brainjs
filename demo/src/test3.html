@@ -1,4 +1,15 @@
-<h2>Clients</h2>
-<ul bn-each="c of clients">
-	<li bn-text="c"></li>
-</ul>
+<div bn-control="brainjs.tabs">
+	<div title="Result">
+		<h2>Clients</h2>
+		<ul bn-each="c of clients">
+			<li bn-text="c"></li>
+		</ul>
+	</div>
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+

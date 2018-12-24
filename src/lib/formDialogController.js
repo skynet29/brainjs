@@ -19,7 +19,6 @@ $$.formDialogController = function(options) {
 	}	
 
 	if (options.template instanceof jQuery) {
-		console.log(options.template.children().length)
 		options.template.children().clone().appendTo(form)
 	}
 
