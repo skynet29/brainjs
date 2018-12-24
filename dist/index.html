@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BrainJS samples</title>
+
+	<script src="brainjs-bundle.js"></script>
+	<link rel="stylesheet" type="text/css" href="brainjs-bundle.css">
+	
+</head>
+<body>
+	<style>
+		#main {
+			display: flex;
+		}
+
+		.menu {
+			width: 300px;
+		}
+
+		.content {
+			flex: 1;
+		}
+	</style>
+
+	<div id=main>
+		<div class="menu">
+			<ul>
+				<li><a href="#/test1">Simple test binding</a></li>
+				<li><a href="#/test2">Two way binding</a></li>
+				<li><a href="#/test3">List binding</a></li>
+				<li><a href="#/test4">Dynamic list binding</a></li>
+				<li><a href="#/test5">Table binding</a></li>
+				<li><a href="#/test6">Dynamic table binding</a></li>
+				<li><a href="#/test7">Form dialog example</a></li>
+			</ul>
+		</div>
+		<div bn-control="brainjs.router" bn-data="routes: routes" class="content"></div>
+	</div>
+
+	<script src="demo.js"></script>
+
+
+</body>
+</html>

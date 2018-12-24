@@ -13,7 +13,7 @@ gulp.task('brainjs', function() {
 		'./src/**/*.js'
 		])
 		.pipe(sourcemaps.init())
-		.pipe(concat('brain.js'))
+		.pipe(concat('brainjs.js'))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(dest))
 })
@@ -54,9 +54,25 @@ gulp.task('demo-app', function() {
 		])
 		.pipe(injectHTML())
 		.pipe(sourcemaps.init())
-		.pipe(concat('app.js'))
+		.pipe(concat('demo.js'))
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('./demo/public/app'))
+		.pipe(gulp.dest(dest))
 })
 
-gulp.task('default', ['brainjs', 'brainjs-bundle', 'brainjs-bundle.css', 'images', 'demo-app'])
+gulp.task('demo-apphtml', function() {
+	return gulp.src([
+		'./demo/index.html',
+		])
+		.pipe(gulp.dest(dest))
+})
+
+gulp.task('brainjs-all', ['brainjs', 'brainjs-bundle', 'brainjs-bundle.css', 'images'])
+
+gulp.task('demo', ['demo-app', 'demo-apphtml'])
+
+gulp.task('all', ['brainjs-all', 'demo'])
+
+gulp.task('watch', ['all'], function() {
+	gulp.watch(['./src/**/*.js'], ['brainjs-all'])
+	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
+})
