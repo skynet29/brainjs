@@ -39,5 +39,9 @@ $$.dialogController = function(options) {
 		div.dialog('option', optionName, value)
 	}
 
+	ctrl.destroy = function() {
+		div.dialog('destroy')
+	}
+
 	return ctrl
 };
