@@ -31,5 +31,9 @@ $$.control.registerControl('test7', {
 			}
 
 		})
+
+		this.dispose = function() {
+			dlgAddClient.destroy()
+		}
 	}
 });

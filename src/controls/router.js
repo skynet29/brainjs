@@ -77,7 +77,7 @@
 
 							var newCtrl = $('<div>')
 							$$.control.createControl(route.control, newCtrl)
-							elt.empty().append(newCtrl)	
+							elt.safeEmpty().append(newCtrl)	
 						}
 						return true
 					}	

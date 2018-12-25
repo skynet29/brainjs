@@ -50,6 +50,10 @@ $$.formDialogController = function(options) {
 		setData: function(data) {
 			form.setFormData(data)
 			return this
+		},
+
+		destroy: function() {
+			div.dialog('destroy')
 		}
 	}
 };

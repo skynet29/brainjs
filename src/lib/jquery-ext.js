@@ -112,4 +112,18 @@ $.fn.setFormData = function(data) {
   return this
 }
 
+$.fn.safeEmpty = function() {
+  this.find('.CustomControl').each(function() {
+    const iface = $(this).iface()
+
+    if (typeof iface.dispose == 'function') {
+      iface.dispose()
+    }
+  })
+
+  this.empty()
+
+  return this
+}
+
 })();
