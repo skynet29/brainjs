@@ -3,18 +3,29 @@
 <head>
 	<title>Test 1</title>
 
+	<link rel="stylesheet" href="lib/brainjs-bundle.css">
 	<script src="lib/brainjs-bundle.js"></script>
 </head>
 <body>
 
 	<div id=main>
 		<p bn-text="message"></p>
+		<button bn-event="click: onClick">Click</button>
 	</div>
 
 	<script>
 		window.app = $$.viewController('#main', {
 			data: {
 				message: 'Hello World'
+			},
+			events: {
+				onClick: function(ev) {
+					console.log('onClick')
+					$$.ui.showPrompt({
+						title: 'Alert Rouge',
+						label: 'Enter your name:'
+					}, console.log)
+				}
 			}
 		})
 

@@ -6,7 +6,7 @@ $$.control.registerControl('test7', {
 			template: {gulp_inject: './test7-dlg.html'}
 		})
 
-		const ctrl = $$.viewController(elt.children(), {
+		const ctrl = $$.viewController(elt, {
 			data: {
 			    clients: [
 			      {name: 'Marc', age: 20},

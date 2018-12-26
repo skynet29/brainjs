@@ -14,7 +14,8 @@ app.get('/api/clients', function(req, res) {
 })
 
 
-app.use(express.static('../dist'))
+app.use('/lib', express.static('../dist'))
+app.use(express.static('public'))
 
 app.listen(9000, function() {
 	console.log('Server listening on port 9000 ...')

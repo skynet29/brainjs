@@ -37,7 +37,7 @@ $$.control.registerControl('test12', {
 	template: {gulp_inject: './test12.html'},
 	init: function(elt) {
 
-		const ctrl = $$.viewController(elt.children(), {
+		const ctrl = $$.viewController(elt, {
 			data: { 
 				favoriteFruits:['apple', 'orange'],
 				gender: 'male',

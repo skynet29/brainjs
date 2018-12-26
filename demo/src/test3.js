@@ -22,7 +22,7 @@ $$.control.registerControl('test3', {
 	template: {gulp_inject: './test3.html'},
 	init: function(elt) {
 
-		const ctrl = $$.viewController(elt.children(), {
+		const ctrl = $$.viewController(elt, {
 			data: {
 				clients: ['Marc', 'Brigitte'],
 				htmlCode: htmlCode.trim(),

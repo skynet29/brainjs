@@ -10,7 +10,7 @@ $$.control.registerControl('MyTable', {
     init: function(elt) {
     	console.log('init', this.props)
       
-      this.ctrl = $$.viewController(elt.children(), {
+      this.ctrl = $$.viewController(elt, {
         data: {
           clients: this.props.clients
         }
@@ -69,7 +69,7 @@ $$.control.registerControl('MyTable', {
     init: function(elt) {
     	console.log('init', this.props)
       
-      this.ctrl = $$.viewController(elt.children(), {
+      this.ctrl = $$.viewController(elt, {
         data: {
           clients: this.props.clients
         }
@@ -83,7 +83,7 @@ $$.control.registerControl('test11', {
 	template: {gulp_inject: './test11.html'},
 	init: function(elt) {
 
-		const ctrl = $$.viewController(elt.children(), {
+		const ctrl = $$.viewController(elt, {
 			data: { 
 			  myClients: [
 			    {name: 'Quentin', city: 'Rennes'},

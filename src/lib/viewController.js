@@ -7,8 +7,7 @@ class ViewController {
     		elt = $(elt)
     	}
         if (elt.hasClass('CustomControl')) {
-            console.error('don\'t use viewController on control tag')
-            return
+            elt = elt.children()
         }
 
     	options = $.extend({}, options)

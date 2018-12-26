@@ -368,7 +368,7 @@ function process(root, data, createControl) {
        
        
       if (type == 3) {
-        let template = elt.children().remove().clone()
+        let template = elt.remove().clone()
         let [iter, , varName] = attrValue.split(' ')
         let value = getValue(data, varName)
         

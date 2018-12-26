@@ -63,7 +63,7 @@ $$.control.registerControl('test6', {
 	template: {gulp_inject: './test6.html'},
 	init: function(elt) {
 
-		const ctrl = $$.viewController(elt.children(), {
+		const ctrl = $$.viewController(elt, {
 			data: {
 			    clients: [
 			      {name: 'Marc', age: 20},

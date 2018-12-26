@@ -23,7 +23,7 @@ $$.control.registerControl('test10', {
 	template: {gulp_inject: './test10.html'},
 	init: function(elt) {
 
-		const ctrl = $$.viewController(elt.children(), {
+		const ctrl = $$.viewController(elt, {
 			data: {
 			  radius:10,
 			  htmlCode,
