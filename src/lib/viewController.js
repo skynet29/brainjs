@@ -6,6 +6,8 @@ class ViewController {
     	if (typeof elt == 'string') {
     		elt = $(elt)
     	}
+
+
         if (elt.hasClass('CustomControl')) {
             elt = elt.children()
         }
@@ -45,7 +47,9 @@ class ViewController {
             $$.binding.processEvents(elt, options.events)
         }
 
+
         this.scope = $$.binding.processBindings(elt)
+
         //console.log('scope', this.scope)
        
 

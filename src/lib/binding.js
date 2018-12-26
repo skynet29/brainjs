@@ -218,17 +218,23 @@ function process(root, data, createControl) {
 
 function processBindings(root) {
 
-    var data = {}
+  var data = {}
 
-    root.bnFind('bn-bind', true, function(elt, varName) {
-      //console.log('bn-text', varName)
-      data[varName] = elt
-    })
-    root.bnFind('bn-iface', true, function(elt, varName) {
-      //console.log('bn-text', varName)
-      data[varName] = elt.iface()
-    })
-    return data
+  root.bnFind(`[bn-bind]`).each(function() {
+    let elt = $(this)
+    let attrValue = elt.attr('bn-bind')
+    elt.removeAttr('bn-bind')
+    data[attrValue] = elt
+  })
+
+  root.bnFind(`[bn-iface]`).each(function() {
+    let elt = $(this)
+    let attrValue = elt.attr('bn-iface')
+    elt.removeAttr('bn-iface')
+    data[attrValue] = elt.iface()
+  })
+
+  return data
   
 }
 

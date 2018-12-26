@@ -1,0 +1,41 @@
+<style type="text/css">
+	table {
+		border-collapse: collapse;		
+	}
+
+	th, td {
+		border: 1px solid green;
+		padding: 5px;
+	}
+
+	form input {
+		margin-bottom: 5px;
+	}
+</style>
+
+<div bn-control="brainjs.tabs">
+
+	<div title="Result">
+		<div bn-control="brainjs.tabs" bn-iface="tabs" bn-event="tabsactivate: onTabActivate">
+			<div title="Tab 1">
+				<p>Hello World</p>
+			</div>
+			<div title="Tab 2">
+				<p>Bonjour le monde</p>
+			</div>
+		</div>
+		<br>
+		<button bn-event="click: onAddTab">Add Tab</button>
+		<button bn-event="click: onAddCtrlTab">Add Control Tab</button>
+		<button bn-event="click: onShowTabInfo">Show Tab Info</button>
+	</div>
+
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+22
+

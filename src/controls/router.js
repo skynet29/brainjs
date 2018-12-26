@@ -74,10 +74,7 @@
 							location.href = '#' + route.redirect							
 						}
 						else if (typeof route.control == 'string') {
-
-							var newCtrl = $('<div>')
-							$$.control.createControl(route.control, newCtrl)
-							elt.safeEmpty().append(newCtrl)	
+							elt.safeEmpty().addControl(route.control)	
 						}
 						return true
 					}	

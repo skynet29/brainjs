@@ -126,4 +126,11 @@ $.fn.safeEmpty = function() {
   return this
 }
 
+$.fn.addControl = function(ctrlName) {
+  var newCtrl = $('<div>')
+  $$.control.createControl(ctrlName, newCtrl)
+  this.append(newCtrl) 
+  return this
+}
+
 })();
