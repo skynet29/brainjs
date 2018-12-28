@@ -20,11 +20,11 @@ function getValue(data, varName) {
 
     //console.log('[Core] getValue', varName, ctx)
 
-    var not = false
-    if (varName.startsWith('!')) {
-      varName = varName.substr(1)
-      not = true
-    }     
+    // var not = false
+    // if (varName.startsWith('!')) {
+    //   varName = varName.substr(1)
+    //   not = true
+    // }     
 
     var func = data[varName]
     var value
@@ -37,9 +37,9 @@ function getValue(data, varName) {
     }
 
 
-    if (typeof value == 'boolean' && not) {
-      value = !value
-    }
+    // if (typeof value == 'boolean' && not) {
+    //   value = !value
+    // }
 
     return value
   }
@@ -87,21 +87,27 @@ function update(ctx, data, vars, excludeElt) {
     
     if (ctx[variable]) {
       ctx[variable].forEach(function(action) {
-        let {type, f, elt, name, template, iter} = action
+        let {type, f, elt, name, template, iter, not} = action
         if (elt == excludeElt) {
           return
         }
+
+        let newValue = value
+
+        if (not === true) {
+          newValue = !newValue
+        }
         if (type == 1) {
-          //console.log('update', variable, f, value)
-           elt[f].call(elt, value)
+          //console.log('update', variable, f, newValue)
+           elt[f].call(elt, newValue)
         }
         if (type == 2) {
-          //console.log('update', variable, f, name, value)
-           elt[f].call(elt, name, value)
+          //console.log('update', variable, f, name, newValue)
+           elt[f].call(elt, name, newValue)
         }   
-        if (type == 3 && Array.isArray(value)) {
+        if (type == 3 && Array.isArray(newValue)) {
             elt.empty()
-            value.forEach(function(item) {
+            newValue.forEach(function(item) {
               var itemData = $.extend({}, data)
               itemData[iter] = item
               var $item = template.clone()
@@ -160,8 +166,17 @@ function process(root, data, createControl, updateCbk) {
       let {type, f} = map[dir]
       
       if (type == 1) {
+        let not = false
+        if (attrValue.startsWith('!')) {
+          attrValue = attrValue.substr(1)
+          not = true
+        } 
+
         if (data) {
           let value = getValue(data, attrValue)
+          if (not && typeof value == 'boolean') {
+            value = !value
+          }
           //elt.text(data[attrValue])
           elt[f].call(elt, value)
         } 
@@ -176,8 +191,10 @@ function process(root, data, createControl, updateCbk) {
             })
           }
         }
+    
+
         ctx[attrValue] = ctx[attrValue] || []
-        ctx[attrValue].push({f, elt, type})        
+        ctx[attrValue].push({f, elt, type, not})        
       }
 
       if (type == 4 && typeof createControl == 'function') {
@@ -187,12 +204,20 @@ function process(root, data, createControl, updateCbk) {
       if (type == 2) {
 
           splitAttr(attrValue, function(name, varName) {
+            let not = false
+            if (attrValue.startsWith('!')) {
+              attrValue = attrValue.substr(1)
+              not = true
+            }             
             if (data) {
               let value = getValue(data, varName)
+              if (not && typeof value == 'boolean') {
+                value = !value
+              }              
               elt[f].call(elt, name, value)
             }
             ctx[varName] = ctx[varName] || []
-            ctx[varName].push({f, elt, type, name})  
+            ctx[varName].push({f, elt, type, name, not})  
           })
        }
        

@@ -1,0 +1,17 @@
+<div bn-control="brainjs.tabs">
+
+	<div title="Result">
+		<button bn-event="click: onStart" bn-show="!isStarted">Start</button>
+		<button bn-event="click: onTakePicture" bn-show="isStarted">Take Picture</button>
+		<div bn-control="brainjs.camera" bn-iface="camera"></div>
+	</div>
+
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+22
+
