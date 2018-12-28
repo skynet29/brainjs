@@ -71,7 +71,7 @@ const map = {
 
 function update(ctx, data, vars, excludeElt) {
 
-  //console.log('update', vars)
+  //console.log('[binding] update', vars, data, excludeElt)
 
   if (typeof vars == 'string') {
     vars = vars.split(',')
@@ -80,7 +80,7 @@ function update(ctx, data, vars, excludeElt) {
   vars.forEach(function(variable) {
     let value = getValue(data, variable)
     
-    if (typeof value == 'object' && !Array.isArray(value)) {
+    if (typeof value == 'object' && !Array.isArray(value) && !value instanceof Date) {
       update(ctx, data, Object.keys(value).map(i => variable + '.' + i), excludeElt)
       return
     }
@@ -92,9 +92,11 @@ function update(ctx, data, vars, excludeElt) {
           return
         }
         if (type == 1) {
+          //console.log('update', variable, f, value)
            elt[f].call(elt, value)
         }
         if (type == 2) {
+          //console.log('update', variable, f, name, value)
            elt[f].call(elt, name, value)
         }   
         if (type == 3 && Array.isArray(value)) {
@@ -138,8 +140,12 @@ function processEvents(root, events) {
      
 }
 
-function process(root, data, createControl) {
+function process(root, data, createControl, updateCbk) {
 
+  
+  if (root.length > 1) {
+    console.error('[binding] process', root.length, data)
+  }
 
   let ctx = {}
   
@@ -164,7 +170,9 @@ function process(root, data, createControl) {
           if (updateEvt) {
             elt.removeAttr('bn-update')
             elt.on(updateEvt, function() {
-              root.trigger('data:update', [attrValue, elt.getValue(), elt])
+              //console.log('[binding] updateEvt', updateEvt, elt)
+              updateCbk(attrValue, elt.getValue(), elt)
+
             })
           }
         }

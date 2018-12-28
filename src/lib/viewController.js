@@ -7,7 +7,6 @@ class ViewController {
     		elt = $(elt)
     	}
 
-
         if (elt.hasClass('CustomControl')) {
             elt = elt.children()
         }
@@ -15,10 +14,7 @@ class ViewController {
     	options = $.extend({}, options)
         this.elt = elt
 
-        elt.on('data:update', (ev, name, value, excludeElt) => {
-        	//console.log('[ViewController] data:change', name, value)
-        	this.setData(name, value, excludeElt)
-        })
+
 
         this.model = $.extend({}, options.data)
         this.rules = $.extend({}, options.rules)
@@ -40,7 +36,11 @@ class ViewController {
         }
 
         //console.log('rules', this.rules)
-        this.ctx = $$.binding.process(elt, this.model, $$.control.createControl)
+        this.ctx = $$.binding.process(elt, this.model, $$.control.createControl, 
+            (name, value, excludeElt) => {
+                //console.log('[ViewController] updateCbk', name, value)
+                this.setData(name, value, excludeElt)                
+            })
 
 
         if (typeof options.events == 'object') {
@@ -56,7 +56,7 @@ class ViewController {
     } 
 
     setData(arg1, arg2, excludeElt) {
-        //console.log('[ViewController] setData', arg1, arg2)
+        //console.log('[ViewController] setData', arg1, arg2, excludeElt)
         var data = arg1
         if (typeof arg1 == 'string') {
         	data = {}
@@ -69,7 +69,7 @@ class ViewController {
     }
 
     update(fieldsName, excludeElt) {
-    	//console.log('[ViewController] update', fieldsName)
+    	//console.log('[ViewController] update', fieldsName, excludeElt)
     	if (typeof fieldsName == 'string') {
     		fieldsName = fieldsName.split(',')
     	}
