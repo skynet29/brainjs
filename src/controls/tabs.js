@@ -68,6 +68,13 @@ $$.control.registerControl('brainjs.tabs', {
 			const title = ul.children('li').eq(index).attr('title')
 			return {title}
 		}
+
+		this.removeTab = function(tabIndex) {
+			var li = ul.children('li').eq(tabIndex)
+			var panelId = li.remove().attr('aria-controls')
+			$('#' + panelId).safeEmpty().remove()
+			elt.tabs('refresh')
+		}		
 	}
 
 });

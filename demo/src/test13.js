@@ -51,7 +51,11 @@ const ctrl = $$.viewController('#main', {
 				<p>SelTab Title: \${title}<p>
 			\`
 			$$.ui.showAlert({content})
-		}					
+		},
+		onRemoveSelTab: function() {
+			const selIdx = ctrl.scope.tabs.getSelectedTabIndex()
+			ctrl.scope.tabs.removeTab(selIdx)
+		}
 	}	
 }
 `.trim()
@@ -67,9 +71,12 @@ const htmlCode = `
 		</div>
 	</div>
 	<br>
-	<button bn-event="click: onAddTab">Add Tab</button>
-	<button bn-event="click: onAddCtrlTab">Add Control Tab</button>
-	<button bn-event="click: onShowTabInfo">Show Tab Info</button>
+	<div bn-control="brainjs.controlgroup">			
+		<button bn-event="click: onAddTab">Add Tab</button>
+		<button bn-event="click: onAddCtrlTab">Add Control Tab</button>
+		<button bn-event="click: onShowTabInfo">Show Tab Info</button>
+		<button bn-event="click: onRemoveSelTab">Remove Sel Tab</button>
+	</div>
 </div>
 
 <div id="template" hidden="">
@@ -134,7 +141,11 @@ $$.control.registerControl('test13', {
 						<p>SelTab Title: ${title}<p>
 					`
 					$$.ui.showAlert({content})
-				}				
+				},
+				onRemoveSelTab: function() {
+					const selIdx = ctrl.scope.tabs.getSelectedTabIndex()
+					ctrl.scope.tabs.removeTab(selIdx)
+				}
 			}			 
 		})
 
