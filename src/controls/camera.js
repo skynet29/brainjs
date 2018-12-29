@@ -12,11 +12,14 @@ $$.control.registerControl('brainjs.camera', {
 
 		const canvas = document.createElement('canvas')
 		const ctx = canvas.getContext('2d')
+
+		let _stream = null
 		
 		this.start = function() {
 
 			navigator.getUserMedia({video: true}, function(stream) {
 				console.log('stream')
+				_stream = stream
 
 				var url = URL.createObjectURL(stream)
 				video.src = url
@@ -31,8 +34,24 @@ $$.control.registerControl('brainjs.camera', {
 		this.takePicture = function() {
 		    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 		    return canvas.toDataURL('image/png');
-		}		
-	}
+		}	
+
+		function stop() {
+			if (_stream) {
+				_stream.getTracks().forEach(function(track) {
+		            track.stop();
+		        })	
+		        _stream = null			
+			}
+
+		}
+
+		this.stop = stop
+
+		this.dispose = function() {
+			stop()
+		}	
+	} 
 
 
 
