@@ -5,6 +5,16 @@ $.fn.bnFind= function(selector) {
     return this.find(selector).add(this.filter(selector))
 }
 
+$.fn.bnFindAttr= function(attrName, cbk) {
+    this.bnFind(`[${attrName}]`).each(function() {
+      const elt = $(this)
+      const value = elt.attr(attrName)
+      elt.removeAttr(attrName)
+      cbk(elt, value)
+    })
+    return this
+}
+
 $.fn.setClass = function(className, isActive) {
     if (isActive) {
       this.addClass(className)

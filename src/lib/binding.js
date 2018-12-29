@@ -121,10 +121,7 @@ function update(ctx, data, vars, excludeElt) {
 }
 
 function processEvents(root, events) {
-  root.bnFind(`[bn-event]`).each(function() {
-      let elt = $(this)
-      let attrValue = elt.attr('bn-event')
-      elt.removeAttr('bn-event')
+  root.bnFindAttr('bn-event', function(elt, attrValue) {
       
       splitAttr(attrValue, function(evtName, value) {
         let fn  = events[value]
@@ -158,10 +155,7 @@ function process(root, data, createControl, updateCbk) {
   for(let dir in map) {
     
 
-    root.bnFind(`[${dir}]`).each(function() {
-      let elt = $(this)
-      let attrValue = elt.attr(dir)
-      elt.removeAttr(dir)
+    root.bnFindAttr(dir, function(elt, attrValue) {
 
       let {type, f} = map[dir]
       
@@ -253,17 +247,11 @@ function processBindings(root) {
 
   var data = {}
 
-  root.bnFind(`[bn-bind]`).each(function() {
-    let elt = $(this)
-    let attrValue = elt.attr('bn-bind')
-    elt.removeAttr('bn-bind')
+  root.bnFindAttr('bn-bind', function(elt, attrValue) {
     data[attrValue] = elt
   })
 
-  root.bnFind(`[bn-iface]`).each(function() {
-    let elt = $(this)
-    let attrValue = elt.attr('bn-iface')
-    elt.removeAttr('bn-iface')
+  root.bnFindAttr('bn-iface', function(elt, attrValue) {
     data[attrValue] = elt.iface()
   })
 
