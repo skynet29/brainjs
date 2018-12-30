@@ -1,0 +1,23 @@
+<div bn-control="brainjs.tabs">
+
+	<div title="Result">
+		<div bn-control="brainjs.tree" 
+			bn-data="source: source, contextMenu: contextMenu" 
+			bn-event="treeactivate: onTreeActivate, treecontextmenu: onTreeContextMenu" 
+			bn-iface="tree"></div>
+		<br>
+		<div bn-control="brainjs.controlgroup">
+			<button bn-event="click: onAddNode">Add Node</button>
+			<button bn-event="click: onRemoveSelNode">Remove SelNode</button>				
+		</div>
+	</div>
+
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+22
+

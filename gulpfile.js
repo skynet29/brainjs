@@ -13,10 +13,11 @@ gulp.task('brainjs', function() {
 	return gulp.src([
 		'./externals/jquery.min.js',
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.js',
-		'./src/index.js',
-		'./src/lib/*.js',
-		'./src/controls/*.js',
-		'./src/services/*.js'
+		'./externals/jquery-contextMenu/jquery.contextMenu.min.js',		
+		'./src/lib/index.js',
+		'./src/lib/core/*.js',
+		'./src/lib/controls/*.js',
+		'./src/lib/services/*.js'
 		])
 		.pipe(sourcemaps.init())
 		.pipe(concat('brainjs.js'))
@@ -27,6 +28,7 @@ gulp.task('brainjs', function() {
 gulp.task('brainjs.css', function() {
 	return gulp.src([
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.css',
+		'./externals/jquery-contextMenu/jquery.contextMenu.css',				
 		'./externals/w3.css'
 		])
 		.pipe(concat('brainjs.css'))
@@ -58,13 +60,55 @@ gulp.task('demo-apphtml', function() {
 		.pipe(gulp.dest(dest))
 })
 
+gulp.task('tree.js', function() {
+	return gulp.src([
+		'./externals/fancytree/dist/jquery.fancytree-all.min.js',
+		'./externals/fancytree/3rd-party/extensions/contextmenu/js/jquery.fancytree.contextMenu.js',		
+		'./src/ext/tree.js',
+		])
+		.pipe(sourcemaps.init())
+		.pipe(concat('brainjs-tree.js'))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(path.join(dest, 'tree')))
+})
+
+gulp.task('tree.css', function() {
+	return gulp.src([
+			'./externals/fancytree/dist/skin-lion/ui.fancytree.min.css'
+		])
+		.pipe(concat('brainjs-tree.css'))
+		.pipe(gulp.dest(path.join(dest, 'tree')))
+})
+
+gulp.task('tree.images', function() {
+	return gulp.src([
+			'./externals/fancytree/dist/skin-lion/*.gif'
+		])
+		.pipe(gulp.dest(path.join(dest, 'tree')))
+})
+
+gulp.task('tree.fonts', function() {
+	return gulp.src([
+			'./externals/jquery-contextMenu/font/*'
+		])
+		.pipe(gulp.dest(path.join(dest, 'font')))
+})
+
+
+
+gulp.task('tree', ['tree.js', 'tree.css', 'tree.images', 'tree.fonts'])
+
+
 gulp.task('brainjs-all', ['brainjs', 'brainjs.css', 'images'])
 
 gulp.task('demo', ['demo-app', 'demo-apphtml'])
 
-gulp.task('all', ['brainjs-all', 'demo'])
+
+gulp.task('all', ['brainjs-all', 'demo', 'tree'])
 
 gulp.task('watch', ['all'], function() {
-	gulp.watch(['./src/**/*.js'], ['brainjs'])
+	gulp.watch(['./src/lib/**/*.js'], ['brainjs'])
+	gulp.watch(['./src/ext/tree.js'], ['tree.js'])
+
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
 })

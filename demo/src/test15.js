@@ -3,23 +3,21 @@
 
 const jsCode = `
 const ctrl = $$.viewController('#main', {
-	data: {
-		data: { 
-			isStarted: false
-		},
-		events: {
-			onStart: function() {
-				ctrl.setData({isStarted: true})
-				ctrl.scope.camera.start()
-			},
-			onTakePicture: function() {
-				console.log('onTakePicture')
-				var url = ctrl.scope.camera.takePicture()
-				var content = \`<img src="\${url}">\`
-				$$.ui.showAlert({content, width: 'auto'})
-			}			
-		}	
+	data: { 
+		isStarted: false
 	},
+	events: {
+		onStart: function() {
+			ctrl.setData({isStarted: true})
+			ctrl.scope.camera.start()
+		},
+		onTakePicture: function() {
+			console.log('onTakePicture')
+			var url = ctrl.scope.camera.takePicture()
+			var content = \`<img src="\${url}">\`
+			$$.ui.showAlert({content, width: 'auto'})
+		}			
+	}	
 }
 `.trim()
 
