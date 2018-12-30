@@ -70,7 +70,7 @@ function createControl(controlName, elt) {
 		if (typeof init == 'function') {
 
 			var args = [elt].concat(ctrl.deps)
-			console.log(`[Core] instance control '${controlName}'`)
+			console.log(`[Core] instance control '${controlName}' with props`, iface.props)
 			init.apply(iface, args)
 			
 		}

@@ -74,7 +74,7 @@
 							location.href = '#' + route.redirect							
 						}
 						else if (typeof route.control == 'string') {
-							elt.safeEmpty().addControl(route.control)	
+							elt.safeEmpty().addControl(route.control, params)	
 						}
 						return true
 					}	
