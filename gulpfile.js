@@ -8,17 +8,8 @@ var injectHTML = require('gulp-inject-stringified-html')
 
 var dest = './dist'
 
-gulp.task('brainjs', function() {
-	return gulp.src([
-		'./src/**/*.js'
-		])
-		.pipe(sourcemaps.init())
-		.pipe(concat('brainjs.js'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(dest))
-})
 
-gulp.task('brainjs-bundle', function() {
+gulp.task('brainjs', function() {
 	return gulp.src([
 		'./externals/jquery.min.js',
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.js',
@@ -28,17 +19,17 @@ gulp.task('brainjs-bundle', function() {
 		'./src/services/*.js'
 		])
 		.pipe(sourcemaps.init())
-		.pipe(concat('brainjs-bundle.js'))
+		.pipe(concat('brainjs.js'))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(dest))
 })
 
-gulp.task('brainjs-bundle.css', function() {
+gulp.task('brainjs.css', function() {
 	return gulp.src([
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.css',
 		'./externals/w3.css'
 		])
-		.pipe(concat('brainjs-bundle.css'))
+		.pipe(concat('brainjs.css'))
 		.pipe(gulp.dest(dest))
 })
 
@@ -67,13 +58,13 @@ gulp.task('demo-apphtml', function() {
 		.pipe(gulp.dest(dest))
 })
 
-gulp.task('brainjs-all', ['brainjs', 'brainjs-bundle', 'brainjs-bundle.css', 'images'])
+gulp.task('brainjs-all', ['brainjs', 'brainjs.css', 'images'])
 
 gulp.task('demo', ['demo-app', 'demo-apphtml'])
 
 gulp.task('all', ['brainjs-all', 'demo'])
 
 gulp.task('watch', ['all'], function() {
-	gulp.watch(['./src/**/*.js'], ['brainjs-all'])
+	gulp.watch(['./src/**/*.js'], ['brainjs'])
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
 })
