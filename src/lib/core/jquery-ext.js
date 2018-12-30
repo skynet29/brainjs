@@ -137,7 +137,7 @@ $.fn.safeEmpty = function() {
 }
 
 $.fn.addControl = function(ctrlName, data) {
-  console.log('$.addControl', ctrlName, data)
+  //console.log('$.addControl', ctrlName, data)
   var newCtrl = $('<div>')
   if (data) {
     newCtrl.data(data)
