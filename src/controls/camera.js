@@ -3,9 +3,10 @@ $$.control.registerControl('brainjs.camera', {
 
 		const video = $('<video>')
 		.on('canplay', function(ev) {
-			console.log('onCanPlay')
+			console.log('onCanPlay', this)
 			canvas.width = this.videoWidth
 			canvas.height = this.videoHeight
+			console.log('width', canvas.width, "height", canvas.height)
 		})
 		.appendTo(elt)
 		.get(0)
@@ -17,7 +18,7 @@ $$.control.registerControl('brainjs.camera', {
 		
 		this.start = function() {
 
-			navigator.getUserMedia({video: true}, function(stream) {
+			navigator.mediaDevices.getUserMedia({video: true}).then(function(stream) {
 				_stream = stream
 
 				try {
@@ -28,10 +29,7 @@ $$.control.registerControl('brainjs.camera', {
 				}
 				video.play()
 
-			},
-			function(err) {
-				console.warn('[Camera] error', err)
-			})			
+			})
 		}		
 
 		this.takePicture = function() {
