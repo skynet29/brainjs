@@ -13,10 +13,11 @@ const ctrl = $$.viewController('#main', {
 const htmlCode = `
 <div id="main">
 	<h2>Fruits</h2>
-	<select bn-val="favoriteFruit" bn-update="change" bn-each="f of fruits">
+	<p>Your favorit fruit: <span bn-text="favoriteFruit"></span></p>
+	<select bn-control="brainjs.selectmenu" bn-val="favoriteFruit" 
+		bn-update="selectmenuchange" bn-each="f of fruits">
 		<option bn-text="f"></option>
 	</select>
-	<p>Your favorit fruit: <span bn-text="favoriteFruit"></span></p>
 </div>
 `
 
