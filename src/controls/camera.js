@@ -18,11 +18,14 @@ $$.control.registerControl('brainjs.camera', {
 		this.start = function() {
 
 			navigator.getUserMedia({video: true}, function(stream) {
-				console.log('stream')
 				_stream = stream
 
-				var url = URL.createObjectURL(stream)
-				video.src = url
+				try {
+					video.srcObject = stream
+				}
+				catch (error) {
+					video.src = URL.createObjectURL(stream)
+				}
 				video.play()
 
 			},
