@@ -1,4 +1,5 @@
 $(function() {
+	console.log('[brainjs.map] Leaflet version', L.version)
 	$$.util.loadStyle('map/brainjs-map.css')
 })
 
@@ -17,7 +18,9 @@ $$.control.registerControl('brainjs.map', {
 
 		const map = L.map(div, {center, zoom})
 
-		L.tileLayer(tileUrl, {}).addTo(map)
+		L.tileLayer(tileUrl, {
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(map)
 
 	}
 });

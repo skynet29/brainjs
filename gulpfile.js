@@ -96,7 +96,7 @@ gulp.task('tree.fonts', function() {
 
 gulp.task('map.js', function() {
 	return gulp.src([
-		'./externals/leaflet-1.0.3/leaflet.js',
+		'./externals/leaflet-1.4.0/leaflet.js',
 		'./src/ext/map.js',
 		])
 		.pipe(sourcemaps.init())
@@ -107,7 +107,7 @@ gulp.task('map.js', function() {
 
 gulp.task('map.css', function() {
 	return gulp.src([
-			'./externals/leaflet-1.0.3/leaflet.css'
+			'./externals/leaflet-1.4.0/leaflet.css'
 		])
 		.pipe(concat('brainjs-map.css'))
 		.pipe(gulp.dest(path.join(dest, 'map')))
