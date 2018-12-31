@@ -4,7 +4,7 @@ $(function() {
 	let routes = [
 		{href: '/', redirect: '/test1'}
 	]
-	for(let i = 1; i <= 16; i++ ) {
+	for(let i = 1; i <= 17; i++ ) {
 		routes.push({
 			href: '/test' + i, control: 'test' + i
 		})
