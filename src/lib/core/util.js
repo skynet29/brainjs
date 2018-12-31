@@ -67,20 +67,18 @@ function dataURLtoBlob(dataURL) {
 function loadStyle(styleFilePath, callback) {	
 	//console.log('[Core] loadStyle', styleFilePath)
 
-	$(function() {
-		var cssOk = $('head').find(`link[href="${styleFilePath}"]`).length
-		if (cssOk != 1) {
-			console.log(`loading '${styleFilePath}' style`)
-			$('<link>', {href: styleFilePath, rel: 'stylesheet'})
-			.on('load', function() {
-				console.log(`'${styleFilePath}' loaded`)
-				if (typeof callback == 'function') {
-					callback()
-				}
-			})
-			.appendTo($('head'))
-		}
-	})
+	var cssOk = $('head').find(`link[href="${styleFilePath}"]`).length
+	if (cssOk != 1) {
+		console.log(`loading '${styleFilePath}' style`)
+		$('<link>', {href: styleFilePath, rel: 'stylesheet'})
+		.on('load', function() {
+			console.log(`'${styleFilePath}' loaded`)
+			if (typeof callback == 'function') {
+				callback()
+			}
+		})
+		.appendTo($('head'))
+	}
 }
 
 

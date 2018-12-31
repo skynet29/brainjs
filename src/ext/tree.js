@@ -1,3 +1,7 @@
+$(function() {
+	$$.util.loadStyle('tree/brainjs-tree.css')
+})
+
 
 $$.control.registerControl('brainjs.tree', {
 	props: {

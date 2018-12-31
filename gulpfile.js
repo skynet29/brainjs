@@ -69,7 +69,7 @@ gulp.task('tree.js', function() {
 		.pipe(sourcemaps.init())
 		.pipe(concat('brainjs-tree.js'))
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(path.join(dest, 'tree')))
+		.pipe(gulp.dest(dest))
 })
 
 gulp.task('tree.css', function() {
