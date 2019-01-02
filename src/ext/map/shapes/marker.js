@@ -1,3 +1,19 @@
+(function() {
+
+
+
+function getIconMarker(data) {
+	if (typeof data.type != 'string') {
+		console.error('[brainjs.map] getIconMarker, missing type field')
+		return
+	}
+	const func = $$.module.getModule('brainjs.map.icon.' + data.type)
+
+	if (typeof func == 'function') {
+		return func(data)
+	}
+}
+
 $$.module.registerModule('brainjs.map.shape.marker', function() {
 
 	return {
@@ -5,9 +21,9 @@ $$.module.registerModule('brainjs.map.shape.marker', function() {
 		create: function(data) {
 
 			const options = data.options || {}
-			// if (data.icon) {
-			// 	options.icon = mapView.getIconMarker(data.icon.type, data.icon)
-			// }
+			if (data.icon) {
+				options.icon = getIconMarker(data.icon)
+			}
 			if (data.rotationAngle) {
 				options.rotationAngle = data.rotationAngle
 			}
@@ -29,9 +45,9 @@ $$.module.registerModule('brainjs.map.shape.marker', function() {
 			if (data.latlng) {
 				layer.setLatLng(data.latlng)
 			}
-			// if (data.icon) {
-			// 	layer.setIcon(mapView.getIconMarker(data.icon.type, data.icon))
-			// }
+			if (data.icon) {
+				layer.setIcon(getIconMarker(data.icon))
+			}
 			if (data.rotationAngle) {
 				layer.setRotationAngle(data.rotationAngle)
 			}	
@@ -43,5 +59,6 @@ $$.module.registerModule('brainjs.map.shape.marker', function() {
 		}
 
 	}
-});
+})
 
+})();

@@ -11,7 +11,8 @@ const ctrl = $$.viewController('#main', {
 ctrl.scope.map.addShape('shape1', {
 	type: 'marker',
 	latlng: {lat: 48.395, lng: -4.491},
-	rotationAngle: 20
+	rotationAngle: 20,
+	icon: {type: 'ais', color: 'blue'}
 })
 
 ctrl.scope.map.addShape('shape2', {
@@ -50,7 +51,8 @@ $$.control.registerControl('test17', {
 		ctrl.scope.map.addShape('shape1', {
 			type: 'marker',
 			latlng: {lat: 48.395, lng: -4.491},
-			rotationAngle: 20
+			rotationAngle: 20,
+			icon: {type: 'ais', color: 'blue'}
 		})
 
 		ctrl.scope.map.addShape('shape2', {
