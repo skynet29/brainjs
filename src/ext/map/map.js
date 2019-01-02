@@ -17,7 +17,7 @@ $$.control.registerControl('brainjs.map', {
 
 		const {center, zoom, tileUrl} = this.props
 
-		const map = L.map(div, {center, zoom})
+		const map = L.map(div, {center, zoom, closePopupOnClick: false})
 		const shapes = {}
 
 		L.tileLayer(tileUrl, {
@@ -29,23 +29,45 @@ $$.control.registerControl('brainjs.map', {
 		}, 100)
 
 		map.on('click', function(ev) {
-			console.log('[map] onclick', ev)
+			//console.log('[map] onclick', ev)
+			elt.trigger('mapclick', ev.latlng)
 		})
 
 		this.addShape = function(id, options) {
 			options = options || {}
-			if (typeof options.type != 'string') {
+
+			let type = options.type
+			let shape = shapes[id]
+
+			if (shape) {
+				type = shape.type
+			}
+
+			if (shape == undefined && typeof options.type != 'string') {
 				console.error('[brainjs.map] addShape, missing type field')
 				return
 			}
 
-			const shapeDesc = $$.module.getModule('brainjs.map.shape.' + options.type)
-			if (shapeDesc && typeof shapeDesc.create == 'function') {
-				console.log('[brainjs.map] addShape with id', id)
-				const shape = shapeDesc.create(options)
-				shape.addTo(map)
-				shapes[id] = shape
+			const shapeDesc = $$.module.getModule('brainjs.map.shape.' + type)
+
+			if (shapeDesc) {
+				if (shape) {
+					if (typeof shapeDesc.update == 'function') {
+						console.log('[brainjs.map] updateShape with id', id)
+						shapeDesc.update(shape, options)
+					}
+				}
+				else {
+					if (typeof shapeDesc.create == 'function') {
+						console.log('[brainjs.map] addShape with id', id)
+						shape = shapeDesc.create(options)
+						shape.type = type
+						shape.addTo(map)
+						shapes[id] = shape
+					}					
+				}
 			}
+
 		}
 
 		this.removeShape = function(id) {

@@ -30,11 +30,11 @@ $$.module.registerModule('brainjs.map.shape.marker', function() {
 
 			const marker = L.marker(data.latlng, options)							
 			
-			// if (data.popupContent) {
-			// 	let popup = L.popup({autoClose: false, closeButton: true, className: 'toto', autoPan: false})
-			// 	popup.setContent(processContent(data))
-			// 	marker.bindPopup(popup)
-			// }
+			if (data.popupContent) {
+				let popup = L.popup({autoClose: false, closeButton: true, autoPan: false})
+				popup.setContent(data.popupContent)
+				marker.bindPopup(popup)
+			}
 																
 			return marker
 		},
@@ -52,9 +52,9 @@ $$.module.registerModule('brainjs.map.shape.marker', function() {
 				layer.setRotationAngle(data.rotationAngle)
 			}	
 
-			// if (data.popupContent) {
-			// 	layer.setPopupContent(processContent(data))
-			// }	
+			if (data.popupContent) {
+				layer.setPopupContent(data.popupContent)
+			}	
 
 		}
 

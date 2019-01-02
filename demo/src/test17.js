@@ -5,7 +5,16 @@ const jsCode = `
 const ctrl = $$.viewController('#main', {
 	data: { 
 		center: {lat: 48.39, lng: -4.486} // Brest city
-	}
+	},
+	events: {
+		onMapClick: function(ev, latlng) {
+			console.log('onMapClick', latlng)
+			ctrl.scope.map.addShape('marker', {
+				type: 'marker',
+				latlng
+			})
+		}
+	}	
 }
 
 ctrl.scope.map.addShape('shape1', {
@@ -29,7 +38,10 @@ setTimeout(function() {
 
 const htmlCode = `
 <div id="main">
-	<div bn-control="brainjs.map" bn-data="center: center"  bn-iface="map"></div>
+	<div bn-control="brainjs.map" class="map" 
+		bn-data="center: center" 
+		bn-iface="map"
+		bn-event="mapclick: onMapClick"></div>
 </div>
 `.trim()
 
@@ -43,6 +55,15 @@ $$.control.registerControl('test17', {
 				htmlCode,
 				jsCode,
 				center: {lat: 48.39, lng: -4.486}
+			},
+			events: {
+				onMapClick: function(ev, latlng) {
+					console.log('onMapClick', latlng)
+					ctrl.scope.map.addShape('marker', {
+						type: 'marker',
+						latlng
+					})
+				}
 			}
 		})
 
@@ -52,7 +73,8 @@ $$.control.registerControl('test17', {
 			type: 'marker',
 			latlng: {lat: 48.395, lng: -4.491},
 			rotationAngle: 20,
-			icon: {type: 'ais', color: 'blue'}
+			icon: {type: 'ais', color: 'blue'},
+			popupContent: 'Hello World'
 		})
 
 		ctrl.scope.map.addShape('shape2', {
