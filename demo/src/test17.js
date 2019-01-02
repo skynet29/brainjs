@@ -5,14 +5,30 @@ const jsCode = `
 const ctrl = $$.viewController('#main', {
 	data: { 
 		center: {lat: 48.39, lng: -4.486} // Brest city
-	},
-
+	}
 }
+
+ctrl.scope.map.addShape('shape1', {
+	type: 'marker',
+	latlng: {lat: 48.395, lng: -4.491},
+	rotationAngle: 20
+})
+
+ctrl.scope.map.addShape('shape2', {
+	type: 'circle',
+	latlng: {lat: 48.395, lng: -4.471},
+	radius: 100,
+	style: {color: 'red'}
+})
+
+setTimeout(function() {
+	ctrl.scope.map.removeShape('shape2')
+}, 10000)
 `.trim()
 
 const htmlCode = `
 <div id="main">
-	<div bn-control="brainjs.map" bn-data="center: center"></div>
+	<div bn-control="brainjs.map" bn-data="center: center"  bn-iface="map"></div>
 </div>
 `.trim()
 
