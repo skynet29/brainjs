@@ -96,8 +96,9 @@ gulp.task('tree.fonts', function() {
 
 gulp.task('map.js', function() {
 	return gulp.src([
-		'./externals/leaflet-1.4.0/leaflet.js',
-		'./src/ext/map.js',
+		'./externals/leaflet-1.0.3/leaflet.js',
+		'./externals/leaflet-plugins/leaflet.rotatedMarker.js',
+		'./src/ext/map/**/*.js',
 		])
 		.pipe(sourcemaps.init())
 		.pipe(concat('brainjs-map.js'))
@@ -107,14 +108,21 @@ gulp.task('map.js', function() {
 
 gulp.task('map.css', function() {
 	return gulp.src([
-			'./externals/leaflet-1.4.0/leaflet.css'
+			'./externals/leaflet-1.0.3/leaflet.css'
 		])
 		.pipe(concat('brainjs-map.css'))
 		.pipe(gulp.dest(path.join(dest, 'map')))
 })
 
+gulp.task('map.images', function() {
+	return gulp.src([
+			'./externals/leaflet-1.0.3/images/*'
+		])
+		.pipe(gulp.dest(path.join(dest, 'map/images')))
+})
+
 gulp.task('tree', ['tree.js', 'tree.css', 'tree.images', 'tree.fonts'])
-gulp.task('map', ['map.js', 'map.css'])
+gulp.task('map', ['map.js', 'map.css', 'map.images'])
 
 
 gulp.task('brainjs-all', ['brainjs', 'brainjs.css', 'images'])
@@ -127,7 +135,7 @@ gulp.task('all', ['brainjs-all', 'demo', 'tree', 'map'])
 gulp.task('watch', ['all'], function() {
 	gulp.watch(['./src/lib/**/*.js'], ['brainjs'])
 	gulp.watch(['./src/ext/tree.js'], ['tree.js'])
-	gulp.watch(['./src/ext/map.js'], ['map.js'])
+	gulp.watch(['./src/ext/**/*.js'], ['map.js'])
 
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
 })

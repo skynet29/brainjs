@@ -31,6 +31,23 @@ $$.control.registerControl('test17', {
 
 		this.ctrl = ctrl
 
+		ctrl.scope.map.addShape('shape1', {
+			type: 'marker',
+			latlng: {lat: 48.395, lng: -4.491},
+			rotationAngle: 20
+		})
+
+		ctrl.scope.map.addShape('shape2', {
+			type: 'circle',
+			latlng: {lat: 48.395, lng: -4.471},
+			radius: 100,
+			style: {color: 'red'}
+		})
+
+		setTimeout(function() {
+			ctrl.scope.map.removeShape('shape2')
+		}, 10000)
+
 	}
 })
 

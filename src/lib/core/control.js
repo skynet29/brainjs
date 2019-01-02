@@ -15,14 +15,14 @@ function registerControl(name, options) {
 		$deps: ['string'],
 		init: 'function'
 	})) {
-		console.error(`[Core] registerControl: bad options`, options)
+		console.error(`[control] registerControl: bad options`, options)
 		return
 	}
 
 
 	var deps = options.deps || []
 
-	console.log(`[Core] register control '${name}' with deps`, deps)
+	console.log(`[control] register control '${name}' with deps`, deps)
 
 	controls[name] = {deps, options, status: 'notloaded'}
 }
@@ -42,7 +42,7 @@ function createControl(controlName, elt) {
 	var ctrl = getControl(controlName)
 		
 	if (ctrl == undefined) {
-		throw(`[Core] control '${controlName}' is not registered`)
+		throw(`[control] control '${controlName}' is not registered`)
 	}
 		//console.log('createControl', controlName, ctrl)
 	if (ctrl.status ===  'ok') {
@@ -70,12 +70,12 @@ function createControl(controlName, elt) {
 		if (typeof init == 'function') {
 
 			var args = [elt].concat(ctrl.deps)
-			console.log(`[Core] instance control '${controlName}' with props`, iface.props)
+			console.log(`[control] instance control '${controlName}' with props`, iface.props)
 			init.apply(iface, args)
 			
 		}
 		else {
-			console.warn(`[Core] control '${controlName}' missing init function`)
+			console.warn(`[control] control '${controlName}' missing init function`)
 		}
 
 

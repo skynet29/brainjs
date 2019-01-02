@@ -58,7 +58,7 @@ function registerService(name, arg1, arg2) {
 	if (typeof name != 'string' || typeof fn == 'undefined' || !Array.isArray(deps)) {
 		throw('[Core] registerService called with bad arguments')
 	} 
-	console.log(`[Core] register service '${name}' with deps`, deps)
+	console.log(`[service] register service '${name}' with deps`, deps)
 
 	services[name] = {deps, fn, status: 'notloaded'}
 }
