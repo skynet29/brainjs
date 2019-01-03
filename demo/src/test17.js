@@ -42,10 +42,6 @@ ctrl.scope.map.addShape('shape2', {
 	style: {color: 'red'},
 	layer: 'layer2'
 })
-
-setTimeout(function() {
-	ctrl.scope.map.removeShape('shape2')
-}, 10000)
 `.trim()
 
 const htmlCode = `
