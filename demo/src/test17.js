@@ -4,7 +4,11 @@
 const jsCode = `
 const ctrl = $$.viewController('#main', {
 	data: { 
-		center: {lat: 48.39, lng: -4.486} // Brest city
+		center: {lat: 48.39, lng: -4.486}, // Brest city
+		layers: {
+			'layer1': {label: 'Layer 1', visible: true},
+			'layer2': {label: 'Layer 2', visible: true}
+		}		
 	},
 	events: {
 		onMapClick: function(ev, latlng) {
@@ -27,14 +31,16 @@ ctrl.scope.map.addShape('shape1', {
 	latlng: {lat: 48.395, lng: -4.491},
 	rotationAngle: 20,
 	icon: {type: 'ais', color: 'blue'},
-	popupContent: 'Hello World'
+	popupContent: 'Hello World',
+	layer: 'layer1'
 })
 
 ctrl.scope.map.addShape('shape2', {
 	type: 'circle',
 	latlng: {lat: 48.395, lng: -4.471},
 	radius: 100,
-	style: {color: 'red'}
+	style: {color: 'red'},
+	layer: 'layer2'
 })
 
 setTimeout(function() {
@@ -45,9 +51,11 @@ setTimeout(function() {
 const htmlCode = `
 <div id="main">
 	<div bn-control="brainjs.map" class="map" 
-		bn-data="center: center" 
+		bn-data="center: center, layers: layers" 
 		bn-iface="map"
-		bn-event="mapclick: onMapClick"></div>
+		bn-event="mapclick: onMapClick"
+		data-scale="true"
+		data-coordinates="true"></div>
 </div>
 `.trim()
 
@@ -60,7 +68,11 @@ $$.control.registerControl('test17', {
 			data: { 
 				htmlCode,
 				jsCode,
-				center: {lat: 48.39, lng: -4.486}
+				center: {lat: 48.39, lng: -4.486},
+				layers: {
+					'layer1': {label: 'Layer 1', visible: true},
+					'layer2': {label: 'Layer 2', visible: true}
+				}
 			},
 			events: {
 				onMapClick: function(ev, latlng) {
@@ -85,19 +97,18 @@ $$.control.registerControl('test17', {
 			latlng: {lat: 48.395, lng: -4.491},
 			rotationAngle: 20,
 			icon: {type: 'ais', color: 'blue'},
-			popupContent: 'Hello World'
+			popupContent: 'Hello World',
+			layer: 'layer1'
 		})
 
 		ctrl.scope.map.addShape('shape2', {
 			type: 'circle',
 			latlng: {lat: 48.395, lng: -4.471},
 			radius: 100,
-			style: {color: 'red'}
+			style: {color: 'red'},
+			layer: 'layer2'
 		})
 
-		setTimeout(function() {
-			ctrl.scope.map.removeShape('shape2')
-		}, 10000)
 
 	}
 })

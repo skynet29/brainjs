@@ -98,6 +98,7 @@ gulp.task('map.js', function() {
 	return gulp.src([
 		'./externals/leaflet-1.0.3/leaflet.js',
 		'./externals/leaflet-plugins/leaflet.rotatedMarker.js',
+		'./externals/leaflet-plugins/Leaflet.Coordinates.min.js',
 		'./src/ext/map/**/*.js',
 		])
 		.pipe(sourcemaps.init())
@@ -108,7 +109,8 @@ gulp.task('map.js', function() {
 
 gulp.task('map.css', function() {
 	return gulp.src([
-			'./externals/leaflet-1.0.3/leaflet.css'
+			'./externals/leaflet-1.0.3/leaflet.css',
+			'./externals/leaflet-plugins/Leaflet.Coordinates.css'
 		])
 		.pipe(concat('brainjs-map.css'))
 		.pipe(gulp.dest(path.join(dest, 'map')))
