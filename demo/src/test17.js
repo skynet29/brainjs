@@ -9,10 +9,15 @@ const ctrl = $$.viewController('#main', {
 	events: {
 		onMapClick: function(ev, latlng) {
 			console.log('onMapClick', latlng)
-			ctrl.scope.map.addShape('marker', {
-				type: 'marker',
-				latlng
-			})
+			try {
+				ctrl.scope.map.updateShape('marker', {latlng})
+			}
+			catch(e) {
+				ctrl.scope.map.addShape('marker', {
+					type: 'marker',
+					latlng
+				})
+			}
 		}
 	}	
 }
@@ -21,7 +26,8 @@ ctrl.scope.map.addShape('shape1', {
 	type: 'marker',
 	latlng: {lat: 48.395, lng: -4.491},
 	rotationAngle: 20,
-	icon: {type: 'ais', color: 'blue'}
+	icon: {type: 'ais', color: 'blue'},
+	popupContent: 'Hello World'
 })
 
 ctrl.scope.map.addShape('shape2', {
@@ -59,10 +65,15 @@ $$.control.registerControl('test17', {
 			events: {
 				onMapClick: function(ev, latlng) {
 					console.log('onMapClick', latlng)
-					ctrl.scope.map.addShape('marker', {
-						type: 'marker',
-						latlng
-					})
+					try {
+						ctrl.scope.map.updateShape('marker', {latlng})
+					}
+					catch(e) {
+						ctrl.scope.map.addShape('marker', {
+							type: 'marker',
+							latlng
+						})
+					}
 				}
 			}
 		})

@@ -33,41 +33,42 @@ $$.control.registerControl('brainjs.map', {
 			elt.trigger('mapclick', ev.latlng)
 		})
 
+		this.updateShape = function(id, options) {
+			const shape = shapes[id]
+			if (shape) {
+				const shapeDesc = $$.module.getModule('brainjs.map.shape.' + shape.type)
+				if (shapeDesc && typeof shapeDesc.update == 'function') {
+
+					console.log('[brainjs.map] updateShape with id', id)
+					shapeDesc.update(shape, options)
+				}										
+			}
+			else {
+				throw `[brainjs.map] updateShape id '${id}' doesn't exist`
+			}
+		}
+
 		this.addShape = function(id, options) {
+			if (shapes[id]) {
+				throw `[brainjs.map] addShape id '${id}' already exist`
+			}
 			options = options || {}
 
-			let type = options.type
-			let shape = shapes[id]
-
-			if (shape) {
-				type = shape.type
-			}
-
-			if (shape == undefined && typeof options.type != 'string') {
+			if (typeof options.type != 'string') {
 				console.error('[brainjs.map] addShape, missing type field')
 				return
 			}
 
-			const shapeDesc = $$.module.getModule('brainjs.map.shape.' + type)
+			const shapeDesc = $$.module.getModule('brainjs.map.shape.' + options.type)
 
-			if (shapeDesc) {
-				if (shape) {
-					if (typeof shapeDesc.update == 'function') {
-						console.log('[brainjs.map] updateShape with id', id)
-						shapeDesc.update(shape, options)
-					}
-				}
-				else {
-					if (typeof shapeDesc.create == 'function') {
-						console.log('[brainjs.map] addShape with id', id)
-						shape = shapeDesc.create(options)
-						shape.type = type
-						shape.addTo(map)
-						shapes[id] = shape
-					}					
-				}
-			}
+			if (shapeDesc && typeof shapeDesc.create == 'function') {
 
+				console.log('[brainjs.map] addShape with id', id)
+				shape = shapeDesc.create(options)
+				shape.type = options.type
+				shape.addTo(map)
+				shapes[id] = shape
+			}					
 		}
 
 		this.removeShape = function(id) {
