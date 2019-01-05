@@ -56,8 +56,10 @@ $$.module.registerModule('brainjs.map.shape.marker', function() {
 				layer.setPopupContent(data.popupContent)
 			}	
 
+		},
+		getData: function(layer, data) {
+			data.latlng = layer.getLatLng()
 		}
-
 	}
 })
 

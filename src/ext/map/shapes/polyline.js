@@ -14,8 +14,10 @@ $$.module.registerModule('brainjs.map.shape.polyline', function() {
 				layer.setStyle(data.style)
 			}
 			
-		}
-
+		},
+		getData: function(layer, data) {
+			data.latlngs = layer.getLatLngs()
+		}	
 	}
 });
 

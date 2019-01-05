@@ -45,7 +45,7 @@ $$.formDialogController = function(options) {
 	return {
 		show: function(onApply) {
 			private.onApply = onApply			
-			div.dialog('open')			
+			div.dialog('open')	
 		},
 		setData: function(data) {
 			form.setFormData(data)

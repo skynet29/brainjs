@@ -12,7 +12,8 @@ $$.control.registerControl('brainjs.map', {
 		zoom: 13,
 		layers: {},
 		scale: false,
-		coordinates: false
+		coordinates: false,
+		plugins: {}
 	},
 	init: function(elt) {
 
@@ -53,6 +54,15 @@ $$.control.registerControl('brainjs.map', {
 			}).addTo(map)
 		}
 
+		const data = {elt, map, layers, shapes}
+
+		for(let pluginName in this.props.plugins) {
+			const func = $$.module.getModule('brainjs.map.plugin.' + pluginName)
+			const config = this.props.plugins[pluginName]
+			if (typeof func == 'function') {
+				func(data, config)
+			}
+		}
 
 		L.tileLayer(tileUrl, {
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

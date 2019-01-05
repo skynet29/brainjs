@@ -18,7 +18,11 @@ $$.module.registerModule('brainjs.map.shape.circle', function() {
 				layer.setStyle(data.style)
 			}
 			
-		}
+		},
+		getData: function(layer, data) {
+			data.radius = layer.getRadius()
+			data.latlng = layer.getLatLng()	
+		}		
 
 	}
 });

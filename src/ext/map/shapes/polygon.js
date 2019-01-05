@@ -14,7 +14,10 @@ $$.module.registerModule('brainjs.map.shape.polygon', function() {
 				layer.setStyle(data.style)
 			}
 			
-		}
+		},
+		getData: function(layer, data) {
+			data.latlngs = layer.getLatLngs()[0]
+		}		
 
 	}
 });

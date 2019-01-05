@@ -29,7 +29,8 @@ gulp.task('brainjs.css', function() {
 	return gulp.src([
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.css',
 		'./externals/jquery-contextMenu/jquery.contextMenu.css',				
-		'./externals/w3.css'
+		'./externals/w3.css',
+		'./src/lib/core/core.css'
 		])
 		.pipe(concat('brainjs.css'))
 		.pipe(gulp.dest(dest))
@@ -99,7 +100,9 @@ gulp.task('map.js', function() {
 		'./externals/leaflet-1.0.3/leaflet.js',
 		'./externals/leaflet-plugins/leaflet.rotatedMarker.js',
 		'./externals/leaflet-plugins/Leaflet.Coordinates.min.js',
-		'./src/ext/map/**/*.js',
+		'./src/ext/map/markers/*.js',
+		'./src/ext/map/shapes/*.js',
+		'./src/ext/map/map.js',
 		])
 		.pipe(sourcemaps.init())
 		.pipe(concat('brainjs-map.js'))
@@ -123,8 +126,35 @@ gulp.task('map.images', function() {
 		.pipe(gulp.dest(path.join(dest, 'map/images')))
 })
 
+gulp.task('map.editor.js', function() {
+	return gulp.src([
+		'./externals/leaflet-plugins/leaflet-draw/dist/leaflet.draw.js',
+		'./src/ext/map/plugins/editor.js',
+		])
+		.pipe(sourcemaps.init())
+		.pipe(concat('brainjs-map-editor.js'))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(dest))
+})
+
+gulp.task('map.editor.css', function() {
+	return gulp.src([
+			'./externals/leaflet-plugins/leaflet-draw/dist/leaflet.draw.css'
+		])
+		.pipe(concat('brainjs-map-editor.css'))
+		.pipe(gulp.dest(path.join(dest, 'map')))
+})
+
+gulp.task('map.editor.images', function() {
+	return gulp.src([
+			'./externals/leaflet-plugins/leaflet-draw/dist/images/*'
+		])
+		.pipe(gulp.dest(path.join(dest, 'map/images')))
+})
+
 gulp.task('tree', ['tree.js', 'tree.css', 'tree.images', 'tree.fonts'])
 gulp.task('map', ['map.js', 'map.css', 'map.images'])
+gulp.task('map.editor', ['map.editor.js', 'map.editor.css', 'map.editor.images'])
 
 
 gulp.task('brainjs-all', ['brainjs', 'brainjs.css', 'images'])
@@ -132,12 +162,12 @@ gulp.task('brainjs-all', ['brainjs', 'brainjs.css', 'images'])
 gulp.task('demo', ['demo-app', 'demo-apphtml'])
 
 
-gulp.task('all', ['brainjs-all', 'demo', 'tree', 'map'])
+gulp.task('all', ['brainjs-all', 'demo', 'tree', 'map', 'map.editor'])
 
 gulp.task('watch', ['all'], function() {
 	gulp.watch(['./src/lib/**/*.js'], ['brainjs'])
 	gulp.watch(['./src/ext/tree.js'], ['tree.js'])
-	gulp.watch(['./src/ext/**/*.js'], ['map.js'])
+	gulp.watch(['./src/ext/**/*.js'], ['map.js', 'map.editor.js'])
 
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
 })
