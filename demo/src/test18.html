@@ -2,8 +2,8 @@
 
 	<div title="Result">
 		<div bn-control="brainjs.map" class="map" 
-			bn-data="center: center, plugins: plugins"
-			bn-event="mapshapecreated: onShapeCreated" 
+			bn-data="center: center, plugins: plugins, layers: layers"
+			bn-event="mapshapecreated: onShapeCreated, mapshapeedited: onShapeEdited, mapshapedeleted: onShapeDeleted" 
 			bn-iface="map"></div>
 	</div>
 

@@ -8,7 +8,7 @@ const ctrl = $$.viewController('#main', {
 		layers: {
 			'layer1': {label: 'Layer 1', visible: true},
 			'layer2': {label: 'Layer 2', visible: true}
-		}		
+		}	
 	},
 	events: {
 		onMapClick: function(ev, latlng) {

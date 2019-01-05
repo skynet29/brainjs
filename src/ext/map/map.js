@@ -31,7 +31,10 @@ $$.control.registerControl('brainjs.map', {
 			const {label, visible} = this.props.layers[layerName]
 			const layer = new L.FeatureGroup()
 			layers[layerName] = layer
-			confLayer[label] = layer
+			if (typeof label == 'string') {
+				confLayer[label] = layer
+			}
+			
 			if (visible === true) {
 				map.addLayer(layer)
 			}
@@ -60,6 +63,7 @@ $$.control.registerControl('brainjs.map', {
 			const func = $$.module.getModule('brainjs.map.plugin.' + pluginName)
 			const config = this.props.plugins[pluginName]
 			if (typeof func == 'function') {
+				console.log(`[brainjs.map] instance plugin '${pluginName}' with config`, config)
 				func(data, config)
 			}
 		}
@@ -124,8 +128,9 @@ $$.control.registerControl('brainjs.map', {
 				shape = shapeDesc.create(options)
 				shape.type = options.type
 				shape.addTo(layer)
-				shape.layer = layer
+				shape.ownlayer = layer
 				shape.info = options
+				shape.id = id
 				shapes[id] = shape
 			}					
 		}
@@ -135,7 +140,7 @@ $$.control.registerControl('brainjs.map', {
 			const shape = shapes[id]
 			if (shape) {
 				console.log('[brainjs.map] removeShape with id', id)
-				shape.removeFrom(shape.layer)
+				shape.removeFrom(shape.ownlayer)
 				delete shapes[id]
 			}
 			else {
