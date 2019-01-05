@@ -67,6 +67,10 @@ $$.control.registerControl('brainjs.map', {
 			elt.trigger('mapclick', ev.latlng)
 		})
 
+		this.getShapes = function() {
+			return Object.keys(shapes)
+		}
+
 		this.updateShape = function(id, options) {
 			const shape = shapes[id]
 			if (shape) {
@@ -75,6 +79,7 @@ $$.control.registerControl('brainjs.map', {
 
 					console.log('[brainjs.map] updateShape with id', id)
 					shapeDesc.update(shape, options)
+					$.extend(shape.info, options)
 				}										
 			}
 			else {
@@ -110,6 +115,7 @@ $$.control.registerControl('brainjs.map', {
 				shape.type = options.type
 				shape.addTo(layer)
 				shape.layer = layer
+				shape.info = options
 				shapes[id] = shape
 			}					
 		}
@@ -126,6 +132,18 @@ $$.control.registerControl('brainjs.map', {
 				console.warn(`[brainjs.map] removeShape id '${id}' doesn't exist`)
 			}
 		}
+
+
+		this.getShapeInfo = function(id) {
+	
+			const shape = shapes[id]
+			if (shape) {
+				return shape.info
+			}
+			else {
+				console.warn(`[brainjs.map] removeShape id '${id}' doesn't exist`)
+			}
+		}		
 
 	}
 });
