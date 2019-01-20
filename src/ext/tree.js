@@ -25,9 +25,10 @@ $$.control.registerControl('brainjs.tree', {
 			options.extensions.push('contextMenu')
 
 			options.contextMenu = {
-				actions: function(node, action) {
+				actions: (node, action) => {
 					//console.log('contextMenuAction', node, action)
-					elt.trigger('treecontextmenu', [action])
+					node = this.getActiveNode()
+					elt.trigger('treecontextmenu', {action, node})
 				},
 				menu: this.props.contextMenu
 			}

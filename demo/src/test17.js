@@ -16,8 +16,9 @@ const ctrl = $$.viewController('#main', {
 		}			
 	},
 	events: {
-		onMapClick: function(ev, latlng) {
-			console.log('onMapClick', latlng)
+		onMapClick: function(ev, data) {					
+			console.log('onMapClick', data)
+			const {latlng} = data
 			try {
 				ctrl.scope.map.updateShape('marker', {latlng})
 			}
@@ -28,8 +29,8 @@ const ctrl = $$.viewController('#main', {
 				})
 			}
 		},
-		onMapContextMenu: function(ev, cmd, latlng) {
-			console.log('onMapContextMenu', cmd, latlng)
+		onMapContextMenu: function(ev, data) {
+			console.log('onMapContextMenu', data)
 		}		
 	}	
 })
@@ -85,8 +86,9 @@ $$.control.registerControl('test17', {
 
 			},
 			events: {
-				onMapClick: function(ev, latlng) {
-					console.log('onMapClick', latlng)
+				onMapClick: function(ev, data) {					
+					console.log('onMapClick', data)
+					const {latlng} = data
 					try {
 						ctrl.scope.map.updateShape('marker', {latlng})
 					}
@@ -97,8 +99,8 @@ $$.control.registerControl('test17', {
 						})
 					}
 				},
-				onMapContextMenu: function(ev, cmd, latlng) {
-					console.log('onMapContextMenu', cmd, latlng)
+				onMapContextMenu: function(ev, data) {
+					console.log('onMapContextMenu', data)
 				}
 			}
 		})

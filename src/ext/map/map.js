@@ -38,7 +38,7 @@ $$.control.registerControl('brainjs.map', {
 			return {
 				text,
 				callback: function(ev) {
-					elt.trigger('mapcontextmenu', [cmd,  ev.latlng])
+					elt.trigger('mapcontextmenu', {cmd,  latlng: ev.latlng})
 				}
 			}
 			
@@ -103,7 +103,7 @@ $$.control.registerControl('brainjs.map', {
 
 		map.on('click', function(ev) {
 			//console.log('[map] onclick', ev)
-			elt.trigger('mapclick', ev.latlng)
+			elt.trigger('mapclick', {latlng: ev.latlng})
 		})
 
 		this.getShapes = function() {

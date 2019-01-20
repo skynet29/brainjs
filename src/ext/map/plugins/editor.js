@@ -32,7 +32,7 @@ $$.module.registerModule('brainjs.map.plugin.editor', function() {
 			if (shapeDesc && typeof shapeDesc.getData == 'function') {
 				const data = {type}
 				shapeDesc.getData(layer, data)
-				elt.trigger('mapshapecreated', [data])
+				elt.trigger('mapshapecreated', data)
 			}
 		})	
 
@@ -49,7 +49,7 @@ $$.module.registerModule('brainjs.map.plugin.editor', function() {
 					$.extend(shape.info, data)
 				}
 			})
-			elt.trigger('mapshapeedited', [editedShapes])
+			elt.trigger('mapshapeedited', {editedShapes})
 		})
 
 		map.on('draw:deleted', function(e) {
@@ -60,7 +60,7 @@ $$.module.registerModule('brainjs.map.plugin.editor', function() {
 				console.log(`[brainjs.map] shape with id '${shape.id}' is deleted`)				
 				delete shapes[shape.id]
 			})
-			elt.trigger('mapshapedeleted', [deletedShapes])
+			elt.trigger('mapshapedeleted', {deletedShapes})
 		})
 
 	}

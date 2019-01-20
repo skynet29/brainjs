@@ -20,11 +20,11 @@ const ctrl = $$.viewController('#main', {
 			})
 
 		},
-		onShapeEdited: function(ev, shapes) {
-			console.log('onShapeEdited', shapes)
+		onShapeEdited: function(ev, data) {
+			console.log('onShapeEdited', data)
 		},
-		onShapeDeleted: function(ev, shapes) {
-			console.log('onShapeDeleted', shapes)
+		onShapeDeleted: function(ev, data) {
+			console.log('onShapeDeleted', data)
 		}				
 	}	
 }
@@ -65,11 +65,11 @@ $$.control.registerControl('test18', {
 					})
 
 				},
-				onShapeEdited: function(ev, shapes) {
-					console.log('onShapeEdited', shapes)
+				onShapeEdited: function(ev, data) {
+					console.log('onShapeEdited', data)
 				},
-				onShapeDeleted: function(ev, shapes) {
-					console.log('onShapeDeleted', shapes)
+				onShapeDeleted: function(ev, data) {
+					console.log('onShapeDeleted', data)
 				}				
 			}
 		})
