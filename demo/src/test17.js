@@ -8,7 +8,12 @@ const ctrl = $$.viewController('#main', {
 		layers: {
 			'layer1': {label: 'Layer 1', visible: true},
 			'layer2': {label: 'Layer 2', visible: true}
-		}	
+		},
+		contextMenu: {
+			edit: {name: 'Edit'},
+			sep: {name: '--'},
+			copy: {name: 'Copy'}
+		}			
 	},
 	events: {
 		onMapClick: function(ev, latlng) {
@@ -22,9 +27,12 @@ const ctrl = $$.viewController('#main', {
 					latlng
 				})
 			}
-		}
+		},
+		onMapContextMenu: function(ev, cmd, latlng) {
+			console.log('onMapContextMenu', cmd, latlng)
+		}		
 	}	
-}
+})
 
 ctrl.scope.map.addShape('shape1', {
 	type: 'marker',
@@ -47,9 +55,9 @@ ctrl.scope.map.addShape('shape2', {
 const htmlCode = `
 <div id="main">
 	<div bn-control="brainjs.map" class="map" 
-		bn-data="center: center, layers: layers" 
+		bn-data="center: center, layers: layers, contextMenu: contextMenu" 
 		bn-iface="map"
-		bn-event="mapclick: onMapClick"
+		bn-event="mapclick: onMapClick, mapcontextmenu: onMapContextMenu"
 		data-scale="true"
 		data-coordinates="true"></div>
 </div>
@@ -68,6 +76,11 @@ $$.control.registerControl('test17', {
 				layers: {
 					'layer1': {label: 'Layer 1', visible: true},
 					'layer2': {label: 'Layer 2', visible: true}
+				},
+				contextMenu: {
+					edit: {name: 'Edit'},
+					sep: {name: '--'},
+					copy: {name: 'Copy'}
 				}
 
 			},
@@ -83,6 +96,9 @@ $$.control.registerControl('test17', {
 							latlng
 						})
 					}
+				},
+				onMapContextMenu: function(ev, cmd, latlng) {
+					console.log('onMapContextMenu', cmd, latlng)
 				}
 			}
 		})

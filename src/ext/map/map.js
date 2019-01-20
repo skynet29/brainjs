@@ -13,15 +13,40 @@ $$.control.registerControl('brainjs.map', {
 		layers: {},
 		scale: false,
 		coordinates: false,
-		plugins: {}
+		plugins: {},
+		contextMenu: {}
 	},
 	init: function(elt) {
 
 		const div = $('<div>').css('height', '100%').appendTo(elt).get(0)
 
-		const {center, zoom, tileUrl} = this.props
+		const {center, zoom, tileUrl, contextMenu} = this.props
 
-		const map = L.map(div, {center, zoom, closePopupOnClick: false})
+		const mapOptions = {
+			center, 
+			zoom,
+			closePopupOnClick: false,
+			contextmenu: true,
+			contextmenuWidth: 140
+		}
+
+		mapOptions.contextmenuItems = Object.keys(contextMenu).map(function(cmd) {
+			const text = contextMenu[cmd].name
+			if (text === '--') {
+				return {separator: true}
+			}
+			return {
+				text,
+				callback: function(ev) {
+					elt.trigger('mapcontextmenu', [cmd,  ev.latlng])
+				}
+			}
+			
+		})
+
+		console.log('#### mapOptions', mapOptions)
+
+		const map = L.map(div, mapOptions)
 		const shapes = {}
 		const layers = {}
 
