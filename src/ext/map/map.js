@@ -52,7 +52,7 @@ $$.control.registerControl('brainjs.map', {
 			L.control.coordinates({
 				position: 'bottomleft',
 				useLatLngOrder: true,
-				nableUserInput: false,
+				enableUserInput: false,
 				decimals: 5					
 			}).addTo(map)
 		}

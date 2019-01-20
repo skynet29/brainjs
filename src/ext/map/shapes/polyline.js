@@ -10,7 +10,7 @@ $$.module.registerModule('brainjs.map.shape.polyline', function() {
 			if (data.latlngs) {
 				layer.setLatLngs(data.latlngs)
 			}
-			if (data.options) {
+			if (data.style) {
 				layer.setStyle(data.style)
 			}
 			

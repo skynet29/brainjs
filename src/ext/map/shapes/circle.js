@@ -14,7 +14,7 @@ $$.module.registerModule('brainjs.map.shape.circle', function() {
 			if (data.radius) {
 				layer.setRadius(data.radius)
 			}
-			if (data.options) {
+			if (data.style) {
 				layer.setStyle(data.style)
 			}
 			
