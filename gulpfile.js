@@ -9,16 +9,17 @@ var injectHTML = require('gulp-inject-stringified-html')
 var dest = './dist'
 
 
-gulp.task('brainjs', function() {
+gulp.task('brainjs.js', function() {
 	return gulp.src([
 		'./externals/jquery.min.js',
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.js',
 		'./externals/jquery-contextMenu/jquery.contextMenu.min.js',		
 		'./src/lib/index.js',
 		'./src/lib/core/*.js',
-		'./src/lib/controls/*.js',
+		'./src/lib/controls/**/*.js',
 		'./src/lib/services/*.js'
 		])
+		.pipe(injectHTML())
 		.pipe(sourcemaps.init())
 		.pipe(concat('brainjs.js'))
 		.pipe(sourcemaps.write())
@@ -28,22 +29,30 @@ gulp.task('brainjs', function() {
 gulp.task('brainjs.css', function() {
 	return gulp.src([
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.css',
-		'./externals/jquery-contextMenu/jquery.contextMenu.css',				
+		'./externals/jquery-contextMenu/jquery.contextMenu.css',	
+		'./externals/font-awesome-4.7.0/css/font-awesome.min.css',
 		'./externals/w3.css',
 		'./src/lib/core/core.css'
 		])
 		.pipe(concat('brainjs.css'))
-		.pipe(gulp.dest(dest))
+		.pipe(gulp.dest(path.join(dest, 'css')))
 })
 
-gulp.task('images', function() {
+gulp.task('brainjs.images', function() {
 	return gulp.src([
 		'./externals/jquery-ui-1.12.1.custom/images/*',
 		])
-		.pipe(gulp.dest(path.join(dest, 'images')))
+		.pipe(gulp.dest(path.join(dest, 'css/images')))
 })
 
-gulp.task('demo-app', function() {
+gulp.task('brainjs.fonts', function() {
+	return gulp.src([
+		'./externals/font-awesome-4.7.0/fonts/*'
+		])
+		.pipe(gulp.dest(path.join(dest, 'fonts')))
+})
+
+gulp.task('demo.js', function() {
 	return gulp.src([
 		'./demo/src/*.js',
 		])
@@ -54,7 +63,7 @@ gulp.task('demo-app', function() {
 		.pipe(gulp.dest(dest))
 })
 
-gulp.task('demo-apphtml', function() {
+gulp.task('demo.html', function() {
 	return gulp.src([
 		'./demo/index.html',
 		])
@@ -92,7 +101,7 @@ gulp.task('tree.fonts', function() {
 	return gulp.src([
 			'./externals/jquery-contextMenu/font/*'
 		])
-		.pipe(gulp.dest(path.join(dest, 'font')))
+		.pipe(gulp.dest(path.join(dest, 'css/font')))
 })
 
 gulp.task('map.js', function() {
@@ -159,15 +168,15 @@ gulp.task('map', ['map.js', 'map.css', 'map.images'])
 gulp.task('map.editor', ['map.editor.js', 'map.editor.css', 'map.editor.images'])
 
 
-gulp.task('brainjs-all', ['brainjs', 'brainjs.css', 'images'])
+gulp.task('brainjs', ['brainjs.js', 'brainjs.css', 'brainjs.images', 'brainjs.fonts'])
 
-gulp.task('demo', ['demo-app', 'demo-apphtml'])
+gulp.task('demo', ['demo.js', 'demo.html'])
 
 
-gulp.task('all', ['brainjs-all', 'demo', 'tree', 'map', 'map.editor'])
+gulp.task('all', ['brainjs', 'demo', 'tree', 'map', 'map.editor'])
 
 gulp.task('watch', ['all'], function() {
-	gulp.watch(['./src/lib/**/*.js'], ['brainjs'])
+	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], ['brainjs'])
 	gulp.watch(['./src/ext/tree.js'], ['tree.js'])
 	gulp.watch(['./src/ext/**/*.js'], ['map.js', 'map.editor.js'])
 

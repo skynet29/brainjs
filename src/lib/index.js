@@ -3,7 +3,7 @@
 	window.$$ = {}
 
 	$(function(){
-		$$.util.loadStyle('brainjs.css')
+		$$.util.loadStyle('css/brainjs.css')
 	})
 	
 })();
