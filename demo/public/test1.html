@@ -3,30 +3,54 @@
 <head>
 	<title>Test 1</title>
 
-	<link rel="stylesheet" href="lib/brainjs-bundle.css">
-	<script src="lib/brainjs-bundle.js"></script>
+	<script src="lib/brainjs.js"></script>
+	<link rel="stylesheet" type="text/css" href="lib/css/brainjs.css">	
 </head>
 <body>
+	<style type="text/css">
+		#main {
+			padding: 10px;
+		}
+		td, th {
+			border: 1px solid Black;
+			padding: 5px;
+		}
+		table {
+			border-collapse: collapse;
+		}
+	</style>
 
 	<div id=main>
-		<p bn-text="message"></p>
-		<button bn-event="click: onClick">Click</button>
+		<table>
+			<thead>
+				<tr bn-each="c in gridColumns">
+					<th bn-text="c"></th>
+				</tr>
+			</thead>
+			<tbody bn-each="data in gridData">
+				<tr bn-each="c in gridColumns">
+					<td bn-text="getRowData"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 
 	<script>
-		window.app = $$.viewController('#main', {
+		window.ctrl = $$.viewController('#main', {
 			data: {
-				message: 'Hello World'
-			},
-			events: {
-				onClick: function(ev) {
-					console.log('onClick')
-					$$.ui.showPrompt({
-						title: 'Alert Rouge',
-						label: 'Enter your name:'
-					}, console.log)
+				gridColumns: ['name', 'location'],
+				gridData: [
+				   { name: 'American alligator', location: 'Southeast United States' },
+				   { name: 'Chinese alligator', location: 'Eastern China' },
+				   { name: 'Spectacled caiman', location: 'Central & South America' },
+				   { name: 'Broad-snouted caiman', location: 'South America' },
+				   { name: 'Jacaré caiman', location: 'South America' },
+				   { name: 'Black caiman', location: 'South America' }
+				 ],
+				getRowData: function() {
+					return this.data[this.c]
 				}
-			}
+			},
 		})
 
 	</script>

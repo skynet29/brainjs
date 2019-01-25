@@ -55,7 +55,7 @@ function splitAttr(attrValue, cbk) {
 
 
 const map = {
-  'bn-each': {type: 3},
+  // 'bn-each': {type: 3},
   'bn-text': {f: 'text', type: 1},
   'bn-html': {f: 'html', type: 1},
   'bn-val': {f: 'setValue', type: 1},
@@ -143,13 +143,59 @@ function processEvents(root, events) {
      
 }
 
+let i = 0
+
 function process(root, data, updateCbk) {
 
+  //console.log('### process ####', i++, data, root.get(0).outerHTML)
+
   let ctx = {}
+
+  // first process bn-each directive
+
+
+  const bnEach = []
+  root.bnFind('[bn-each]').each(function() {
+    const elt = $(this)
+    let contained = false
+    bnEach.forEach(function(i) {
+      if ($.contains(i.get(0), elt.get(0))) {
+        contained = true
+      }
+    })    
+    if (!contained) {
+      bnEach.push(elt)
+    }
+  })
+  //console.log('bn-each=', bnEach)
+  // process bn-each directive which are not contained in another one
+
+  bnEach.forEach(function(elt) {
+      const attrValue = elt.attr('bn-each')
+      elt.removeAttr('bn-each')
+      let template = elt.children().remove().clone()
+      let [iter, , varName] = attrValue.split(' ')
+      let value = getValue(data, varName)
+      
+      ctx[varName] = ctx[varName] || []
+      ctx[varName].push({elt, type: 3, template, iter})        
+      
+      if (data && Array.isArray(value)) {
+        value.forEach(function(item) {
+        var itemData = $.extend({}, data)
+         itemData[iter] = item
+         var $item = template.clone()
+         process($item, itemData)
+         elt.append($item)          
+        })
+      }
+  })
+
+  // process other directive
   
   for(let dir in map) {
     
-
+    //console.log('dir=', dir)
     root.bnFindAttr(dir, function(elt, attrValue) {
 
       let {type, f} = map[dir]
@@ -211,30 +257,13 @@ function process(root, data, updateCbk) {
        }
        
        
-      if (type == 3) {
-        let template = elt.children().remove().clone()
-        let [iter, , varName] = attrValue.split(' ')
-        let value = getValue(data, varName)
-        
-        ctx[varName] = ctx[varName] || []
-        ctx[varName].push({elt, type, template, iter})        
-        
-        if (data && Array.isArray(value)) {
-          value.forEach(function(item) {
-          var itemData = $.extend({}, data)
-           itemData[iter] = item
-           var $item = template.clone()
-           process($item, itemData)
-           elt.append($item)          
-          })
-        }
-      }
+
     })
      
   
   }
   
-
+  //console.log('#### end process ####', --i)
   return ctx
 }
 
