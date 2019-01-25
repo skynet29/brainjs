@@ -38,12 +38,12 @@ $.fn.iface = function() {
 }
 
 $.fn.setData = function(name, value) {
+  //console.log('setData', name, value)
   const iface = this.iface()
 
-  const funcName = 'set' + name.substr(0,1).toUpperCase() + name.substr(1)
-  //console.log('funcName', funcName)
+  const funcName = 'set' + name.charAt(0).toUpperCase() + name.substr(1)
 
-  if (iface && iface.props[name] && typeof iface[funcName] == 'function') {
+  if (iface && name in iface.props && typeof iface[funcName] == 'function') {
     iface[funcName](value)
   }
   else if (iface && $$.isViewController(iface.ctrl) && iface.ctrl.model[name]) {

@@ -163,8 +163,21 @@ gulp.task('map.editor.images', function() {
 		.pipe(gulp.dest(path.join(dest, 'map/images')))
 })
 
+gulp.task('milsymbol.js', function() {
+	return gulp.src([
+		'./externals/milsymbol.js',
+		'./src/ext/milsymbol.js',
+		])
+		.pipe(sourcemaps.init())
+		.pipe(concat('brainjs-milsymbol.js'))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(dest))
+})
+
+
 gulp.task('tree', ['tree.js', 'tree.css', 'tree.images', 'tree.fonts'])
 gulp.task('map', ['map.js', 'map.css', 'map.images'])
+gulp.task('milsymbol', ['milsymbol.js'])
 gulp.task('map.editor', ['map.editor.js', 'map.editor.css', 'map.editor.images'])
 
 
@@ -173,12 +186,13 @@ gulp.task('brainjs', ['brainjs.js', 'brainjs.css', 'brainjs.images', 'brainjs.fo
 gulp.task('demo', ['demo.js', 'demo.html'])
 
 
-gulp.task('all', ['brainjs', 'demo', 'tree', 'map', 'map.editor'])
+gulp.task('all', ['brainjs', 'demo', 'tree', 'map', 'map.editor', 'milsymbol'])
 
 gulp.task('watch', ['all'], function() {
 	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], ['brainjs'])
 	gulp.watch(['./src/ext/tree.js'], ['tree.js'])
-	gulp.watch(['./src/ext/**/*.js'], ['map.js', 'map.editor.js'])
+	gulp.watch(['./src/ext/map/**/*.js'], ['map.js', 'map.editor.js'])
+	gulp.watch(['./src/ext/milsymbol.js'], ['milsymbol.js'])
 
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
 })

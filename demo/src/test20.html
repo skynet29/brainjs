@@ -1,0 +1,20 @@
+<div bn-control="brainjs.tabs">
+
+	<div title="Result">
+		<div>
+			<input type="range" min="20" max="100" bn-val="size" bn-update="input"><br>
+			<input type="text" bn-val="name" bn-update="input">	
+		</div>
+
+		<div bn-control="brainjs.milsymbol" data-sidc="SFG-UCI----D" bn-data="size: size, name: name"></div>
+	</div>
+
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+
+
