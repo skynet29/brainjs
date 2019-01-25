@@ -21,18 +21,7 @@
 	</style>
 
 	<div id=main>
-		<table>
-			<thead>
-				<tr bn-each="c in gridColumns">
-					<th bn-text="c"></th>
-				</tr>
-			</thead>
-			<tbody bn-each="data in gridData">
-				<tr bn-each="c in gridColumns">
-					<td bn-text="getRowData"></td>
-				</tr>
-			</tbody>
-		</table>
+		<div bn-control="brainjs.table" bn-data="data: gridData, columns: gridColumns"></div>
 	</div>
 
 	<script>
@@ -46,10 +35,7 @@
 				   { name: 'Broad-snouted caiman', location: 'South America' },
 				   { name: 'Jacaré caiman', location: 'South America' },
 				   { name: 'Black caiman', location: 'South America' }
-				 ],
-				getRowData: function() {
-					return this.data[this.c]
-				}
+				 ]
 			},
 		})
 
