@@ -1,0 +1,25 @@
+<div bn-control="brainjs.tabs">
+
+	<div title="Result">
+		<div bn-event="input.filter: onFilterChange" class="filterpanel">
+			<input type="text" placeholder="name filter" bn-val="filters.name" 
+				data-filter="name" class="filter">
+
+			<input type="text" placeholder="location filter"  bn-val="filters.location"			data-filter="location" class="filter">
+
+			
+		</div>
+
+		<div bn-control="brainjs.table" 
+			bn-data="data: gridData, columns: gridColumns, filters: filters"></div>
+	</div>
+
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+
+
