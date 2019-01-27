@@ -4,7 +4,10 @@
 	<title>Test 1</title>
 
 	<script src="lib/brainjs.js"></script>
+	<script src="lib/brainjs-circularmenu.js"></script>
+	
 	<link rel="stylesheet" type="text/css" href="lib/css/brainjs.css">	
+	<link rel="stylesheet" type="text/css" href="lib/css/brainjs-circularmenu.css">
 </head>
 <body>
 	<style type="text/css">
@@ -21,14 +24,9 @@
 	</style>
 
 	<div id=main>
-		<div>
-			<input type="text" placeholder="location filter" bn-event="input: onFilterChange" bn-val="filters.location" data-filter="location">
-
-			<input type="text" placeholder="name filter" bn-event="input: onFilterChange" bn-val="filters.name" data-filter="name">
-			
+		<div style="width:300px; height: 300px; border: 1px solid black;">
+		    <div bn-control="brainjs.circularmenu" data-radius="120" data-icon-pos="80" data-inner-radius="40" bn-event="menuSelected: onMenuSelected" bn-data="menus: menus, triggerPos: triggerPos"/>
 		</div>
-
-		<div bn-control="brainjs.table" bn-data="data: gridData, columns: gridColumns, filters: filters"></div>
 	</div>
 
 
@@ -39,28 +37,22 @@
 
 		const ctrl = $$.viewController('#main', {
 			data: {
-				gridColumns: ['name', 'location'],
-				gridData: [
-				   { name: 'American alligator', location: 'Southeast United States' },
-				   { name: 'Chinese alligator', location: 'Eastern China' },
-				   { name: 'Spectacled caiman', location: 'Central & South America' },
-				   { name: 'Broad-snouted caiman', location: 'South America' },
-				   { name: 'Jacaré caiman', location: 'South America' },
-				   { name: 'Black caiman', location: 'South America' }
-				 ],
-				 filters: {location: 'S', name: ''},
 
-			},
-			events: {
-				onFilterChange: function(ev) {
-					const f = $(this).data('filter')
-					console.log('f=', f)
-					let filters = ctrl.model.filters;
-					filters[f] = $(this).val()
+		        menus: [
+		            {"text": "\uf015", "action": "toto", color: 'red'},
+		            {"text": "\uf099", "color": "blue"}
+		            ],
+		        triggerPos: {
+		            "left": 100,
+		            "top": 200
+		        }
+		    },
+		    events: {
+		    	onMenuSelected: function(ev, data) {
+		    		console.log('onMenuSelected', data)
+		    	}
+		    }
 
-					ctrl.update('filters')
-				}
-			}
 		})
 	})
 

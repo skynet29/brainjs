@@ -48,7 +48,7 @@ $$.control.registerControl('test21', {
 	template: {gulp_inject: './test21.html'},
 	init: function(elt) {
 
-		const ctrl = $$.viewController('#main', {
+		const ctrl = $$.viewController(elt, {
 			data: {
 				gridColumns: ['name', 'location'],
 				gridData: [

@@ -174,10 +174,30 @@ gulp.task('milsymbol.js', function() {
 		.pipe(gulp.dest(dest))
 })
 
+gulp.task('circularmenu.js', function() {
+	return gulp.src([
+		'./externals/TweenMax.min.js',
+		'./src/ext/circularmenu/*.js',
+		])
+		.pipe(injectHTML())
+		.pipe(sourcemaps.init())
+		.pipe(concat('brainjs-circularmenu.js'))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(dest))
+})
+
+gulp.task('circularmenu.css', function() {
+	return gulp.src([
+		'./src/ext/circularmenu/*.css',
+		])
+		.pipe(concat('brainjs-circularmenu.css'))
+		.pipe(gulp.dest(path.join(dest, 'css')))
+})
 
 gulp.task('tree', ['tree.js', 'tree.css', 'tree.images', 'tree.fonts'])
 gulp.task('map', ['map.js', 'map.css', 'map.images'])
 gulp.task('milsymbol', ['milsymbol.js'])
+gulp.task('circularmenu', ['circularmenu.js', 'circularmenu.css'])
 gulp.task('map.editor', ['map.editor.js', 'map.editor.css', 'map.editor.images'])
 
 
@@ -186,13 +206,15 @@ gulp.task('brainjs', ['brainjs.js', 'brainjs.css', 'brainjs.images', 'brainjs.fo
 gulp.task('demo', ['demo.js', 'demo.html'])
 
 
-gulp.task('all', ['brainjs', 'demo', 'tree', 'map', 'map.editor', 'milsymbol'])
+gulp.task('all', ['brainjs', 'demo', 'tree', 'map', 'map.editor', 'milsymbol', 'circularmenu'])
 
 gulp.task('watch', ['all'], function() {
 	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], ['brainjs'])
 	gulp.watch(['./src/ext/tree.js'], ['tree.js'])
 	gulp.watch(['./src/ext/map/**/*.js'], ['map.js', 'map.editor.js'])
 	gulp.watch(['./src/ext/milsymbol.js'], ['milsymbol.js'])
+	gulp.watch(['./src/ext/circularmenu/*.js'], ['circularmenu.js'])
+	gulp.watch(['./src/ext/circularmenu/*.css'], ['circularmenu.css'])
 
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
 })
