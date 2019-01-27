@@ -69,7 +69,7 @@ As you can see, the event handler must be defined in the **events** attribut of 
 
 ## Getting started
 
-To get started, see the examples on the demo directory or open the <a href="https://skynet29.github.io/brainjs/dist/index.html" target="_blank">demo app</a> .
+To get started, see the examples on the <a href="https://skynet29.github.io/brainjs/dist/index.html" target="_blank">demo app</a>  or try yourself on my <a href="https://jsfiddle.net/user/skynet39/fiddles/" target="_blank">jsfiddles</a>.
 
 ViewController is based on the jQuery library. jQuery and jQuery UI are bundled in the file brainjs-bundle.js in the dist folder.
 
