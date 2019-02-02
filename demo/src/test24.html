@@ -1,0 +1,40 @@
+<div bn-control="brainjs.tabs">
+
+	<div title="Result">
+		<div>
+			<div class="rangeinput">
+				<label>Roll</label>			
+				<input type="range" min="-50" max="50" bn-val="roll" bn-update="input"><br>
+			</div>
+
+			<div class="rangeinput">
+				<label>Pitch</label>			
+				<input type="range" min="-40" max="40" bn-val="pitch" bn-update="input"><br>
+			</div>
+
+			<div class="rangeinput">
+				<label>Speed</label>			
+				<input type="range" max="200" bn-val="speed" bn-update="input"><br>
+			</div>
+
+			<div class="rangeinput">
+				<label>Altitude</label>			
+				<input type="range" bn-val="altitude" bn-update="input"><br>
+			</div>
+
+		</div>
+
+		<div bn-control="brainjs.flightpanel"
+			bn-data="roll: roll, pitch: pitch, speed: speed, altitude: altitude">
+				
+		</div>
+	</div>
+
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+

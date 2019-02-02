@@ -9,6 +9,7 @@
 	<script src="brainjs-map-editor.js"></script>
 	<script src="brainjs-milsymbol.js"></script>
 	<script src="brainjs-circularmenu.js"></script>
+	<script src="brainjs-flightpanel.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="css/brainjs.css">
 	<link rel="stylesheet" type="text/css" href="css/brainjs-circularmenu.css">
@@ -65,6 +66,19 @@
 			margin-bottom: 10px;
 		}
 
+		.rangeinput {
+			display: flex;
+			margin-bottom: 10px;
+		}
+
+		.rangeinput > label {
+			min-width: 100px;
+		}
+
+		.rangeinput > input {
+			min-width: 200px;
+		}		
+
 	</style>
 
 
@@ -95,6 +109,7 @@
 			<a href="#/test20">Use of milsymbol (OTAN) control</a>
 			<a href="#/test22">Use of circularmenu control</a>
 			<a href="#/test23">Combine map and circularmenu control</a>
+			<a href="#/test24">Use of flightpanel control</a>
 		</div>
 		<div bn-control="brainjs.router" bn-data="routes: routes" class="content"></div>
 	</div>

@@ -194,11 +194,22 @@ gulp.task('circularmenu.css', function() {
 		.pipe(gulp.dest(path.join(dest, 'css')))
 })
 
+gulp.task('flightpanel.js', function() {
+	return gulp.src([
+		'./src/ext/flightpanel.js',
+		])
+		.pipe(sourcemaps.init())
+		.pipe(concat('brainjs-flightpanel.js'))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(dest))
+})
+
 gulp.task('tree', ['tree.js', 'tree.css', 'tree.images', 'tree.fonts'])
 gulp.task('map', ['map.js', 'map.css', 'map.images'])
 gulp.task('milsymbol', ['milsymbol.js'])
 gulp.task('circularmenu', ['circularmenu.js', 'circularmenu.css'])
 gulp.task('map.editor', ['map.editor.js', 'map.editor.css', 'map.editor.images'])
+gulp.task('flightpanel', ['flightpanel.js'])
 
 
 gulp.task('brainjs', ['brainjs.js', 'brainjs.css', 'brainjs.images', 'brainjs.fonts'])
@@ -206,7 +217,16 @@ gulp.task('brainjs', ['brainjs.js', 'brainjs.css', 'brainjs.images', 'brainjs.fo
 gulp.task('demo', ['demo.js', 'demo.html'])
 
 
-gulp.task('all', ['brainjs', 'demo', 'tree', 'map', 'map.editor', 'milsymbol', 'circularmenu'])
+gulp.task('all', [
+	'brainjs',
+	'demo',
+	'tree',
+	'map',
+	'map.editor',
+	'milsymbol',
+	'circularmenu',
+	'flightpanel'
+])
 
 gulp.task('watch', ['all'], function() {
 	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], ['brainjs'])
@@ -215,6 +235,7 @@ gulp.task('watch', ['all'], function() {
 	gulp.watch(['./src/ext/milsymbol.js'], ['milsymbol.js'])
 	gulp.watch(['./src/ext/circularmenu/*.js', './src/ext/circularmenu/*.html'], ['circularmenu.js'])
 	gulp.watch(['./src/ext/circularmenu/*.css'], ['circularmenu.css'])
+	gulp.watch(['./src/ext/flightpanel.js'], ['flightpanel.js'])
 
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
 })
