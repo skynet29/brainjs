@@ -56,7 +56,8 @@ function createControl(controlName, elt) {
 		props = props || {}
 
 		Object.keys(props).forEach(function(propName) {
-			iface.props[propName] = elt.data(propName) || props[propName]
+			const prop = elt.data(propName)
+			iface.props[propName] = (prop != undefined) ? prop : props[propName]
 		})
 
 		if (typeof template == 'string') {

@@ -1,0 +1,33 @@
+<div bn-control="brainjs.tabs">
+
+	<div title="Result">
+		<div class="map" style="position: relative;">
+			<div bn-control="brainjs.map" style="height: 100%" 
+				bn-data="center: center, shapes: shapes" 
+				bn-iface="map"
+				bn-event="mapshapecontextmenu: onMapShapeContextMenu"
+				data-scale="true"
+				data-coordinates="true"></div>
+
+			<div bn-control="brainjs.circularmenu"
+				style="position: relative;top: -100%" 
+				data-radius="80" 
+				data-icon-pos="50" 
+				data-inner-radius="20"
+				data-has-trigger="false" 
+				bn-event="menuSelected: onMenuSelected, menuClosed: onMenuClosed" 
+				bn-data="items: items"
+				bn-iface="menu"></div>
+			
+		</div>
+	</div>
+
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+22
+

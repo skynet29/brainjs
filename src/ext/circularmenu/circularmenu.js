@@ -39,6 +39,7 @@ $$.control.registerControl('brainjs.circularmenu', {
 
 	props: {
 		triggerRadius: 20,
+		hasTrigger: true,
 		triggerPos: {left: 100, top: 100},
 		innerRadius: 0,
 		radius: 90,
@@ -52,14 +53,12 @@ $$.control.registerControl('brainjs.circularmenu', {
 	init: function(elt) {
 
 
-
+		var that = this
 		var open = false
 
 		var triggerLabel = $.extend({open: '\uf068', close:'\uf067'}, this.props.triggerLabel)
 
-		var {minSectors, triggerPos, triggerRadius, innerRadius, radius, iconPos, iconSize, gap} = this.props
-
-		var hasTrigger = (triggerRadius != 0)
+		var {hasTrigger, minSectors, triggerPos, triggerRadius, innerRadius, radius, iconPos, iconSize, gap} = this.props
 
 		var menus = this.props.items
 		if (menus.length < minSectors) {
@@ -118,7 +117,7 @@ $$.control.registerControl('brainjs.circularmenu', {
 				    }				
 				},
 				onItemClicked: function(ev) {
-					console.log('onItemClicked')
+					//console.log('onItemClicked')
 					var idx = item.index(this)
 					//console.log('click', idx)
 					elt.trigger('menuSelected', menus[idx])				
@@ -143,7 +142,7 @@ $$.control.registerControl('brainjs.circularmenu', {
 
 
 		function show(x, y) {
-			//console.log('show', left, top)
+			//console.log('show', x, y)
 			var left = x - (width/2)
 			var top = y - (height/2)
 
@@ -158,8 +157,7 @@ $$.control.registerControl('brainjs.circularmenu', {
 
 
 		function openMenu() {
-			//console.log('openMenu')
-
+			//console.log('openMenu', open)
 			if (!open) {
 		        TweenMax.staggerTo(item, 0.7, {scale:1, ease:Elastic.easeOut}, 0.05);
 		        ctrl.setData({triggerLabel: triggerLabel.open})
@@ -167,7 +165,7 @@ $$.control.registerControl('brainjs.circularmenu', {
 	      	}
 		}
 
-		function closeMenu() {
+		function closeMenu(callback) {
 			//console.log('closeMenu')
 			if (open) {
 			    TweenMax.staggerTo(item, .3, {scale:0, ease:Back.easeIn}, 0.05, function() {
@@ -176,9 +174,13 @@ $$.control.registerControl('brainjs.circularmenu', {
 			    		svg.hide()
 			    		elt.trigger('menuClosed')
 			    	}
+				    ctrl.setData({triggerLabel: triggerLabel.close})
+				    open = false
+				    if (typeof callback == 'function') callback.call(that)
 			    });
-			    ctrl.setData({triggerLabel: triggerLabel.close})
-			    open = false
+			}
+			else {
+			    if (typeof callback == 'function') callback.call(that)
 			}
 		}
 
@@ -187,6 +189,7 @@ $$.control.registerControl('brainjs.circularmenu', {
 			if (idx >= 0) {
 				item.eq(idx).addClass('active')
 			}
+			return this
 		}
 
 		this.showMenu = showMenu

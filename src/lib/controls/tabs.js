@@ -5,6 +5,7 @@ $$.control.registerControl('brainjs.tabs', {
 
 		elt.children('div').each(function() {
 			var title = $(this).attr('title')
+			$(this).removeAttr('title')
 			var id = $(this).uniqueId().attr('id')
 			var li = $('<li>')
 				.attr('title', title)

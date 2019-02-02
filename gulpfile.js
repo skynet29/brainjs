@@ -213,7 +213,7 @@ gulp.task('watch', ['all'], function() {
 	gulp.watch(['./src/ext/tree.js'], ['tree.js'])
 	gulp.watch(['./src/ext/map/**/*.js'], ['map.js', 'map.editor.js'])
 	gulp.watch(['./src/ext/milsymbol.js'], ['milsymbol.js'])
-	gulp.watch(['./src/ext/circularmenu/*.js'], ['circularmenu.js'])
+	gulp.watch(['./src/ext/circularmenu/*.js', './src/ext/circularmenu/*.html'], ['circularmenu.js'])
 	gulp.watch(['./src/ext/circularmenu/*.css'], ['circularmenu.css'])
 
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])

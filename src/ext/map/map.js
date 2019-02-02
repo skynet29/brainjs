@@ -14,7 +14,8 @@ $$.control.registerControl('brainjs.map', {
 		scale: false,
 		coordinates: false,
 		plugins: {},
-		contextMenu: {}
+		contextMenu: {},
+		shapes: {}
 	},
 	init: function(elt) {
 
@@ -43,8 +44,6 @@ $$.control.registerControl('brainjs.map', {
 			}
 			
 		})
-
-		console.log('#### mapOptions', mapOptions)
 
 		const map = L.map(div, mapOptions)
 		const shapes = {}
@@ -152,11 +151,18 @@ $$.control.registerControl('brainjs.map', {
 				console.log('[brainjs.map] addShape with id', id)
 				shape = shapeDesc.create(options)
 				shape.type = options.type
-				shape.addTo(layer)
 				shape.ownlayer = layer
 				shape.info = options
 				shape.id = id
 				shapes[id] = shape
+				shape.on('contextmenu', function(ev) {
+					const data = {id, latlng: ev.latlng}
+					if (typeof ev.target.getLatLng == 'function') {
+						data.pos = map.latLngToContainerPoint(ev.target.getLatLng())
+					}
+					elt.trigger('mapshapecontextmenu', data)
+				})
+				shape.addTo(layer)
 			}					
 		}
 
@@ -183,7 +189,20 @@ $$.control.registerControl('brainjs.map', {
 			else {
 				console.warn(`[brainjs.map] removeShape id '${id}' doesn't exist`)
 			}
-		}		
+		}	
+
+		this.enableHandlers =function (enabled) {
+			map._handlers.forEach(function(handler) {
+				if (enabled)
+					handler.enable()
+				else
+					handler.disable()
+			})			
+		}
+
+		for(let shapeId in this.props.shapes) {
+			this.addShape(shapeId, this.props.shapes[shapeId])
+		}
 
 	}
 });
