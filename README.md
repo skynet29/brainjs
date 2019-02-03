@@ -73,6 +73,12 @@ To get started, see the examples on the <a href="https://skynet29.github.io/brai
 
 ViewController is based on the jQuery and jQuery UI library which are bundled in the file brainjs.js in the dist folder.
 
+## Documentation
+
+The documentation is available <a href="https://skynet29.github.io/brainjs/dist/doc.html" target="_blank">here</a>
+
+
+
 # Controls
 
 ## Using controls
