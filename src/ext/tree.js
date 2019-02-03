@@ -42,5 +42,8 @@ $$.control.registerControl('brainjs.tree', {
 			return elt.fancytree('getRootNode')
 		}
 
-	}
+	},
+
+	$iface: 'getActiveNode():Node;getRootNode():Node',
+	$events: 'treeactivate;treecontextmenu'
 });

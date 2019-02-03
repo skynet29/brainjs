@@ -54,6 +54,7 @@ $$.control.registerControl('brainjs.htmleditor', {
 		}
 
 
-	}
+	},
+	$iface: 'html(): string'
 
 });

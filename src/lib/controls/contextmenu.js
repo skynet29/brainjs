@@ -12,6 +12,7 @@ $$.control.registerControl('brainjs.contextmenu', {
 			},
 			items: this.props.items
 		})	
-	}
+	},
+	$events: 'contextmenuchange'
 });
 

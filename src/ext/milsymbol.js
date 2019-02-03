@@ -45,7 +45,8 @@ $$.control.registerControl('brainjs.milsymbol', {
 		}
 
 
-	}
+	},
+	$iface: 'setSize(size);setName(name);setSidc(sidc)'
 });
 
 $$.module.registerModule('brainjs.map.icon.milsymbol', function() {

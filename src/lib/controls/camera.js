@@ -53,7 +53,9 @@ $$.control.registerControl('brainjs.camera', {
 		this.dispose = function() {
 			stop()
 		}	
-	} 
+	},
+	$iface: 'start();stop();takePicture():DataURL;dispose()' 
+
 
 
 

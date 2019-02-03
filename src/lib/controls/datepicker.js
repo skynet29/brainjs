@@ -31,7 +31,10 @@ $$.control.registerControl('brainjs.datepicker', {
 			//console.log('getValue')
 			return elt.datepicker('getDate')
 		}
-	}
+	},
+
+	$iface: 'setValue(date);getValue():Date',
+	$events: 'datepickerchange'
 
 });
 

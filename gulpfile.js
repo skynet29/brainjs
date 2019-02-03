@@ -204,6 +204,25 @@ gulp.task('flightpanel.js', function() {
 		.pipe(gulp.dest(dest))
 })
 
+gulp.task('doc.js', function() {
+	return gulp.src([
+		'./doc/*.js',
+		])
+		.pipe(injectHTML())
+		.pipe(sourcemaps.init())
+		.pipe(concat('doc.js'))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(dest))
+})
+
+gulp.task('doc.html', function() {
+	return gulp.src([
+		'./doc/index.html',
+		])
+		.pipe(concat('doc.html'))
+		.pipe(gulp.dest(dest))
+})
+
 gulp.task('tree', ['tree.js', 'tree.css', 'tree.images', 'tree.fonts'])
 gulp.task('map', ['map.js', 'map.css', 'map.images'])
 gulp.task('milsymbol', ['milsymbol.js'])
@@ -215,6 +234,7 @@ gulp.task('flightpanel', ['flightpanel.js'])
 gulp.task('brainjs', ['brainjs.js', 'brainjs.css', 'brainjs.images', 'brainjs.fonts'])
 
 gulp.task('demo', ['demo.js', 'demo.html'])
+gulp.task('doc', ['doc.js', 'doc.html'])
 
 
 gulp.task('all', [
@@ -225,7 +245,8 @@ gulp.task('all', [
 	'map.editor',
 	'milsymbol',
 	'circularmenu',
-	'flightpanel'
+	'flightpanel',
+	'doc'
 ])
 
 gulp.task('watch', ['all'], function() {
@@ -238,4 +259,6 @@ gulp.task('watch', ['all'], function() {
 	gulp.watch(['./src/ext/flightpanel.js'], ['flightpanel.js'])
 
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
+	gulp.watch(['./doc/*.html', './doc/*.js'], ['doc'])
+
 })

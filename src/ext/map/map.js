@@ -204,5 +204,20 @@ $$.control.registerControl('brainjs.map', {
 			this.addShape(shapeId, this.props.shapes[shapeId])
 		}
 
-	}
+	},
+
+	$iface: `
+		getShapes():[shapeId];
+		updateShape(shapeId, options);
+		addShape(shapeId, options);
+		removeShape(shapeId);
+		getShapeInfo(shapeId): ShapeInfo;
+		enableHandlers(enabled)
+		`,
+
+	$events: `
+		mapshapecontextmenu;
+		mapclick
+	`
+
 });

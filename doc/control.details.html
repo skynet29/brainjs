@@ -1,0 +1,20 @@
+<h1 bn-text="name"></h1>
+
+<div bn-show="hasProperties">
+	<h2>Properties</h2>
+	<pre bn-text="props"></pre>	
+</div>
+
+<div bn-show="hasEvents">
+	<h2>Events</h2>
+	<ul bn-each="e in events">
+		<li bn-text="e"></li>
+	</ul>	
+</div>
+
+<div bn-show="hasMethods">
+	<h2>Methods</h2>
+	<ul bn-each="m in methods">
+		<li bn-text="m"></li>
+	</ul>	
+</div>

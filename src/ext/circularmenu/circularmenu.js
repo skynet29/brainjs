@@ -196,7 +196,9 @@ $$.control.registerControl('brainjs.circularmenu', {
 		this.closeMenu = closeMenu
 
 
-	}
+	},
+	$iface: 'select(idx);closeMenu(callback);showMenu(x, y)',
+	$events: 'menuClosed;menuSelected'
 
 })
 

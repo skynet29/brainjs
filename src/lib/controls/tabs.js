@@ -76,7 +76,14 @@ $$.control.registerControl('brainjs.tabs', {
 			$('#' + panelId).safeEmpty().remove()
 			elt.tabs('refresh')
 		}		
-	}
+	},
+
+	$iface: `getTabsCount():Number;
+		addTab(tite, options);
+		removeTab(tabIndex);
+		getSelectedTabIndex(): Number;
+		getTabInfo(tabIndex): TabInfo
+		`
 
 });
 

@@ -27,7 +27,7 @@ function registerControl(name, options) {
 	controls[name] = {deps, options, status: 'notloaded'}
 }
 
-function getControl(name) {
+function resolveControl(name) {
 	var ret = controls[name]
 	if (ret && ret.status == 'notloaded') {
 		ret.deps = $$.service.getServices(ret.deps)
@@ -37,15 +37,16 @@ function getControl(name) {
 }
 
 function createControl(controlName, elt) {
-	elt.addClass(controlName.replace('.', '-'))
-	elt.addClass('CustomControl').uniqueId()	
-	var ctrl = getControl(controlName)
+	var ctrl = resolveControl(controlName)
 		
 	if (ctrl == undefined) {
 		throw(`[control] control '${controlName}' is not registered`)
 	}
 		//console.log('createControl', controlName, ctrl)
 	if (ctrl.status ===  'ok') {
+
+		elt.addClass(controlName.replace('.', '-'))
+		elt.addClass('CustomControl').uniqueId()	
 		
 		var iface = {
 			props: {},
@@ -84,14 +85,21 @@ function createControl(controlName, elt) {
 		
 		return iface				
 	}
+}
 
+function getControls() {
+	return Object.keys(controls)
+}
 
-
+function getControlInfo(ctrlName) {
+	return controls[ctrlName]
 }
 
 $$.control = {
 	registerControl,
-	createControl
+	createControl,
+	getControls,
+	getControlInfo
 }
 
 })();

@@ -364,7 +364,9 @@
 			}
 
 			
-		}
+		},
+
+		$iface: 'setRoll(roll);setPitch(pitch);setSpeed(speed);setAltitude(altitude)'
 	})
 
 

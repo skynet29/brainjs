@@ -23,7 +23,9 @@ $$.control.registerControl('brainjs.checkgroup', {
 
 		this.setValue(elt.val())
 
-	}
+	},
+	$iface: `setValue([]);getValue():[]`,
+	$events: 'input'
 
 });
 
