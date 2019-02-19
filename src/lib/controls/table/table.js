@@ -10,6 +10,24 @@ function isInFilter(filters, data) {
 	return ret
 }
 
+function getButtonsTemplate(buttons) {
+	return buttons.map((button) => {
+		if (button.icon != undefined && button.title != undefined) {
+			return `<button 
+				data-cmd="${button.cmd}" 
+				class="cmd" 
+				title="${button.title}"><i class="${button.icon}"></i></button>`
+		}
+		if (button.icon != undefined) {
+			return `<button 
+				data-cmd="${button.cmd}" 
+				class="cmd" 
+				"><i class="${button.icon}"></i></button>`
+		}
+		return `<button data-cmd="${button.cmd}" class="cmd">${button.title}</button>`
+	}).join('')
+}
+
 $$.control.registerControl('brainjs.table', {
 	template: {gulp_inject: './table.html'},
 
@@ -20,25 +38,56 @@ $$.control.registerControl('brainjs.table', {
 	},
 
 	init: function(elt) {
-		this.ctrl = $$.viewController(elt, {
+		const ctrl = $$.viewController(elt, {
 			data: {
 				filters: this.props.filters,
-				gridColumns: this.props.columns,
-				gridData: this.props.data,			
+
+				gridColumns: this.props.columns.map((col) => {
+					if (typeof col == 'string') {
+						return {name: col, label: col}
+					}
+					return col
+				}),
+
+				gridData: this.props.data,
+
 				getRowData: function() {
-					return this.data[this.c]
+					if (this.c.buttons != undefined) {
+						return getButtonsTemplate(this.c.buttons)
+					}
+					return this.data[this.c.name]
 				},
+				
 				getFilteredData: function() {
 					const filters = this.filters
 					return this.gridData.filter(function(item) {
 						return isInFilter(filters, item)
 					})
 				}					
+			},
+			events: {
+				onCmdClick: function(ev) {
+					const cmd = $(this).data('cmd')
+					const data = $(this).closest('tr').data('item')
+					//console.log('onCmdClick', cmd, data)
+					elt.trigger('tablecmd', {cmd, data})
+				}
 			}
 
 		})
 
-	}
+		this.setFilters = function(filters) {
+			ctrl.setData({filters})
+		}
+
+		this.setData = function(gridData) {
+			ctrl.setData({gridData})
+		}		
+
+	},
+
+	$iface: `setFilters(filters);setData(data)`,
+	$events: `tablecmd`
 })
 
 

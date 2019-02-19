@@ -4,7 +4,15 @@
 const jsCode = `
 const ctrl = $$.viewController('#main', {
 	data: {
-		gridColumns: ['name', 'location'],
+		gridColumns: [
+			'name', 
+			{name: 'location', label: 'Location'},
+			{label: 'Action', buttons: [
+					{cmd: 'delete', title: 'Delete', icon: 'fa fa-trash'},
+					{cmd: 'edit', title: 'Edit', icon: 'fa fa-pencil'}
+				]
+			}
+		],		
 		gridData: [
 		   { name: 'American alligator', location: 'Southeast United States' },
 		   { name: 'Chinese alligator', location: 'Eastern China' },
@@ -21,7 +29,10 @@ const ctrl = $$.viewController('#main', {
 			const f = $(this).data('filter')
 			ctrl.model.filters[f] = $(this).val()
 			ctrl.update('filters')
-		}
+		},
+		onTableCmd: function(ev, data) {
+			console.log('onTableCmd', data)
+		}		
 	}	
 })	
 `.trim()
@@ -39,7 +50,9 @@ const htmlCode = `
 	</div>
 
 	<div bn-control="brainjs.table" 
-		bn-data="data: gridData, columns: gridColumns, filters: filters"></div>
+		bn-data="data: gridData, columns: gridColumns, filters: filters"
+		bn-event="tablecmd: onTableCmd"
+		></div>
 </div>
 `.trim()
 
@@ -50,7 +63,14 @@ $$.control.registerControl('test21', {
 
 		const ctrl = $$.viewController(elt, {
 			data: {
-				gridColumns: ['name', 'location'],
+				gridColumns: [
+					'name', 
+					{name: 'location', label: 'Location'},
+					{label: 'Action', buttons: [
+							{cmd: 'delete', title: 'Delete', icon: 'fa fa-trash'},
+							{cmd: 'edit', title: 'Edit', icon: 'fa fa-pencil'}
+						]
+					}],
 				gridData: [
 				   { name: 'American alligator', location: 'Southeast United States' },
 				   { name: 'Chinese alligator', location: 'Eastern China' },
@@ -69,6 +89,9 @@ $$.control.registerControl('test21', {
 					const f = $(this).data('filter')
 					ctrl.model.filters[f] = $(this).val()
 					ctrl.update('filters')
+				},
+				onTableCmd: function(ev, data) {
+					console.log('onTableCmd', data)
 				}
 			}
 		})
