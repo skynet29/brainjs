@@ -23,7 +23,7 @@ class ViewController {
         // generate automatic rules for computed data (aka function)
         for(var k in this.model) {
         	var data = this.model[k]
-        	if (typeof data == 'function') {
+        	if (typeof data == 'function' && k.charAt(0) == "$") {
         		var funcText = data.toString()
         		//console.log('funcText', funcText)
         		var rules = []
