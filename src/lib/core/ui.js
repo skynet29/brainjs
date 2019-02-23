@@ -5,25 +5,34 @@ function showAlert(options, callback) {
 	options = $.extend({
 		title: 'Alert',
 		content: '',
-		showCancel: false
+		showCancel: false,
+		okText: 'OK',
+		cancelText: 'Cancel'
 	}, options)
 
 	options.model = true
 	options.close = function() {
 		$(this).dialog('destroy')
 	}
-	options.buttons = {
-		'OK': function() {
-			$(this).dialog('close')
-			if (typeof callback == 'function') {
-				callback()
+	options.buttons = [
+		{
+			text: options.okText,
+			click: function() {
+				$(this).dialog('close')
+				if (typeof callback == 'function') {
+					callback()
+				}
 			}
 		}
-	}
+	]
+
 	if (options.showCancel) {
-		options.buttons['Cancel'] = function() {
-			$(this).dialog('close')
-		}
+		options.buttons.push({
+			text: options.cancelText,
+			click: function() {
+				$(this).dialog('close')
+			}	
+		})
 	}
 
 	$('<div>', {title: options.title})

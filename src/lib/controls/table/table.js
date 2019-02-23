@@ -58,7 +58,7 @@ $$.control.registerControl('brainjs.table', {
 					return this.data[this.c.name]
 				},
 				
-				getFilteredData: function() {
+				$getFilteredData: function() {
 					const filters = this.filters
 					return this.gridData.filter(function(item) {
 						return isInFilter(filters, item)
