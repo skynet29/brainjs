@@ -37,6 +37,16 @@ $.fn.iface = function() {
   return this.get(0).ctrl
 }
 
+$.fn.setProp = function(name, value) {
+  //console.log('setProp', name, value)
+  if (this.closest('.brainjs-controlgroup').length == 1 && name == 'disabled') {
+    this.button('option', 'disabled', value )
+  }
+  else {
+    this.prop(name, value)
+  }
+}
+
 $.fn.setData = function(name, value) {
   //console.log('setData', name, value)
   const iface = this.iface()

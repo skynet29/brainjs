@@ -62,7 +62,7 @@ const map = {
   'bn-show': {f: 'setVisible', type: 1},
   'bn-style': {f: 'css', type: 2},
   'bn-attr': {f: 'attr', type: 2},
-  'bn-prop': {f: 'prop', type: 2},
+  'bn-prop': {f: 'setProp', type: 2},
   'bn-data': {f: 'setData', type: 2},
   'bn-class': {f: 'setClass', type: 2},
   'bn-control': {type: 4}
@@ -72,6 +72,7 @@ const map = {
 function update(ctx, data, vars, excludeElt) {
 
   //console.log('[binding] update', vars, data, excludeElt)
+  //console.log('ctx', ctx)
 
   if (typeof vars == 'string') {
     vars = vars.split(',')
@@ -240,8 +241,8 @@ function process(root, data, updateCbk) {
 
           splitAttr(attrValue, function(name, varName) {
             let not = false
-            if (attrValue.startsWith('!')) {
-              attrValue = attrValue.substr(1)
+            if (varName.startsWith('!')) {
+              varName = varName.substr(1)
               not = true
             }             
             if (data) {
