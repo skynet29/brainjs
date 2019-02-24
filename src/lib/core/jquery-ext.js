@@ -56,9 +56,6 @@ $.fn.setData = function(name, value) {
   if (iface && name in iface.props && typeof iface[funcName] == 'function') {
     iface[funcName](value)
   }
-  else if (iface && $$.isViewController(iface.ctrl) && iface.ctrl.model[name]) {
-    iface.ctrl.setData(name, value)
-  }
   else {
     this.data(name, value)
   }
