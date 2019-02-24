@@ -1,6 +1,6 @@
 $(function() {
 	console.log('[brainjs.map] Leaflet version', L.version)
-	$$.util.loadStyle('map/brainjs-map.css')
+	//$$.util.loadStyle('map/brainjs-map.css')
 })
 
 

@@ -39,7 +39,7 @@ $.fn.iface = function() {
 
 $.fn.setProp = function(name, value) {
   //console.log('setProp', name, value)
-  if (this.closest('.brainjs-controlgroup').length == 1 && name == 'disabled') {
+  if (this.hasClass('ui-button') && name == 'disabled') {
     this.button('option', 'disabled', value )
   }
   else {
