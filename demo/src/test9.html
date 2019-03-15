@@ -9,10 +9,10 @@
           <th>Age</th>
         </tr>
       </thead>
-      <tbody bn-each="client of $getFilteredClients">
+      <tbody bn-each="getFilteredClients()">
         <tr>
-          <td bn-text="client.name"></td>
-          <td bn-text="client.age"></td>
+          <td bn-text="$i.name"></td>
+          <td bn-text="$i.age"></td>
         </tr>
       </tbody>
        

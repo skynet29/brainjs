@@ -48,7 +48,7 @@ const ctrl = $$.viewController('#main', {
 const htmlCode = `
 <div id="main">
 	<div bn-control="brainjs.tree" 
-		bn-data="source: source, contextMenu: contextMenu" 
+		bn-data="{source, contextMenu}" 
 		bn-event="treeactivate: onTreeActivate, treecontextmenu: onTreeContextMenu" 
 		bn-iface="tree"></div>
 	<br>

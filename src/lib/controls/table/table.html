@@ -1,12 +1,12 @@
 <table>
 	<thead>
-		<tr bn-each="c in gridColumns">
-			<th bn-text="c.label"></th>
+		<tr bn-each="gridColumns">
+			<th bn-text="$i.label"></th>
 		</tr>
 	</thead>
-	<tbody bn-each="data in $getFilteredData" bn-event="click.cmd: onCmdClick">
-		<tr bn-each="c in gridColumns" bn-data="item: data">
-			<td bn-html="getRowData"></td>
+	<tbody bn-each="getFilteredData()" bn-event="click.cmd: onCmdClick">
+		<tr bn-each="gridColumns" bn-data="{item: $i}" bn-iter="$col">
+			<td bn-html="getRowData($i, $col)"></td>
 		</tr>
 	</tbody>
 </table>	

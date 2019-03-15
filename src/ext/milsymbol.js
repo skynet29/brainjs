@@ -7,43 +7,23 @@ $$.control.registerControl('brainjs.milsymbol', {
 
 	init: function(elt) {
 
-		let data = this.props
 
-		function createSymbolCode() {
-			//console.log('createSymbolCode', options)
+		var img = $('<img>').appendTo(elt)
 
 
-			var symbol = new ms.Symbol(data.sidc, {
-				size: data.size,
-				uniqueDesignation: data.uniqueDesignation
+		this.update = function(data) {
+			console.log('[milsymbol] update', data)
+			$.extend(this.props, data)
+
+			const symbol = new ms.Symbol(this.props.sidc, {
+				size: this.props.size,
+				uniqueDesignation: this.props.name
 			})
-			return symbol
-		}
 
-		var symbol = createSymbolCode()
-		var img = $('<img>')
-			.attr('src', symbol.toDataURL())
-			.appendTo(elt)
-
-
-		this.setSize = function(size) {
-			data.size = size
-			symbol.setOptions({size})
 			img.attr('src', symbol.toDataURL())
 		}
 
-		this.setName = function(name) {
-			data.name = name
-			symbol.setOptions({uniqueDesignation: name})
-			img.attr('src', symbol.toDataURL())
-		}
-
-		this.setSidc = function(sidc) {
-			data.sidc = sidc
-			symbol = createSymbolCode()
-			img.attr('src', symbol.toDataURL())
-		}
-
+		this.update()
 
 	},
 	$iface: 'setSize(size);setName(name);setSidc(sidc)'

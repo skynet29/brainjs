@@ -93,7 +93,7 @@ $$.control.registerControl('brainjs.circularmenu', {
 			}
 		})
 
-		var ctrl = $$.viewController(elt, {
+		const ctrl = $$.viewController(elt, {
 			
 			data : {
 				hasTrigger,
@@ -117,19 +117,19 @@ $$.control.registerControl('brainjs.circularmenu', {
 				    }				
 				},
 				onItemClicked: function(ev) {
-					//console.log('onItemClicked')
+					//console.log('onItemClicked', this)
 					var idx = item.index(this)
-					//console.log('click', idx)
 					elt.trigger('menuSelected', menus[idx])				
 				}
 
 			}
 		})
 
-		var svg = ctrl.elt
+		const svg = ctrl.elt
 
-		var item = svg.find('.item')
-		var items = svg.find('.items')
+		const item = svg.find('.item')
+		const items = svg.find('.items')
+		const label = svg.find('.label')
 		TweenLite.set(item, {scale:0, visibility:"visible"})
 
 
@@ -159,14 +159,17 @@ $$.control.registerControl('brainjs.circularmenu', {
 		function openMenu() {
 			//console.log('openMenu', open)
 			if (!open) {
-		        TweenMax.staggerTo(item, 0.7, {scale:1, ease:Elastic.easeOut}, 0.05);
-		        ctrl.setData({triggerLabel: triggerLabel.open})
-		      	open = true
+		        TweenMax.staggerTo(item, 0.7, {scale:1, ease:Elastic.easeOut}, 0.05)
+			        //ctrl.setData({triggerLabel: triggerLabel.open})
+			        label.text(triggerLabel.open)
+			      	open = true		        	
+		        
+
 	      	}
 		}
 
 		function closeMenu(callback) {
-			//console.log('closeMenu')
+			//console.log('closeMenu', open)
 			if (open) {
 			    TweenMax.staggerTo(item, .3, {scale:0, ease:Back.easeIn}, 0.05, function() {
 			    	//console.log('finished !!')
@@ -174,7 +177,9 @@ $$.control.registerControl('brainjs.circularmenu', {
 			    		svg.hide()
 			    		elt.trigger('menuClosed')
 			    	}
-				    ctrl.setData({triggerLabel: triggerLabel.close})
+				    label.text(triggerLabel.close)
+
+				    //ctrl.setData({triggerLabel: triggerLabel.close})
 				    open = false
 				    if (typeof callback == 'function') callback.call(that)
 			    });

@@ -21,10 +21,10 @@ const htmlCode = `
 		    <th>Age</th>
 		  </tr>
 		</thead>
-		<tbody bn-each="c of clients">
+		<tbody bn-each="clients">
 			<tr>
-				<td bn-text="c.name"></td>
-				<td bn-text="c.age"></td>
+				<td bn-text="$i.name"></td>
+				<td bn-text="$i.age"></td>
 			</tr>
 		</tbody>
 	 

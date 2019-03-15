@@ -12,8 +12,8 @@ const ctrl = $$.viewController('#main', {
 const htmlCode = `
 <div id="main">
 	<h2>Clients</h2>
-	<ul bn-each="c of clients">
-		<li bn-text="c"></li>
+	<ul bn-each="clients">
+		<li bn-text="$i"></li>
 	</ul>
 </div>
 `

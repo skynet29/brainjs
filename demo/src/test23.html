@@ -3,7 +3,7 @@
 	<div title="Result">
 		<div class="map" style="position: relative;">
 			<div bn-control="brainjs.map" style="height: 100%" 
-				bn-data="center: center, shapes: shapes" 
+				bn-data="{center, shapes}" 
 				bn-iface="map"
 				bn-event="mapshapecontextmenu: onMapShapeContextMenu"
 				data-scale="true"
@@ -16,7 +16,7 @@
 				data-inner-radius="20"
 				data-has-trigger="false" 
 				bn-event="menuSelected: onMenuSelected, menuClosed: onMenuClosed" 
-				bn-data="items: items"
+				bn-data="{items}"
 				bn-iface="menu"></div>
 			
 		</div>

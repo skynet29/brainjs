@@ -15,13 +15,19 @@ $.fn.bnFindAttr= function(attrName, cbk) {
     return this
 }
 
-$.fn.setClass = function(className, isActive) {
+$.fn.setClass = function(data) {
+  for(let className in data) {
+
+    const isActive = data[className]
+
     if (isActive) {
       this.addClass(className)
     }
     else {
       this.removeClass(className)
-    }
+    }    
+  }
+
 }
 
 $.fn.setVisible = function(isVisible) {
@@ -47,17 +53,15 @@ $.fn.setProp = function(name, value) {
   }
 }
 
-$.fn.setData = function(name, value) {
-  //console.log('setData', name, value)
+$.fn.setData = function(data) {
+  //console.log('setData', data)
   const iface = this.iface()
 
-  const funcName = 'set' + name.charAt(0).toUpperCase() + name.substr(1)
-
-  if (iface && name in iface.props && typeof iface[funcName] == 'function') {
-    iface[funcName](value)
+  if (iface && typeof iface.update == 'function') {
+    iface.update.call(iface, data)
   }
   else {
-    this.data(name, value)
+    this.data(data)
   }
 }
 

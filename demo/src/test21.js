@@ -87,8 +87,9 @@ $$.control.registerControl('test21', {
 			events: {
 				onFilterChange: function(ev) {
 					const f = $(this).data('filter')
+					console.log('onFilterChange', f)
 					ctrl.model.filters[f] = $(this).val()
-					ctrl.update('filters')
+					ctrl.update()
 				},
 				onTableCmd: function(ev, data) {
 					console.log('onTableCmd', data)
