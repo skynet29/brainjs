@@ -42,7 +42,7 @@ To update your data model, you can either modify your attributs and call the upd
 HTML code
 ````html
 <div id="main">
-  <p bn-style="color: color">Welcome  <span bn-text="name"/></p><br/>
+  <p bn-style="{color: color}">Welcome  <span bn-text="name"/></p><br/>
   <button bn-event="click: onClick">Update</button>
 </div>
 ````
