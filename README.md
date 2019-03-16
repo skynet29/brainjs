@@ -89,7 +89,7 @@ To use a control in your HTML, add a **bn-control** parameter to an HTML tag dep
 ``
 A way to parameter your control is to use custom HTML parameters
 
-Example 2 with static custom parameter
+Example with static custom parameter
 
 HTML code
 ````html
@@ -101,7 +101,7 @@ Note: custom parameter must use the **data-** prefix.
 
 If you want tu use a binding to your view control, use the **bn-data** directive:
 
-Example 3 with dynamic custom parameter
+Example with dynamic custom parameter
 
 HTML code
 ````html
