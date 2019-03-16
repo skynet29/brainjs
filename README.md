@@ -59,7 +59,7 @@ var ctrl = $$.viewController('#main', {
       /* another solution, useful when modifying array attributs
         ctrl.model.name = 'Quentin'
         ctrl.model.color = 'green'
-        ctrl.update('name, color')
+        ctrl.update()
       */
     }
   }
