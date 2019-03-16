@@ -12,6 +12,7 @@ Like angularjs (i.e angular 1), brainjs use proprietary HTML attributs starting 
 - bn-html
 - bn-attr
 - bn-style
+- bn-class
 - bn-val
 - bn-event
 - bn-show
@@ -105,7 +106,7 @@ Example 3 with dynamic custom parameter
 HTML code
 ````html
 <div id="main">
-  <div bn-control="MyControl" bn-data="title: myTitle"></div>  
+  <div bn-control="MyControl" bn-data="{title: myTitle}"></div>  
 </div>  
 ````
 
@@ -122,7 +123,7 @@ var ctrl = $$.viewController('#main', {
 
 To create a new control, use the framework **registerControl** function:
 
-Javascript code (file mycontrol.js)
+Javascript code
 
 ````javascript
 $$.control.registerControl('MyControl', {
@@ -146,7 +147,7 @@ As you can see, you do not have to use viewController. Here we use ES6 template 
 
 Here you are creating a control which use the HTTP service to retrieve data from the server.
 
-Javascript code (file mycontrol2.js)
+Javascript code
 ````javascript
 $$.control.registerControl('MyControl', {
   deps: ['HttpService'],
@@ -169,7 +170,7 @@ $$.control.registerControl('MyControl', {
 
 The **deps** field is an string array of service name. Services are automatically injected by the framework in the control constructor (init function).
 
-HTML file (mycontrol2.html)
+HTML file
  
 ````html
 <div>
@@ -182,7 +183,7 @@ HTML file (mycontrol2.html)
 
 ## control with an external interface
 
-Javascript code (mycontrol3.js file)
+Javascript code
 ````javascript
 $$.control.registerControl('MyControl3', {
   init: function(elt) {
@@ -221,7 +222,7 @@ $(function() {
 
 ## control with custom parameters
 
-Javascript code (mycontrol4.js file)
+Javascript code
 ````javascript
 $$.control.registerControl('MyControl4', {
 
@@ -239,12 +240,8 @@ $$.control.registerControl('MyControl4', {
 			
 		})
 	
-		this.setRoll = function(roll) {
-			ctrl.setData({roll})
-		}
-		
-		this.setPitch = function(pitch) {
-			ctrl.setData({pitch})
+		this.update = function(data) {
+			ctrl.setData(data)
 		}		
 	}
 		     
