@@ -340,7 +340,7 @@
 
 
 			this.update = function(data) {
-				console.log('[flightpanel] update', data)
+				//console.log('[flightpanel] update', data)
 				$.extend(this.props, data)
 				showAltitude = this.props.showAltitude				
 				showSpeed = this.props.showSpeed

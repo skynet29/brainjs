@@ -18,7 +18,7 @@ class ViewController {
 
         this.ctx = $$.binding.process(elt, this.model,
             (name, value, excludeElt) => {
-                //console.log('[ViewController] updateCbk', name, value)
+                //console.log('[ViewController] updateCbk', name, value, excludeElt)
                 this.setData(name, value, excludeElt)                
             })
 

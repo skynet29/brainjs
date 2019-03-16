@@ -27,6 +27,10 @@ $$.control.registerControl('test2', {
 				jsCode: jsCode.trim()
 			}
 		})
+
+		this.update = function(data) {
+			ctrl.setData(data)
+		}
 	}
 })
 

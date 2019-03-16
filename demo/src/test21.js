@@ -28,7 +28,7 @@ const ctrl = $$.viewController('#main', {
 		onFilterChange: function(ev) {
 			const f = $(this).data('filter')
 			ctrl.model.filters[f] = $(this).val()
-			ctrl.update('filters')
+			ctrl.update(this)
 		},
 		onTableCmd: function(ev, data) {
 			console.log('onTableCmd', data)
@@ -89,7 +89,7 @@ $$.control.registerControl('test21', {
 					const f = $(this).data('filter')
 					console.log('onFilterChange', f)
 					ctrl.model.filters[f] = $(this).val()
-					ctrl.update()
+					ctrl.update(this)
 				},
 				onTableCmd: function(ev, data) {
 					console.log('onTableCmd', data)

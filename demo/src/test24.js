@@ -55,10 +55,15 @@ $$.control.registerControl('test24', {
 				pitch: 10,
 				altitude: 50,
 				speed: 5,
+				showSpeed: true,
 				jsCode,
 				htmlCode
 			}
 		})
+
+		this.update = function(data) {
+			ctrl.setData(data)
+		}
 
 	}
 })

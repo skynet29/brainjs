@@ -129,7 +129,6 @@ $$.control.registerControl('brainjs.circularmenu', {
 
 		const item = svg.find('.item')
 		const items = svg.find('.items')
-		const label = svg.find('.label')
 		TweenLite.set(item, {scale:0, visibility:"visible"})
 
 
@@ -160,8 +159,7 @@ $$.control.registerControl('brainjs.circularmenu', {
 			//console.log('openMenu', open)
 			if (!open) {
 		        TweenMax.staggerTo(item, 0.7, {scale:1, ease:Elastic.easeOut}, 0.05)
-			        //ctrl.setData({triggerLabel: triggerLabel.open})
-			        label.text(triggerLabel.open)
+			        ctrl.setData({triggerLabel: triggerLabel.open})
 			      	open = true		        	
 		        
 
@@ -177,9 +175,8 @@ $$.control.registerControl('brainjs.circularmenu', {
 			    		svg.hide()
 			    		elt.trigger('menuClosed')
 			    	}
-				    label.text(triggerLabel.close)
 
-				    //ctrl.setData({triggerLabel: triggerLabel.close})
+				    ctrl.setData({triggerLabel: triggerLabel.close})
 				    open = false
 				    if (typeof callback == 'function') callback.call(that)
 			    });

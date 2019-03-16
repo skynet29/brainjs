@@ -84,15 +84,22 @@ function update(ctx, data, excludeElt) {
 
   ctx.forEach(function(info) {
 
-    let {type, f, elt, name, template, iter, attrValue} = info
+    let {type, f, elt, name, template, iter, attrValue, dir, oldValue} = info
 
-    if (elt == excludeElt) {
+    if (elt.get(0) == excludeElt) {
       return
     }
 
 
     let value = getValue(data, attrValue)
-    //console.log('attrValue:', attrValue, ' value:', value)
+
+    if (JSON.stringify(value) == JSON.stringify(oldValue)) {
+      return
+    }
+
+    info.oldValue = value
+
+    console.log(`[binding] update ${dir}="${attrValue}" value=`, value)
     
 
     if (type == 1 || type == 2) {
@@ -179,10 +186,10 @@ function process(root, data, updateCbk) {
       iter = '$i'
     }
 
-    ctx.push({elt, type: 3, template, iter, attrValue})   
 
     let value = getValue(data, attrValue)
 
+    ctx.push({elt, type: 3, template, iter, attrValue, dir: 'bn-each', oldValue: value})   
 
     elt.empty()
     value.forEach(function(item) {
@@ -211,7 +218,7 @@ function process(root, data, updateCbk) {
             elt.removeAttr('bn-update')
             elt.on(updateEvt, function() {
               //console.log('[binding] updateEvt', updateEvt, elt)
-              updateCbk(attrValue, elt.getValue(), elt)
+              updateCbk(attrValue, elt.getValue(), elt.get(0))
 
             })
           }
@@ -219,7 +226,7 @@ function process(root, data, updateCbk) {
 
         let value = getValue(data, attrValue)        
 
-        ctx.push({f, elt, type, attrValue})
+        ctx.push({f, elt, type, attrValue, dir, oldValue: value})
 
 
         elt[f].call(elt, value)

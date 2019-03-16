@@ -12,7 +12,7 @@ $$.control.registerControl('brainjs.milsymbol', {
 
 
 		this.update = function(data) {
-			console.log('[milsymbol] update', data)
+			//console.log('[milsymbol] update', data)
 			$.extend(this.props, data)
 
 			const symbol = new ms.Symbol(this.props.sidc, {
