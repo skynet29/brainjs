@@ -43,14 +43,21 @@ $.fn.iface = function() {
   return this.get(0).ctrl
 }
 
-$.fn.setProp = function(name, value) {
-  //console.log('setProp', name, value)
-  if (this.hasClass('ui-button') && name == 'disabled') {
-    this.button('option', 'disabled', value )
+$.fn.setProp = function(data) {
+
+  for(let propName in data) {
+
+    const value = data[propName]
+
+    if (this.hasClass('ui-button') && propName == 'disabled') {
+      this.button('option', 'disabled', value )
+    }
+    else {
+      this.prop(propName, value)
+    }
+
   }
-  else {
-    this.prop(name, value)
-  }
+
 }
 
 $.fn.setData = function(data) {

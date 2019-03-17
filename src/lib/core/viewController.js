@@ -53,6 +53,11 @@ class ViewController {
         $$.binding.update(this.ctx, this.model, excludeElt)
 
     }
+
+    forceUpdate(bindingName) {
+        const forceElt = this.scope[bindingName]
+        $$.binding.update(this.ctx, this.model, null, forceElt.get(0))
+    }
 }
 
 $$.viewController = function(elt, options) {

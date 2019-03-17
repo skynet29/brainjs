@@ -18,14 +18,14 @@ $$.control.registerControl('brainjs.table', {
 			data: {
 				filters: this.props.filters,
 
-				gridColumns: this.props.columns.map((col) => {
+				columns: this.props.columns.map((col) => {
 					if (typeof col == 'string') {
 						return {name: col, label: col}
 					}
 					return col
 				}),
 
-				gridData: this.props.data,
+				data: this.props.data,
 
 				getRowData: function(data, col) {
 					//console.log('getRowData', data, col)
@@ -65,7 +65,7 @@ $$.control.registerControl('brainjs.table', {
 				},				
 				
 				getFilteredData: function() {
-					return gridData.filter(function(item) {
+					return data.filter(function(item) {
 						return isInFilter(item)
 					})
 				}					
@@ -82,6 +82,7 @@ $$.control.registerControl('brainjs.table', {
 		})
 
 		this.update = function(data) {
+			//console.log('[Table] update', data)
 			ctrl.setData(data)
 		}
 

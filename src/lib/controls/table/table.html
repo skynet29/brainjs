@@ -1,11 +1,11 @@
 <table>
 	<thead>
-		<tr bn-each="gridColumns">
+		<tr bn-each="columns">
 			<th bn-text="$i.label"></th>
 		</tr>
 	</thead>
 	<tbody bn-each="getFilteredData()" bn-event="click.cmd: onCmdClick">
-		<tr bn-each="gridColumns" bn-data="{item: $i}" bn-iter="$col">
+		<tr bn-each="columns" bn-data="{item: $i}" bn-iter="$col">
 			<td bn-html="getRowData($i, $col)"></td>
 		</tr>
 	</tbody>
