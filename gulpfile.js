@@ -30,7 +30,7 @@ gulp.task('brainjs.css', function() {
 	return gulp.src([
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.css',
 		'./externals/jquery-contextMenu/jquery.contextMenu.css',	
-		'./externals/font-awesome-4.7.0/css/font-awesome.min.css',
+		'./externals/fontawesome-free-5.8.1-web/css/all.css',
 		'./externals/w3.css',
 		'./src/lib/core/core.css'
 		])
@@ -47,9 +47,9 @@ gulp.task('brainjs.images', function() {
 
 gulp.task('brainjs.fonts', function() {
 	return gulp.src([
-		'./externals/font-awesome-4.7.0/fonts/*'
+		'./externals/fontawesome-free-5.8.1-web/webfonts/*'
 		])
-		.pipe(gulp.dest(path.join(dest, 'fonts')))
+		.pipe(gulp.dest(path.join(dest, 'webfonts')))
 })
 
 gulp.task('demo.js', function() {
