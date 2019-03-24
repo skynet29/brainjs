@@ -115,7 +115,7 @@ $$.control.registerControl('brainjs.map', {
 				const shapeDesc = $$.module.getModule('brainjs.map.shape.' + shape.type)
 				if (shapeDesc && typeof shapeDesc.update == 'function') {
 
-					console.log('[brainjs.map] updateShape with id', id)
+					//console.log('[brainjs.map] updateShape with id', id)
 					shapeDesc.update(shape, options)
 					$.extend(shape.info, options)
 				}										

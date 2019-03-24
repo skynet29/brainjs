@@ -110,6 +110,7 @@ gulp.task('map.js', function() {
 		'./externals/leaflet-plugins/leaflet.rotatedMarker.js',
 		'./externals/leaflet-plugins/Leaflet.Coordinates.min.js',
 		'./externals/leaflet-plugins/leaflet.contextmenu.min.js',
+		'./externals/leaflet-plugins/Semicircle.js',
 		'./src/ext/map/markers/*.js',
 		'./src/ext/map/shapes/*.js',
 		'./src/ext/map/map.js',
