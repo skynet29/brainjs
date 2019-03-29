@@ -1,5 +1,36 @@
 $$.control.registerControl('brainjs.camera', {
+	props: {
+		format: 'hd'
+	},
+
 	init: function(elt) {
+
+		const formatSize = {
+			hd: {
+				width: 1280,
+				height: 720
+			},
+			vga: {
+				width: 640,
+				height: 360
+			},
+			qvga: {
+				width: 320,
+				height: 180
+			}
+		}		
+
+		const size = formatSize[this.props.format]
+
+		const constraints = {
+			video: {
+				mandatory: {
+					maxWidth: size.width,
+					maxHeight: size.height
+				}
+			}
+		}
+		console.log('[Camera] constraints', constraints)
 
 		const video = $('<video>')
 		.on('canplay', function(ev) {
@@ -14,7 +45,7 @@ $$.control.registerControl('brainjs.camera', {
 		
 		this.start = function() {
 
-			navigator.mediaDevices.getUserMedia({video: true}).then(function(stream) {
+			navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
 				_stream = stream
 
 				try {
