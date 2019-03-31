@@ -2,13 +2,14 @@
 $$.control.registerControl('brainjs.pager', {
 
 	props: {
-		rootPage: ''
+		rootPage: '',
+		$params: {}
 	},
 	template: {gulp_inject: './pager.html'},
 
 	init: function(elt) {
 
-		const {rootPage} = this.props
+		const {rootPage, $params} = this.props
 		const iface = this
 
 		const ctrl = $$.viewController(elt, {
@@ -36,7 +37,7 @@ $$.control.registerControl('brainjs.pager', {
 		const content = ctrl.scope.content
 		const stack = []
 
-		this.popPage = function() {
+		this.popPage = function(data) {
 			const page = stack.pop()
 			console.log('popPage', page.attr('id'))
 			const pageCtrl = page.iface()
@@ -44,6 +45,10 @@ $$.control.registerControl('brainjs.pager', {
 				pageCtrl.dispose()
 			}
 			page.remove()
+			const curPage = getLastCtrl().iface()
+			if (typeof curPage.onReturn == 'function') {
+				curPage.onReturn(data)
+			}
 			getLastCtrl().show()
 			ctrl.setData({showBack: stack.length > 1})
 		}
@@ -57,7 +62,7 @@ $$.control.registerControl('brainjs.pager', {
 
 			getLastCtrl().hide()
 
-			content.addControl(ctrlName, $.extend({$pager: this}, props))
+			content.addControl(ctrlName, $.extend({$pager: this, $params}, props))
 
 			stack.push(getLastCtrl())
 			ctrl.setData({showBack: stack.length > 1, title, buttons: buttons || []})
