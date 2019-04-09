@@ -45,7 +45,7 @@ $$.control.registerControl('brainjs.pager', {
 			}
 			page.remove()
 			const curPage = getLastCtrl().iface()
-			if (typeof curPage.onReturn == 'function') {
+			if (typeof curPage.onReturn == 'function' && data != undefined) {
 				curPage.onReturn(data)
 			}
 			getLastCtrl().show()

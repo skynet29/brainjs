@@ -4858,3 +4858,22 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .ui-front {
 	z-index: 1000;
 }
+
+.brainjs-htmleditor {
+	display: flex;
+	flex-direction: column;
+}
+
+.brainjs-htmleditor  .scrollPanel {
+	flex: 1;
+	overflow-y: auto;
+}
+
+.brainjs-htmleditor .editor {
+	height: 100%;
+	padding: 10px;
+}
+
+.brainjs-htmleditor .toolbar {
+	margin-left: 10px;
+}

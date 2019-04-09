@@ -49,12 +49,20 @@ $$.control.registerControl('brainjs.htmleditor', {
 
 		})
 
-		this.html = function() {
-			return ctrl.scope.editor.html()
+		this.html = function(htmlString) {
+			if (htmlString == undefined) {
+				return ctrl.scope.editor.html()
+			}
+
+			ctrl.scope.editor.html(htmlString)
+		}
+
+		this.load = function(url) {
+			return ctrl.scope.editor.load(url)
 		}
 
 
 	},
-	$iface: 'html(): string'
+	$iface: 'html(htmlString): string'
 
 });

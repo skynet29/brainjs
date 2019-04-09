@@ -32,7 +32,8 @@ gulp.task('brainjs.css', function() {
 		'./externals/jquery-contextMenu/jquery.contextMenu.css',	
 		'./externals/fontawesome-free-5.8.1-web/css/all.css',
 		'./externals/w3.css',
-		'./src/lib/core/core.css'
+		'./src/lib/core/core.css',
+		'./src/lib/controls/**/*.css'
 		])
 		.pipe(concat('brainjs.css'))
 		.pipe(gulp.dest(path.join(dest, 'css')))
@@ -250,8 +251,10 @@ gulp.task('all', [
 	'doc'
 ])
 
+		
 gulp.task('watch', ['all'], function() {
-	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], ['brainjs'])
+	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], ['brainjs.js'])
+	gulp.watch(['./src/lib/core/core.css', './src/lib/controls/**/*.css'], ['brainjs.css'])
 	gulp.watch(['./src/ext/tree.js'], ['tree.js'])
 	gulp.watch(['./src/ext/map/**/*.js'], ['map.js', 'map.editor.js'])
 	gulp.watch(['./src/ext/milsymbol.js'], ['milsymbol.js'])
