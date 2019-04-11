@@ -64,6 +64,7 @@ function getValue(data, varName) {
 
 const map = {
   // 'bn-each': {type: 3},
+  'bn-if': {type: 5},
   'bn-text': {f: 'text', type: 1},
   'bn-html': {f: 'html', type: 1},
   'bn-val': {f: 'setValue', type: 1},
@@ -208,6 +209,14 @@ function process(root, data, updateCbk) {
     
     //console.log('dir=', dir)
     root.bnFindAttr(dir, function(elt, attrValue) {
+
+      if (dir == 'bn-if') {
+        let value = getValue(data, attrValue)
+        if (value === false) {
+          elt.remove()
+          return
+        }
+      }
 
       let {type, f} = map[dir]
       
