@@ -61,8 +61,12 @@ $$.control.registerControl('brainjs.htmleditor', {
 			return ctrl.scope.editor.load(url)
 		}
 
+		this.insertImage = function(url) {
+			document.execCommand('insertImage', false, url)
+		}
+
 
 	},
-	$iface: 'html(htmlString): string'
+	$iface: 'html(htmlString): string;load(url);insertImage(url)'
 
 });
