@@ -14,9 +14,11 @@ const htmlCode = `
 <div id="main">
 	<h2>Fruits</h2>
 	<p>Your favorit fruit: <span bn-text="favoriteFruit"></span></p>
-	<select bn-control="brainjs.selectmenu" bn-val="favoriteFruit" 
-		bn-update="selectmenuchange" bn-each="f of fruits">
-		<option bn-text="f"></option>
+	<select bn-control="brainjs.selectmenu" 
+		bn-val="favoriteFruit" 
+		bn-update="selectmenuchange" 
+		bn-each="fruits">
+			<option bn-text="$i"></option>
 	</select>
 </div>
 `

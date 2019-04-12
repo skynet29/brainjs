@@ -53,7 +53,10 @@
 		init: function(elt) {
 
 			const options = $.extend({}, defaultOptions, this.props.options)
-			const {showAltitude, showSpeed} = this.props;
+			let showAltitude
+			let showSpeed
+			let rollRad
+			let pitchRad
 			//console.log('options', options)
 
 			var canvas = $('<canvas>').attr('width', 640).attr('height', 360).appendTo(elt)
@@ -62,14 +65,11 @@
 			var ctx = canvas.get(0).getContext('2d')
 			var pixelsPerDeg = ctx.canvas.height / (options.frontCameraFovY / 2)	 
 
-			var rollRad = toRad(this.props.roll)
-			var pitchRad = toRad(this.props.pitch)
-
 			//console.log(`width: ${ctx.canvas.width}, height: ${ctx.canvas.height}`)
 
 
-			options.speed = this.props.speed
-			options.altitude = this.props.altitude
+
+
 
 			function drawHorizon() {
 
@@ -339,30 +339,20 @@
 			}
 
 
+			this.update = function(data) {
+				//console.log('[flightpanel] update', data)
+				$.extend(this.props, data)
+				showAltitude = this.props.showAltitude				
+				showSpeed = this.props.showSpeed
+				rollRad = toRad(this.props.roll)
+				pitchRad = toRad(this.props.pitch)				
+				options.speed = this.props.speed
+				options.altitude = this.props.altitude
 
-			render()
-
-			this.setRoll = function(value) {
-				rollRad = toRad(value)
-				render()				
+				render()
 			}
 
-
-			this.setSpeed = function(value) {
-				options.speed = value
-				render()					
-			},
-			
-			this.setPitch = function(value) {
-				pitchRad = toRad(value)
-				render()				
-			},
-
-			this.setAltitude = function(value) {
-				options.altitude = value
-				render()				
-			}
-
+			this.update()
 			
 		},
 

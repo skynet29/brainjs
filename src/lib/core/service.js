@@ -33,7 +33,7 @@ function getServices(deps) {
 
 function configureService(name, config) {
 	console.log('[Core] configureService', name, config)
-	if (typeof name != 'string' || typeof config != 'object') {
+	if (typeof name != 'string') {
 		console.warn('[Core] configureService called with bad arguments')
 		return
 	} 	

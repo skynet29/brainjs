@@ -56,7 +56,7 @@ ctrl.scope.map.addShape('shape2', {
 const htmlCode = `
 <div id="main">
 	<div bn-control="brainjs.map" class="map" 
-		bn-data="center: center, layers: layers, contextMenu: contextMenu" 
+		bn-data="{center, layers, contextMenu}" 
 		bn-iface="map"
 		bn-event="mapclick: onMapClick, mapcontextmenu: onMapContextMenu"
 		data-scale="true"

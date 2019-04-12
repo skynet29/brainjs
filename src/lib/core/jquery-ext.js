@@ -15,13 +15,19 @@ $.fn.bnFindAttr= function(attrName, cbk) {
     return this
 }
 
-$.fn.setClass = function(className, isActive) {
+$.fn.setClass = function(data) {
+  for(let className in data) {
+
+    const isActive = data[className]
+
     if (isActive) {
       this.addClass(className)
     }
     else {
       this.removeClass(className)
-    }
+    }    
+  }
+
 }
 
 $.fn.setVisible = function(isVisible) {
@@ -37,27 +43,32 @@ $.fn.iface = function() {
   return this.get(0).ctrl
 }
 
-$.fn.setProp = function(name, value) {
-  //console.log('setProp', name, value)
-  if (this.hasClass('ui-button') && name == 'disabled') {
-    this.button('option', 'disabled', value )
+$.fn.setProp = function(data) {
+
+  for(let propName in data) {
+
+    const value = data[propName]
+
+    if (this.hasClass('ui-button') && propName == 'disabled') {
+      this.button('option', 'disabled', value )
+    }
+    else {
+      this.prop(propName, value)
+    }
+
   }
-  else {
-    this.prop(name, value)
-  }
+
 }
 
-$.fn.setData = function(name, value) {
-  //console.log('setData', name, value)
+$.fn.setData = function(data) {
+  //console.log('setData', data)
   const iface = this.iface()
 
-  const funcName = 'set' + name.charAt(0).toUpperCase() + name.substr(1)
-
-  if (iface && name in iface.props && typeof iface[funcName] == 'function') {
-    iface[funcName](value)
+  if (iface && typeof iface.update == 'function') {
+    iface.update.call(iface, data)
   }
   else {
-    this.data(name, value)
+    this.data(data)
   }
 }
 
@@ -145,7 +156,7 @@ $.fn.safeEmpty = function() {
 
 $.fn.addControl = function(ctrlName, data) {
   //console.log('$.addControl', ctrlName, data)
-  var newCtrl = $('<div>')
+  var newCtrl = $('<div>', {style: 'height: 100%;overflow: hidden;'})
   this.append(newCtrl) 
   if (data) {
     newCtrl.data(data)

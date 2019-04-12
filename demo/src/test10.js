@@ -12,7 +12,7 @@ const ctrl = $$.viewController('#main', {
 const htmlCode = `
 <div id="main">
 	<svg height="100" width="100">
-	  <circle cx="50" cy="50" bn-attr="r: radius" stroke="black" stroke-width="3" fill="red" />
+	  <circle cx="50" cy="50" bn-attr="{r: radius}" stroke="black" stroke-width="3" fill="red" />
 	</svg>
 	  
 	<input type="range" bn-val="radius" bn-update="input"></div>

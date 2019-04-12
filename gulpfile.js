@@ -30,9 +30,10 @@ gulp.task('brainjs.css', function() {
 	return gulp.src([
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.css',
 		'./externals/jquery-contextMenu/jquery.contextMenu.css',	
-		'./externals/font-awesome-4.7.0/css/font-awesome.min.css',
+		'./externals/fontawesome-free-5.8.1-web/css/all.css',
 		'./externals/w3.css',
-		'./src/lib/core/core.css'
+		'./src/lib/core/core.css',
+		'./src/lib/controls/**/*.css'
 		])
 		.pipe(concat('brainjs.css'))
 		.pipe(gulp.dest(path.join(dest, 'css')))
@@ -47,9 +48,9 @@ gulp.task('brainjs.images', function() {
 
 gulp.task('brainjs.fonts', function() {
 	return gulp.src([
-		'./externals/font-awesome-4.7.0/fonts/*'
+		'./externals/fontawesome-free-5.8.1-web/webfonts/*'
 		])
-		.pipe(gulp.dest(path.join(dest, 'fonts')))
+		.pipe(gulp.dest(path.join(dest, 'webfonts')))
 })
 
 gulp.task('demo.js', function() {
@@ -110,6 +111,7 @@ gulp.task('map.js', function() {
 		'./externals/leaflet-plugins/leaflet.rotatedMarker.js',
 		'./externals/leaflet-plugins/Leaflet.Coordinates.min.js',
 		'./externals/leaflet-plugins/leaflet.contextmenu.min.js',
+		'./externals/leaflet-plugins/Semicircle.js',
 		'./src/ext/map/markers/*.js',
 		'./src/ext/map/shapes/*.js',
 		'./src/ext/map/map.js',
@@ -249,8 +251,10 @@ gulp.task('all', [
 	'doc'
 ])
 
+		
 gulp.task('watch', ['all'], function() {
-	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], ['brainjs'])
+	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], ['brainjs.js'])
+	gulp.watch(['./src/lib/core/core.css', './src/lib/controls/**/*.css'], ['brainjs.css'])
 	gulp.watch(['./src/ext/tree.js'], ['tree.js'])
 	gulp.watch(['./src/ext/map/**/*.js'], ['map.js', 'map.editor.js'])
 	gulp.watch(['./src/ext/milsymbol.js'], ['milsymbol.js'])

@@ -23,9 +23,8 @@ const ctrl = $$.viewController('#main', {
 			})
 		},
 		onRemoveClient: function(ev) {
-			var data = $(this).closest('tr').data('item')
-				var idx = ctrl.model.clients.indexOf(data)
-				console.log('onRemoveClient', idx, data)
+			var idx = $(this).closest('tr').index()
+			console.log('onRemoveClient', idx)
 			ctrl.model.clients.splice(idx, 1)
 			ctrl.update('clients')
 		}
@@ -44,10 +43,10 @@ const htmlCode = `
 		    <th>Action</th>
 		  </tr>
 		</thead>
-		<tbody bn-each="c of clients" bn-event="click.delBtn: onRemoveClient">
-			<tr bn-data="item: c">
-				<td bn-text="c.name"></td>
-				<td bn-text="c.age"></td>
+		<tbody bn-each="clients" bn-event="click.delBtn: onRemoveClient">
+			<tr>
+				<td bn-text="$i.name"></td>
+				<td bn-text="$i.age"></td>
 				<td><button class="delBtn" title="Delete">Delete</button>
 			</tr>
 
@@ -87,15 +86,14 @@ $$.control.registerControl('test7', {
 					console.log('onAddClient')
 					dlgAddClient.show(function(data) {
 						ctrl.model.clients.push(data)
-						ctrl.update('clients')	
+						ctrl.update()	
 					})
 				},
 				onRemoveClient: function(ev) {
-					var data = $(this).closest('tr').data('item')
-      				var idx = ctrl.model.clients.indexOf(data)
-      				console.log('onRemoveClient', idx, data)
+      				var idx = $(this).closest('tr').index()
+      				console.log('onRemoveClient', idx)
 					ctrl.model.clients.splice(idx, 1)
-					ctrl.update('clients')
+					ctrl.update()
 				}
 			}
 

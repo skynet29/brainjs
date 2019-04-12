@@ -14,31 +14,11 @@ class ViewController {
     	options = $.extend({}, options)
         this.elt = elt
 
-
-
         this.model = $.extend({}, options.data)
-        this.rules = $.extend({}, options.rules)
-        this.watches = $.extend({}, options.watches)
 
-        // generate automatic rules for computed data (aka function)
-        for(var k in this.model) {
-        	var data = this.model[k]
-        	if (typeof data == 'function' && k.charAt(0) == "$") {
-        		var funcText = data.toString()
-        		//console.log('funcText', funcText)
-        		var rules = []
-        		funcText.replace(/this.([a-zA-Z0-9_-]{1,})/g, function(match, captureOne) {
-        			//console.log('captureOne', captureOne)
-        			rules.push(captureOne)
-        		})
-        		this.rules[k] = rules.toString()
-        	}
-        }
-
-        //console.log('rules', this.rules)
-        this.ctx = $$.binding.process(elt, this.model, 
+        this.ctx = $$.binding.process(elt, this.model,
             (name, value, excludeElt) => {
-                //console.log('[ViewController] updateCbk', name, value)
+                //console.log('[ViewController] updateCbk', name, value, excludeElt)
                 this.setData(name, value, excludeElt)                
             })
 
@@ -65,37 +45,18 @@ class ViewController {
         //console.log('[ViewController] setData', data)
         $.extend(this.model, data)
         //console.log('model', this.model)
-        this.update(Object.keys(data), excludeElt)
+        this.update(excludeElt)
     }
 
-    update(fieldsName, excludeElt) {
+    update(excludeElt) {
     	//console.log('[ViewController] update', fieldsName, excludeElt)
-    	if (typeof fieldsName == 'string') {
-    		fieldsName = fieldsName.split(',')
-    	}
+        $$.binding.update(this.ctx, this.model, excludeElt)
 
+    }
 
-    	if (Array.isArray(fieldsName)) {
-    		var fieldsSet = {}
-    		fieldsName.forEach((field) => {
-
-    			var watch = this.watches[field]
-    			if (typeof watch == 'function') {
-    				watch.call(null, this.model[field])
-    			}
-    			fieldsSet[field] = 1
-
-    			for(var rule in this.rules) {
-    				if (this.rules[rule].split(',').indexOf(field) != -1) {
-    					fieldsSet[rule] = 1
-    				}
-    			}
-    		})
-
-
-    		$$.binding.update(this.ctx, this.model, Object.keys(fieldsSet), excludeElt)
-    	}
-
+    forceUpdate(bindingName) {
+        const forceElt = this.scope[bindingName]
+        $$.binding.update(this.ctx, this.model, null, forceElt.get(0))
     }
 }
 

@@ -12,7 +12,7 @@ const ctrl = $$.viewController('#main', {
 const htmlCode = `
 <div id="main">
 	<input type="text" bn-val="message" bn-update="input">
-	<p>Message: <span bn-text="message"></span></p>	
+	<p>Message: <span bn-text="message.toUpperCase()"></span></p>	
 </div>
 `
 
@@ -27,6 +27,10 @@ $$.control.registerControl('test2', {
 				jsCode: jsCode.trim()
 			}
 		})
+
+		this.update = function(data) {
+			ctrl.setData(data)
+		}
 	}
 })
 

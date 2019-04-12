@@ -7,6 +7,7 @@ $$.service.registerService('brainjs.http', function() {
 
 
 		post(url, data) {
+			console.log('[HTTP] post', url, data)
 			return $.ajax({
 				method: 'POST',
 				url : url,

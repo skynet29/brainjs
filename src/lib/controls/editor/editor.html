@@ -1,6 +1,6 @@
 
 
-<div bn-event="click.cmd: onCommand">
+<div bn-event="click.cmd: onCommand" class="toolbar">
 	<div bn-control="brainjs.controlgroup">
 		<button class="cmd" data-cmd="bold"><i class="fa fa-bold"></i></button>
 		<button class="cmd" data-cmd="italic"><i class="fa fa-italic"></i></button>
@@ -11,9 +11,9 @@
 			title="Right click to select a color"
 			data-cmd="foreColor" 
 			bn-control="brainjs.contextmenu" 
-			bn-data="items: colorItems" 
+			bn-data="{items: colorItems}" 
 			bn-event="contextmenuchange: onColorMenuChange">
-			<i class="fa fa-pencil" bn-style="color: color"></i>
+			<i class="fa fa-pencil-alt" bn-style="{color}"></i>
 		</button>
 	</div>
 
@@ -41,6 +41,7 @@
 	</div>
 
 </div>	
-
-<div contenteditable="true" bn-bind="editor" class="editor"></div>
+<div class="scrollPanel">
+	<div contenteditable="true" bn-bind="editor" class="editor"></div>	
+</div>
 

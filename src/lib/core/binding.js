@@ -1,61 +1,70 @@
 (function(){
 
 
-function getVarValue(data, varName) {
-    var ret = data
-    for(let f of varName.split('.')) {
-      
-      if (typeof ret == 'object' && f in ret) {
-        ret = ret[f]
-      }
-      else {
-        return undefined
-      }
-      
+var engine = {
+    toSourceString: function(obj, recursion) {
+        var strout = "";
+        
+        recursion = recursion || 0;
+        for(var prop in obj) {
+            if (obj.hasOwnProperty(prop)) {
+                strout += recursion ? "    " + prop + ": " : "var " + prop + " = ";
+                switch (typeof obj[prop]) {
+                    case "string":
+                    case "number":
+                    case "boolean":
+                    case "undefined":
+                        strout += JSON.stringify(obj[prop]);
+                        break;
+                        
+                    case "function":
+                        // won't work in older browsers
+                        strout += obj[prop].toString();
+                        break;
+                        
+                    case "object":
+                        if (!obj[prop])
+                            strout += JSON.stringify(obj[prop]);
+                        else if (obj[prop] instanceof RegExp)
+                            strout += obj[prop].toString();
+                        else if (obj[prop] instanceof Date)
+                            strout += "new Date(" + JSON.stringify(obj[prop]) + ")";
+                        else if (obj[prop] instanceof Array)
+                            strout += "Array.prototype.slice.call({\n "
+                                + this.toSourceString(obj[prop], recursion + 1)
+                                + "    length: " + obj[prop].length
+                            + "\n })";
+                        else
+                            strout += "{\n "
+                                + this.toSourceString(obj[prop], recursion + 1).replace(/\,\s*$/, '')
+                            + "\n }";
+                        break;
+                }
+                
+                strout += recursion ? ",\n " : ";\n ";
+            }
+        }
+        return strout;
+    },
+    evaluate: function(strInput, obj) {
+        var str = this.toSourceString(obj);
+        return (new Function(str + 'return ' + strInput))();
     }
-    return ret
 }
+
+
 
 function getValue(data, varName) {
 
-    //console.log('[Core] getValue', varName, ctx)
+    return engine.evaluate(varName, data)
 
-    // var not = false
-    // if (varName.startsWith('!')) {
-    //   varName = varName.substr(1)
-    //   not = true
-    // }     
-
-    var func = data[varName]
-    var value
-
-    if (typeof func == 'function') {
-      value = func.call(data)
-    }
-    else {
-      value = getVarValue(data, varName)
-    }
-
-
-    // if (typeof value == 'boolean' && not) {
-    //   value = !value
-    // }
-
-    return value
-  }
-
-
-
-function splitAttr(attrValue, cbk) {
-  attrValue.split(',').forEach(function(i) {
-    let [name, value] = i.split(':')
-    cbk(name.trim(), value.trim())
-  })
 }
+
 
 
 const map = {
   // 'bn-each': {type: 3},
+  'bn-if': {type: 5},
   'bn-text': {f: 'text', type: 1},
   'bn-html': {f: 'html', type: 1},
   'bn-val': {f: 'setValue', type: 1},
@@ -69,55 +78,52 @@ const map = {
 }
 
 
-function update(ctx, data, vars, excludeElt) {
+function update(ctx, data, excludeElt, forceElt) {
 
-  //console.log('[binding] update', vars, data, excludeElt)
+  //console.log('[binding] update', data, excludeElt)
   //console.log('ctx', ctx)
 
-  if (typeof vars == 'string') {
-    vars = vars.split(',')
-  }
+  ctx.forEach(function(info) {
 
-  vars.forEach(function(variable) {
-    let value = getValue(data, variable)
-    
-    if (typeof value == 'object' && !Array.isArray(value) && !value instanceof Date) {
-      update(ctx, data, Object.keys(value).map(i => variable + '.' + i), excludeElt)
+    let {type, f, elt, name, template, iter, attrValue, dir, oldValue} = info
+
+    if (elt.get(0) == excludeElt) {
       return
     }
+
+
+    let value = getValue(data, attrValue)
+
+    if (elt.get(0) != forceElt && JSON.stringify(value) == JSON.stringify(oldValue)) {
+      return
+    }
+
+    info.oldValue = value
+
+    console.log(`[binding] update ${dir}="${attrValue}" value=`, value)
     
-    if (ctx[variable]) {
-      ctx[variable].forEach(function(action) {
-        let {type, f, elt, name, template, iter, not} = action
-        if (elt == excludeElt) {
-          return
-        }
 
-        let newValue = value
-
-        if (not === true) {
-          newValue = !newValue
-        }
-        if (type == 1) {
-          //console.log('update', variable, f, newValue)
-           elt[f].call(elt, newValue)
-        }
-        if (type == 2) {
-          //console.log('update', variable, f, name, newValue)
-           elt[f].call(elt, name, newValue)
-        }   
-        if (type == 3 && Array.isArray(newValue)) {
-            elt.empty()
-            newValue.forEach(function(item) {
-              var itemData = $.extend({}, data)
-              itemData[iter] = item
-              var $item = template.clone()
-              process($item, itemData)
-              elt.append($item)           
-            })
-         }
+    if (type == 1 || type == 2) {
+      //console.log('update', variable, f, newValue)
+       elt[f].call(elt, value)
+    }
+    if (type == 3 && Array.isArray(value)) {
+      elt.safeEmpty()
+      value.forEach(function(item) {
+        var itemData = $.extend({}, data)
+        itemData[iter] = item
+        var $item = template.clone()
+        process($item, itemData)
+        elt.append($item)           
       })
     }
+  })
+}
+
+function splitAttr(attrValue, cbk) {
+  attrValue.split(',').forEach(function(i) {
+    let [name, value] = i.split(':')
+    cbk(name.trim(), value.trim())
   })
 }
 
@@ -144,13 +150,11 @@ function processEvents(root, events) {
      
 }
 
-let i = 0
-
 function process(root, data, updateCbk) {
 
-  //console.log('### process ####', i++, data, root.get(0).outerHTML)
+  //console.log('### process ####', root.get(0).outerHTML, data)
 
-  let ctx = {}
+  const ctx = []
 
   // first process bn-each directive
 
@@ -172,24 +176,31 @@ function process(root, data, updateCbk) {
   // process bn-each directive which are not contained in another one
 
   bnEach.forEach(function(elt) {
-      const attrValue = elt.attr('bn-each')
-      elt.removeAttr('bn-each')
-      let template = elt.children().remove().clone()
-      let [iter, , varName] = attrValue.split(' ')
-      let value = getValue(data, varName)
+    const attrValue = elt.attr('bn-each')
+    elt.removeAttr('bn-each')
+    let template = elt.children().remove().clone()
+    let iter = elt.attr('bn-iter')
+    if (iter != undefined) {
+      elt.removeAttr('bn-iter')
+    }
+    else {
+      iter = '$i'
+    }
+
+
+    let value = getValue(data, attrValue)
+
+    ctx.push({elt, type: 3, template, iter, attrValue, dir: 'bn-each', oldValue: value})   
+
+    elt.empty()
+    value.forEach(function(item) {
+      var itemData = $.extend({}, data)
+      itemData[iter] = item
+      var $item = template.clone()
+      process($item, itemData)
+      elt.append($item)           
+    })           
       
-      ctx[varName] = ctx[varName] || []
-      ctx[varName].push({elt, type: 3, template, iter})        
-      
-      if (data && Array.isArray(value)) {
-        value.forEach(function(item) {
-        var itemData = $.extend({}, data)
-         itemData[iter] = item
-         var $item = template.clone()
-         process($item, itemData)
-         elt.append($item)          
-        })
-      }
   })
 
   // process other directive
@@ -199,72 +210,47 @@ function process(root, data, updateCbk) {
     //console.log('dir=', dir)
     root.bnFindAttr(dir, function(elt, attrValue) {
 
+      if (dir == 'bn-if') {
+        let value = getValue(data, attrValue)
+        if (value === false) {
+          elt.remove()
+          return
+        }
+      }
+
       let {type, f} = map[dir]
       
-      if (type == 1) {
-        let not = false
-        if (attrValue.startsWith('!')) {
-          attrValue = attrValue.substr(1)
-          not = true
-        } 
-
-        if (data) {
-          let value = getValue(data, attrValue)
-          if (not && typeof value == 'boolean') {
-            value = !value
-          }
-          //elt.text(data[attrValue])
-          elt[f].call(elt, value)
-        } 
+      if (type == 1 || type == 2) {
         if (dir == 'bn-val') {
           let updateEvt = elt.attr('bn-update')
           if (updateEvt) {
             elt.removeAttr('bn-update')
             elt.on(updateEvt, function() {
               //console.log('[binding] updateEvt', updateEvt, elt)
-              updateCbk(attrValue, elt.getValue(), elt)
+              updateCbk(attrValue, elt.getValue(), elt.get(0))
 
             })
           }
         }
-    
 
-        ctx[attrValue] = ctx[attrValue] || []
-        ctx[attrValue].push({f, elt, type, not})        
+        let value = getValue(data, attrValue)        
+
+        ctx.push({f, elt, type, attrValue, dir, oldValue: value})
+
+
+        elt[f].call(elt, value)
       }
 
       if (type == 4) {
         $$.control.createControl(attrValue, elt)
       }
-
-      if (type == 2) {
-
-          splitAttr(attrValue, function(name, varName) {
-            let not = false
-            if (varName.startsWith('!')) {
-              varName = varName.substr(1)
-              not = true
-            }             
-            if (data) {
-              let value = getValue(data, varName)
-              if (not && typeof value == 'boolean') {
-                value = !value
-              }              
-              elt[f].call(elt, name, value)
-            }
-            ctx[varName] = ctx[varName] || []
-            ctx[varName].push({f, elt, type, name, not})  
-          })
-       }
-       
-       
-
+            
     })
      
   
   }
   
-  //console.log('#### end process ####', --i)
+  //console.log('#### end process ####', ctx)
   return ctx
 }
 

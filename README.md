@@ -12,6 +12,7 @@ Like angularjs (i.e angular 1), brainjs use proprietary HTML attributs starting 
 - bn-html
 - bn-attr
 - bn-style
+- bn-class
 - bn-val
 - bn-event
 - bn-show
@@ -41,7 +42,7 @@ To update your data model, you can either modify your attributs and call the upd
 HTML code
 ````html
 <div id="main">
-  <p bn-style="color: color">Welcome  <span bn-text="name"/></p><br/>
+  <p bn-style="{color: color}">Welcome  <span bn-text="name"/></p><br/>
   <button bn-event="click: onClick">Update</button>
 </div>
 ````
@@ -59,7 +60,7 @@ var ctrl = $$.viewController('#main', {
       /* another solution, useful when modifying array attributs
         ctrl.model.name = 'Quentin'
         ctrl.model.color = 'green'
-        ctrl.update('name, color')
+        ctrl.update()
       */
     }
   }
@@ -88,7 +89,7 @@ To use a control in your HTML, add a **bn-control** parameter to an HTML tag dep
 ``
 A way to parameter your control is to use custom HTML parameters
 
-Example 2 with static custom parameter
+Example with static custom parameter
 
 HTML code
 ````html
@@ -100,12 +101,12 @@ Note: custom parameter must use the **data-** prefix.
 
 If you want tu use a binding to your view control, use the **bn-data** directive:
 
-Example 3 with dynamic custom parameter
+Example with dynamic custom parameter
 
 HTML code
 ````html
 <div id="main">
-  <div bn-control="MyControl" bn-data="title: myTitle"></div>  
+  <div bn-control="MyControl" bn-data="{title: myTitle}"></div>  
 </div>  
 ````
 
@@ -122,7 +123,7 @@ var ctrl = $$.viewController('#main', {
 
 To create a new control, use the framework **registerControl** function:
 
-Javascript code (file mycontrol.js)
+Javascript code
 
 ````javascript
 $$.control.registerControl('MyControl', {
@@ -146,7 +147,7 @@ As you can see, you do not have to use viewController. Here we use ES6 template 
 
 Here you are creating a control which use the HTTP service to retrieve data from the server.
 
-Javascript code (file mycontrol2.js)
+Javascript code
 ````javascript
 $$.control.registerControl('MyControl', {
   deps: ['HttpService'],
@@ -169,7 +170,7 @@ $$.control.registerControl('MyControl', {
 
 The **deps** field is an string array of service name. Services are automatically injected by the framework in the control constructor (init function).
 
-HTML file (mycontrol2.html)
+HTML file
  
 ````html
 <div>
@@ -182,7 +183,7 @@ HTML file (mycontrol2.html)
 
 ## control with an external interface
 
-Javascript code (mycontrol3.js file)
+Javascript code
 ````javascript
 $$.control.registerControl('MyControl3', {
   init: function(elt) {
@@ -221,7 +222,7 @@ $(function() {
 
 ## control with custom parameters
 
-Javascript code (mycontrol4.js file)
+Javascript code
 ````javascript
 $$.control.registerControl('MyControl4', {
 
@@ -239,12 +240,8 @@ $$.control.registerControl('MyControl4', {
 			
 		})
 	
-		this.setRoll = function(roll) {
-			ctrl.setData({roll})
-		}
-		
-		this.setPitch = function(pitch) {
-			ctrl.setData({pitch})
+		this.update = function(data) {
+			ctrl.setData(data)
 		}		
 	}
 		     

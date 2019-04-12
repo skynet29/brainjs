@@ -37,9 +37,9 @@ const ctrl = $$.viewController('#main', {
 const htmlCode = `
 <div id="main">
 	<h2>Custom control</h2>
-	<div bn-control="MyTable" bn-data="clients: myClients"></div>
+	<div bn-control="MyTable" bn-data="{clients: myClients}"></div>
 	<hr>
-	<div bn-control="MyTable" bn-data="clients: myClients2"></div>
+	<div bn-control="MyTable" bn-data="{clients: myClients2}"></div>
 </div>
 
 <div id="template" hidden="">
@@ -51,10 +51,10 @@ const htmlCode = `
 			</tr>
 		</thead>
 
-		<tbody bn-each="c of clients">
+		<tbody bn-each="clients">
 			<tr>
-				<td bn-text="c.name"></td>
-				<td bn-text="c.city"></td>
+				<td bn-text="$i.name"></td>
+				<td bn-text="$i.city"></td>
 			</tr>
 		</tbody>
 	</table>	

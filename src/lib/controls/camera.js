@@ -1,7 +1,14 @@
 $$.control.registerControl('brainjs.camera', {
+	props: {
+		constraints: true
+	},
+
 	init: function(elt) {
 
-		const video = $('<video>')
+		let {constraints} = this.props
+		const iface = this
+
+		const video = $('<video>', {autoplay: true})
 		.on('canplay', function(ev) {
 			console.log('onCanPlay')
 			
@@ -14,7 +21,9 @@ $$.control.registerControl('brainjs.camera', {
 		
 		this.start = function() {
 
-			navigator.mediaDevices.getUserMedia({video: true}).then(function(stream) {
+			//console.log('[camera] start', constraints)
+
+			navigator.mediaDevices.getUserMedia({video: constraints}).then(function(stream) {
 				_stream = stream
 
 				try {
@@ -23,7 +32,7 @@ $$.control.registerControl('brainjs.camera', {
 				catch (error) {
 					video.src = URL.createObjectURL(stream)
 				}
-				video.play()
+				video.load()
 
 			})
 		}		
@@ -53,6 +62,16 @@ $$.control.registerControl('brainjs.camera', {
 		this.dispose = function() {
 			stop()
 		}	
+
+		this.update = function(data) {
+			console.log('[camera] update', data)
+			if (data.constraints != undefined) {
+				iface.stop()
+				constraints = data.constraints
+				iface.start()				
+			}
+
+		}
 	},
 	$iface: 'start();stop();takePicture():DataURL;dispose()' 
 

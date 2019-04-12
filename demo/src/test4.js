@@ -11,7 +11,7 @@ const ctrl = $$.viewController('#main', {
 			console.log('onAddClient')
 			ev.preventDefault()
 			ctrl.model.clients.push($(this).getFormData().name)
-			ctrl.update('clients')
+			ctrl.update()
 			$(this).resetForm()
 
 		}
@@ -22,8 +22,8 @@ const ctrl = $$.viewController('#main', {
 const htmlCode = `
 <div id="main">
 	<h2>Clients</h2>
-	<ul bn-each="c of clients">
-		<li bn-text="c"></li>
+	<ul bn-each="clients">
+		<li bn-text="$i"></li>
 	</ul>
 
 	<h2>Add client</h2>
@@ -49,7 +49,7 @@ $$.control.registerControl('test4', {
 					console.log('onAddClient')
 					ev.preventDefault()
 					ctrl.model.clients.push($(this).getFormData().name)
-					ctrl.update('clients')
+					ctrl.update()
 					$(this).resetForm()
 
 				}

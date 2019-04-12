@@ -33,7 +33,7 @@ const ctrl = $$.viewController('#main', {
 const htmlCode = `
 <div id="main">
 	<div bn-control="brainjs.map" class="map" 
-		bn-data="center: center, plugins: plugins, layers: layers"
+		bn-data="{center, plugins, layers}"
 		bn-event="mapshapecreated: onShapeCreated, mapshapeedited: onShapeEdited,
 		 mapshapedeleted: onShapeDeleted" 
 		bn-iface="map"></div>

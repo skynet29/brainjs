@@ -26,6 +26,10 @@ $$.control.registerControl('test1', {
 				jsCode
 			}
 		})
+
+		this.update = function(data) {
+			ctrl.setData(data)
+		}
 	}
 })
 

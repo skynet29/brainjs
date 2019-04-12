@@ -1,32 +1,8 @@
 (function() {
 
-function isInFilter(filters, data) {
-	var ret = true
-	for(var f in filters) {
-		var value = data[f]
-		var filterValue = filters[f]
-		ret &= (filterValue == '' || value.startsWith(filterValue))
-	}
-	return ret
-}
 
-function getButtonsTemplate(buttons) {
-	return buttons.map((button) => {
-		if (button.icon != undefined && button.title != undefined) {
-			return `<button 
-				data-cmd="${button.cmd}" 
-				class="cmd" 
-				title="${button.title}"><i class="${button.icon}"></i></button>`
-		}
-		if (button.icon != undefined) {
-			return `<button 
-				data-cmd="${button.cmd}" 
-				class="cmd" 
-				"><i class="${button.icon}"></i></button>`
-		}
-		return `<button data-cmd="${button.cmd}" class="cmd">${button.title}</button>`
-	}).join('')
-}
+
+
 
 $$.control.registerControl('brainjs.table', {
 	template: {gulp_inject: './table.html'},
@@ -42,26 +18,55 @@ $$.control.registerControl('brainjs.table', {
 			data: {
 				filters: this.props.filters,
 
-				gridColumns: this.props.columns.map((col) => {
+				columns: this.props.columns.map((col) => {
 					if (typeof col == 'string') {
 						return {name: col, label: col}
 					}
 					return col
 				}),
 
-				gridData: this.props.data,
+				data: this.props.data,
 
-				getRowData: function() {
-					if (this.c.buttons != undefined) {
-						return getButtonsTemplate(this.c.buttons)
+				getRowData: function(data, col) {
+					//console.log('getRowData', data, col)
+					if (col.buttons != undefined) {
+						return getButtonsTemplate(col.buttons)
 					}
-					return this.data[this.c.name]
+					return data[col.name]
 				},
+
+				getButtonsTemplate: function(buttons) {
+					return buttons.map((button) => {
+						if (button.icon != undefined && button.title != undefined) {
+							return `<button 
+								data-cmd="${button.cmd}" 
+								class="cmd" 
+								title="${button.title}"><i class="${button.icon}"></i></button>`
+						}
+						if (button.icon != undefined) {
+							return `<button 
+								data-cmd="${button.cmd}" 
+								class="cmd" 
+								"><i class="${button.icon}"></i></button>`
+						}
+						return `<button data-cmd="${button.cmd}" class="cmd">${button.title}</button>`
+					}).join('')
+				},
+
+
+				isInFilter: function(data) {
+					var ret = true
+					for(var f in filters) {
+						var value = data[f]
+						var filterValue = filters[f]
+						ret &= (filterValue == '' || value.startsWith(filterValue))
+					}
+					return ret
+				},				
 				
-				$getFilteredData: function() {
-					const filters = this.filters
-					return this.gridData.filter(function(item) {
-						return isInFilter(filters, item)
+				getFilteredData: function() {
+					return data.filter(function(item) {
+						return isInFilter(item)
 					})
 				}					
 			},
@@ -76,13 +81,11 @@ $$.control.registerControl('brainjs.table', {
 
 		})
 
-		this.setFilters = function(filters) {
-			ctrl.setData({filters})
+		this.update = function(data) {
+			//console.log('[Table] update', data)
+			ctrl.setData(data)
 		}
 
-		this.setData = function(gridData) {
-			ctrl.setData({gridData})
-		}		
 
 	},
 
