@@ -9,7 +9,7 @@ const ctrl = $$.viewController('#main', {
 			{name: 'location', label: 'Location'},
 			{label: 'Action', buttons: [
 					{cmd: 'delete', title: 'Delete', icon: 'fa fa-trash'},
-					{cmd: 'edit', title: 'Edit', icon: 'fa fa-pencil'}
+					{cmd: 'edit', title: 'Edit', icon: 'fa fa-pencil-alt'}
 				]
 			}
 		],		
@@ -68,7 +68,7 @@ $$.control.registerControl('test21', {
 					{name: 'location', label: 'Location'},
 					{label: 'Action', buttons: [
 							{cmd: 'delete', title: 'Delete', icon: 'fa fa-trash'},
-							{cmd: 'edit', title: 'Edit', icon: 'fa fa-pencil'}
+							{cmd: 'edit', title: 'Edit', icon: 'fa fa-pencil-alt'}
 						]
 					}],
 				gridData: [

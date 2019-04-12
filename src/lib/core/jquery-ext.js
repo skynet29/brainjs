@@ -64,8 +64,8 @@ $.fn.setData = function(data) {
   //console.log('setData', data)
   const iface = this.iface()
 
-  if (iface && typeof iface.update == 'function') {
-    iface.update.call(iface, data)
+  if (iface && typeof iface.setData == 'function') {
+    iface.setData.call(iface, data)
   }
   else {
     this.data(data)

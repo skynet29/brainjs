@@ -11,8 +11,8 @@ $$.control.registerControl('brainjs.milsymbol', {
 		var img = $('<img>').appendTo(elt)
 
 
-		this.update = function(data) {
-			//console.log('[milsymbol] update', data)
+		this.setData = function(data) {
+			//console.log('[milsymbol] setData', data)
 			$.extend(this.props, data)
 
 			const symbol = new ms.Symbol(this.props.sidc, {
@@ -23,10 +23,10 @@ $$.control.registerControl('brainjs.milsymbol', {
 			img.attr('src', symbol.toDataURL())
 		}
 
-		this.update()
+		this.setData()
 
 	},
-	$iface: 'setSize(size);setName(name);setSidc(sidc)'
+	$iface: 'setData(data)'
 });
 
 $$.module.registerModule('brainjs.map.icon.milsymbol', function() {

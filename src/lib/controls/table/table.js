@@ -81,15 +81,22 @@ $$.control.registerControl('brainjs.table', {
 
 		})
 
-		this.update = function(data) {
-			//console.log('[Table] update', data)
-			ctrl.setData(data)
+		this.setData = function(data) {
+			console.log('[Table] setData', data)
+			const updatedData = {}
+			if ('data' in data) {
+				updatedData.data = data.data
+			}
+			if ('filters' in data) {
+				updatedData.filters = data.filters
+			}
+			ctrl.setData(updatedData)
 		}
 
 
 	},
 
-	$iface: `setFilters(filters);setData(data)`,
+	$iface: `setData(data)`,
 	$events: `tablecmd`
 })
 

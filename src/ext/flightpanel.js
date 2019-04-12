@@ -339,8 +339,8 @@
 			}
 
 
-			this.update = function(data) {
-				//console.log('[flightpanel] update', data)
+			this.setData = function(data) {
+				console.log('[flightpanel] setData', data)
 				$.extend(this.props, data)
 				showAltitude = this.props.showAltitude				
 				showSpeed = this.props.showSpeed
@@ -352,11 +352,11 @@
 				render()
 			}
 
-			this.update()
+			this.setData()
 			
 		},
 
-		$iface: 'setRoll(roll);setPitch(pitch);setSpeed(speed);setAltitude(altitude)'
+		$iface: 'setData(data)'
 	})
 
 

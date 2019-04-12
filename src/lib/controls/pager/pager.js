@@ -6,6 +6,8 @@ $$.control.registerControl('brainjs.pager', {
 	},
 	template: {gulp_inject: './pager.html'},
 
+	$iface: `popPage(data);pushPage(ctrlName, options)`,
+
 	init: function(elt) {
 
 		const {rootPage} = this.props
