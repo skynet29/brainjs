@@ -30,7 +30,7 @@ function registerControl(name, options) {
 function resolveControl(name) {
 	var ret = controls[name]
 	if (ret && ret.status == 'notloaded') {
-		ret.deps = $$.service.getServices(ret.deps)
+		ret.deps = $$.service.resolveServices(ret.deps)
 		ret.status = isDepsOk(ret.deps) ? 'ok' : 'ko'
 	}
 	return ret

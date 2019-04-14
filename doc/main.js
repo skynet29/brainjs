@@ -5,7 +5,8 @@ $(function() {
 		{href: '/', redirect: '/controls'},
 		{href: '/controls', control: '$controls'},
 		{href: '/services', control: '$services'},
-		{href: '/controls/:name', control: '$control.details'}
+		{href: '/controls/:name', control: '$control.details'},
+		{href: '/services/:name', control: '$service.details'}
 
 	]
 

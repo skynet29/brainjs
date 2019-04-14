@@ -6,17 +6,17 @@ let services = {}
 
 
 
-function getServices(deps) {
+function resolveServices(deps) {
 	//console.log('[Core] getServices', deps)
 	return deps.map(function(depName) {
 		var srv = services[depName]
 		if (srv) {
 			if (srv.status == 'notloaded') {
-				var deps2 = getServices(srv.deps)
+				var deps2 = resolveServices(srv.deps)
 				var config = srv.config || {}
-				console.log(`[Core] instance service '${depName}' with config`, config)
+				console.log(`[service] instance service '${depName}' with config`, config)
 				var args = [config].concat(deps2)
-				srv.obj = srv.fn.apply(null, args)
+				srv.obj = srv.options.init.apply(null, args)
 				srv.status = 'ready'
 			}
 			return srv.obj				
@@ -48,25 +48,38 @@ function configureService(name, config) {
 
 }
 
-function registerService(name, arg1, arg2) {
-	var deps = []
-	var fn = arg1
-	if (Array.isArray(arg1)) {
-		deps = arg1
-		fn = arg2
+function registerService(name, options) {
+	if (!$$.util.checkType(options, {
+		$deps: ['string'],
+		init: 'function'
+	})) {
+		console.error(`[service] registerService '${name}': bad options`, options)
+		return
 	}
-	if (typeof name != 'string' || typeof fn == 'undefined' || !Array.isArray(deps)) {
-		throw('[Core] registerService called with bad arguments')
-	} 
+
+
+	var deps = options.deps || []
+
 	console.log(`[service] register service '${name}' with deps`, deps)
 
-	services[name] = {deps, fn, status: 'notloaded'}
+	services[name] = {deps, options, status: 'notloaded'}
 }
+
+function getServices() {
+	return Object.keys(services)
+}
+
+function getServiceInfo(srvName) {
+	return services[srvName]
+}
+
 
 $$.service = {
 	registerService,
 	configureService,
-	getServices
+	resolveServices,
+	getServices,
+	getServiceInfo
 }
 
 })();
