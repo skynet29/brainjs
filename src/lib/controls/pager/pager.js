@@ -41,7 +41,7 @@ $$.control.registerControl('brainjs.pager', {
 		this.popPage = function(data) {
 			const page = stack.pop()
 			const pageCtrl = page.iface()
-			console.log('popPage', pageCtrl)
+			//console.log('popPage', pageCtrl)
 			if (typeof pageCtrl.dispose == 'function') {
 				pageCtrl.dispose()
 			}

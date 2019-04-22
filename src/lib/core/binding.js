@@ -1,62 +1,9 @@
 (function(){
 
 
-var engine = {
-    toSourceString: function(obj, recursion) {
-        var strout = "";
-        
-        recursion = recursion || 0;
-        for(var prop in obj) {
-            if (obj.hasOwnProperty(prop)) {
-                strout += recursion ? "    " + prop + ": " : "var " + prop + " = ";
-                switch (typeof obj[prop]) {
-                    case "string":
-                    case "number":
-                    case "boolean":
-                    case "undefined":
-                        strout += JSON.stringify(obj[prop]);
-                        break;
-                        
-                    case "function":
-                        // won't work in older browsers
-                        strout += obj[prop].toString();
-                        break;
-                        
-                    case "object":
-                        if (!obj[prop])
-                            strout += JSON.stringify(obj[prop]);
-                        else if (obj[prop] instanceof RegExp)
-                            strout += obj[prop].toString();
-                        else if (obj[prop] instanceof Date)
-                            strout += "new Date(" + JSON.stringify(obj[prop]) + ")";
-                        else if (obj[prop] instanceof Array)
-                            strout += "Array.prototype.slice.call({\n "
-                                + this.toSourceString(obj[prop], recursion + 1)
-                                + "    length: " + obj[prop].length
-                            + "\n })";
-                        else
-                            strout += "{\n "
-                                + this.toSourceString(obj[prop], recursion + 1).replace(/\,\s*$/, '')
-                            + "\n }";
-                        break;
-                }
-                
-                strout += recursion ? ",\n " : ";\n ";
-            }
-        }
-        return strout;
-    },
-    evaluate: function(strInput, obj) {
-        var str = this.toSourceString(obj);
-        return (new Function(str + 'return ' + strInput))();
-    }
-}
-
-
-
 function getValue(data, varName) {
 
-    return engine.evaluate(varName, data)
+    return $$.util.safeEval(varName, data)
 
 }
 
