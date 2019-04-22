@@ -4859,6 +4859,28 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 	z-index: 1000;
 }
 
+.data-title:before {
+    content: attr(data-menutitle);
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: #DDD;
+//    background: #2196F3;
+//    color: #FFF;
+    padding-left: 5px;
+
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.data-title li:first-child {
+    margin-top: 30px;
+}
+
+.context-menu-item {font-size: 20px !important}
 .brainjs-htmleditor {
 	display: flex;
 	flex-direction: column;
@@ -4877,24 +4899,3 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .brainjs-htmleditor .toolbar {
 	margin-left: 10px;
 }
-.data-title:before {
-    content: attr(data-menutitle);
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    background: #DDD;
-//    background: #2196F3;
-//    color: #FFF;
-    padding-left: 5px;
-
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.data-title li:first-child {
-    margin-top: 20px;
-}
-

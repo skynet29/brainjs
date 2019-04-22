@@ -21,7 +21,7 @@ $$.control.registerControl('brainjs.pager', {
 			},
 			events: {
 				onBack: function(ev) {
-					console.log('onBack')
+					//console.log('onBack')
 					iface.popPage()
 				},
 				onAction: function(ev) {
@@ -40,12 +40,12 @@ $$.control.registerControl('brainjs.pager', {
 
 		this.popPage = function(data) {
 			const page = stack.pop()
-			console.log('popPage', page.attr('id'))
 			const pageCtrl = page.iface()
+			console.log('popPage', pageCtrl)
 			if (typeof pageCtrl.dispose == 'function') {
 				pageCtrl.dispose()
 			}
-			page.remove()
+			page.safeEmpty().remove()
 			const curPage = getLastCtrl().iface()
 			if (typeof curPage.onReturn == 'function' && data != undefined) {
 				curPage.onReturn(data)
@@ -55,7 +55,7 @@ $$.control.registerControl('brainjs.pager', {
 		}
 
 		this.pushPage = function(ctrlName, options) {
-			console.log('[pager] pushPage', ctrlName, options)
+			//console.log('[pager] pushPage', ctrlName, options)
 
 			options = options || {}
 

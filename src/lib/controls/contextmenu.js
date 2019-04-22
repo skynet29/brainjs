@@ -2,12 +2,11 @@ $$.control.registerControl('brainjs.contextmenu', {
 	props: {
 		items: {},
 		trigger: 'right',
-		className: 'data-title',
 		title: ''
 	},
 	init: function(elt) {
 
-		const {items, trigger, className, title} = this.props
+		const {items, trigger, title} = this.props
 
 		const id = elt.attr('id')
 		$.contextMenu({

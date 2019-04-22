@@ -51,7 +51,7 @@ function showPrompt(options, callback) {
 
 	options.template = `
 	<p>${label}</p>
-	<input type="text" required="" name="value">
+	<input type="text" required="" name="value" autocomplete="off">
 	`
 
 	options.close = function() {
