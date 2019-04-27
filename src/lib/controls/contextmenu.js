@@ -14,6 +14,7 @@ $$.control.registerControl('brainjs.contextmenu', {
 			trigger,
 			className: 'data-title ' + id,
 			selector: '#' + id,
+			zIndex: 1000,
 			callback: function(cmd) {
 				elt.trigger('contextmenuchange', {cmd})
 			},
