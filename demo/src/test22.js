@@ -44,8 +44,8 @@ $$.control.registerControl('test22', {
 			data: {
 
 		        items: [
-		            {"text": "\uf015", "action": "toto", color: 'red'},
-		            {"text": "\uf099", "color": "blue"}
+		            {text: '\uf015', className: 'fa', action: 'toto', color: 'red'},
+		            {text: '\uf099', className: 'fab', color: 'blue'}
 		            ],
 		        triggerPos: {
 		            "left": 100,

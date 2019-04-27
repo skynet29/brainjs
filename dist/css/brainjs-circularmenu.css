@@ -6,7 +6,7 @@
 
 .brainjs-circularmenu .item text {
 	font-size: 20px;
-	font-family: FontAwesome;
+	//font-family: 'Font Awesome 5 Free';
 }
 
 .brainjs-circularmenu .item rect {
@@ -14,6 +14,6 @@
 }
 
 .brainjs-circularmenu .trigger .label {
-	font-size: 15px;
-	font-family: FontAwesome
+	//font-size: 15px;
+	//font-family: 'Font Awesome 5 Free';
 }

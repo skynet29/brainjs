@@ -1,16 +1,10 @@
 var gulp = require('gulp')
-var path = require('path')
 
-var concat = require('gulp-concat')
-var sourcemaps = require('gulp-sourcemaps')
-var injectHTML = require('gulp-inject-stringified-html')
+const task = require('./task')('./dist')
 
 
-var dest = './dist'
-
-
-gulp.task('brainjs.js', function() {
-	return gulp.src([
+task('brainjs.js', 
+	[
 		'./externals/jquery.min.js',
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.js',
 		'./externals/jquery-contextMenu/jquery.contextMenu.min.js',		
@@ -18,95 +12,83 @@ gulp.task('brainjs.js', function() {
 		'./src/lib/core/*.js',
 		'./src/lib/controls/**/*.js',
 		'./src/lib/services/*.js'
-		])
-		.pipe(injectHTML())
-		.pipe(sourcemaps.init())
-		.pipe(concat('brainjs.js'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(dest))
-})
+	],
+	{isCode: true, concat: 'brainjs.js'}
 
-gulp.task('brainjs.css', function() {
-	return gulp.src([
+)
+
+task('brainjs.css',
+	[
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.css',
 		'./externals/jquery-contextMenu/jquery.contextMenu.css',	
 		'./externals/fontawesome-free-5.8.1-web/css/all.css',
 		'./externals/w3.css',
 		'./src/lib/core/core.css',
 		'./src/lib/controls/**/*.css'
-		])
-		.pipe(concat('brainjs.css'))
-		.pipe(gulp.dest(path.join(dest, 'css')))
-})
+	],
+	{concat: 'brainjs.css', dest: 'css'}
+)
 
-gulp.task('brainjs.images', function() {
-	return gulp.src([
+task('brainjs.images', 
+	[
 		'./externals/jquery-ui-1.12.1.custom/images/*',
-		])
-		.pipe(gulp.dest(path.join(dest, 'css/images')))
-})
+	], 
+	{dest: 'css/images'}
+)
 
-gulp.task('brainjs.fonts', function() {
-	return gulp.src([
+
+task('brainjs.fonts', 
+	[
 		'./externals/fontawesome-free-5.8.1-web/webfonts/*'
-		])
-		.pipe(gulp.dest(path.join(dest, 'webfonts')))
-})
+	], 
+	{dest: 'webfonts'}
+)
 
-gulp.task('demo.js', function() {
-	return gulp.src([
+task('demo.js', 
+	[
 		'./demo/src/*.js',
-		])
-		.pipe(injectHTML())
-		.pipe(sourcemaps.init())
-		.pipe(concat('demo.js'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(dest))
-})
+	], 
+	{concat: 'demo.js', isCode: true}
+)
 
-gulp.task('demo.html', function() {
-	return gulp.src([
+task('demo.html', 
+	[
 		'./demo/index.html',
-		])
-		.pipe(gulp.dest(dest))
-})
+	]
+)
 
-gulp.task('tree.js', function() {
-	return gulp.src([
+task('tree.js', 
+	[
 		'./externals/fancytree/dist/jquery.fancytree-all.min.js',
 		'./externals/fancytree/3rd-party/extensions/contextmenu/js/jquery.fancytree.contextMenu.js',		
 		'./src/ext/tree.js',
-		])
-		.pipe(sourcemaps.init())
-		.pipe(concat('brainjs-tree.js'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(dest))
-})
+	], 
+	{concat: 'brainjs-tree.js', isCode: true}
+)
 
-gulp.task('tree.css', function() {
-	return gulp.src([
-			'./externals/fancytree/dist/skin-lion/ui.fancytree.min.css'
-		])
-		.pipe(concat('brainjs-tree.css'))
-		.pipe(gulp.dest(path.join(dest, 'tree')))
-})
+task('tree.css',
+	[
+		'./externals/fancytree/dist/skin-lion/ui.fancytree.min.css'
+	],
+	{concat: 'brainjs-tree.css', dest: 'tree'}
+)
 
-gulp.task('tree.images', function() {
-	return gulp.src([
-			'./externals/fancytree/dist/skin-lion/*.gif'
-		])
-		.pipe(gulp.dest(path.join(dest, 'tree')))
-})
+task('tree.images',
+	[
+		'./externals/fancytree/dist/skin-lion/*.gif'
+	],
+	{dest: 'tree'}
+)
 
-gulp.task('tree.fonts', function() {
-	return gulp.src([
-			'./externals/jquery-contextMenu/font/*'
-		])
-		.pipe(gulp.dest(path.join(dest, 'css/font')))
-})
+task('tree.fonts',
+	[
+		'./externals/jquery-contextMenu/font/*'
+	],
+	{dest: 'css/font'}
+)
 
-gulp.task('map.js', function() {
-	return gulp.src([
+task('map.js',
+	[
 		'./externals/leaflet-1.0.3/leaflet.js',
 		'./externals/leaflet-plugins/leaflet.rotatedMarker.js',
 		'./externals/leaflet-plugins/Leaflet.Coordinates.min.js',
@@ -114,116 +96,97 @@ gulp.task('map.js', function() {
 		'./externals/leaflet-plugins/Semicircle.js',
 		'./src/ext/map/markers/*.js',
 		'./src/ext/map/shapes/*.js',
-		'./src/ext/map/map.js',
-		])
-		.pipe(sourcemaps.init())
-		.pipe(concat('brainjs-map.js'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(dest))
-})
+		'./src/ext/map/map.js',	
+	],
+	{concat: 'brainjs-map.js', isCode: true}
+)
 
-gulp.task('map.css', function() {
-	return gulp.src([
-			'./externals/leaflet-1.0.3/leaflet.css',
-			'./externals/leaflet-plugins/Leaflet.Coordinates.css',
-			'./externals/leaflet-plugins/leaflet.contextmenu.min.css',
-		])
-		.pipe(concat('brainjs-map.css'))
-		.pipe(gulp.dest(path.join(dest, 'map')))
-})
+task('map.css',
+	[
+		'./externals/leaflet-1.0.3/leaflet.css',
+		'./externals/leaflet-plugins/Leaflet.Coordinates.css',
+		'./externals/leaflet-plugins/leaflet.contextmenu.min.css',	
+	],
+	{concat: 'brainjs-map.css', dest: 'map'}
+)
 
-gulp.task('map.images', function() {
-	return gulp.src([
-			'./externals/leaflet-1.0.3/images/*'
-		])
-		.pipe(gulp.dest(path.join(dest, 'map/images')))
-})
+task('map.images',
+	[
+		'./externals/leaflet-1.0.3/images/*'
 
-gulp.task('map.editor.js', function() {
-	return gulp.src([
+	],
+	{dest: 'map/images'}
+)
+
+task('map.editor.js',
+	[
 		'./externals/leaflet-plugins/leaflet-draw/dist/leaflet.draw.js',
 		'./src/ext/map/plugins/editor.js',
-		])
-		.pipe(sourcemaps.init())
-		.pipe(concat('brainjs-map-editor.js'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(dest))
-})
+	],
+	{concat: 'brainjs-map-editor.js', isCode:true}
+)
 
-gulp.task('map.editor.css', function() {
-	return gulp.src([
-			'./externals/leaflet-plugins/leaflet-draw/dist/leaflet.draw.css'
-		])
-		.pipe(concat('brainjs-map-editor.css'))
-		.pipe(gulp.dest(path.join(dest, 'map')))
-})
+task('map.editor.css',
+	[
+		'./externals/leaflet-plugins/leaflet-draw/dist/leaflet.draw.css'
+	],
+	{concat: 'brainjs-map-editor.css', dest: 'map'}
+)
 
-gulp.task('map.editor.images', function() {
-	return gulp.src([
-			'./externals/leaflet-plugins/leaflet-draw/dist/images/*'
-		])
-		.pipe(gulp.dest(path.join(dest, 'map/images')))
-})
+task('map.editor.images',
+	[
+		'./externals/leaflet-plugins/leaflet-draw/dist/images/*'
 
-gulp.task('milsymbol.js', function() {
-	return gulp.src([
+	],
+	{dest: 'map/images'}
+)
+
+task('milsymbol.js',
+	[
 		'./externals/milsymbol.js',
 		'./src/ext/milsymbol.js',
-		])
-		.pipe(sourcemaps.init())
-		.pipe(concat('brainjs-milsymbol.js'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(dest))
-})
+	],
+	{concat: 'brainjs-milsymbol.js', isCode:true}
+)
 
-gulp.task('circularmenu.js', function() {
-	return gulp.src([
+task('circularmenu.js',
+	[
 		'./externals/TweenMax.min.js',
 		'./src/ext/circularmenu/*.js',
-		])
-		.pipe(injectHTML())
-		.pipe(sourcemaps.init())
-		.pipe(concat('brainjs-circularmenu.js'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(dest))
-})
+	],
+	{concat: 'brainjs-circularmenu.js', isCode:true}
+)
 
-gulp.task('circularmenu.css', function() {
-	return gulp.src([
+
+task('circularmenu.css',
+	[
 		'./src/ext/circularmenu/*.css',
-		])
-		.pipe(concat('brainjs-circularmenu.css'))
-		.pipe(gulp.dest(path.join(dest, 'css')))
-})
+	],
+	{concat: 'brainjs-circularmenu.css', dest: 'css'}
+)
 
-gulp.task('flightpanel.js', function() {
-	return gulp.src([
+task('flightpanel.js',
+	[
 		'./src/ext/flightpanel.js',
-		])
-		.pipe(sourcemaps.init())
-		.pipe(concat('brainjs-flightpanel.js'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(dest))
-})
+	],
+	{concat: 'brainjs-flightpanel.js', isCode:true}
+)
 
-gulp.task('doc.js', function() {
-	return gulp.src([
+task('doc.js',
+	[
 		'./doc/*.js',
-		])
-		.pipe(injectHTML())
-		.pipe(sourcemaps.init())
-		.pipe(concat('doc.js'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(dest))
-})
+	],
+	{concat: 'doc.js', isCode:true}
+)
 
-gulp.task('doc.html', function() {
-	return gulp.src([
+task('doc.html',
+	[
 		'./doc/index.html',
-		])
-		.pipe(concat('doc.html'))
-		.pipe(gulp.dest(dest))
-})
+	],
+	{concat: 'doc.html'}
+)
+
+
 
 gulp.task('tree', ['tree.js', 'tree.css', 'tree.images', 'tree.fonts'])
 gulp.task('map', ['map.js', 'map.css', 'map.images'])

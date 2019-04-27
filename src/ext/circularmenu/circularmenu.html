@@ -6,14 +6,14 @@
 						<path bn-attr="{d: arcPath, fill: s.info.fill}" class="sector" stroke="black"/>			
 						<g  bn-attr="{transform: s.transform2}">
 
-							<text bn-attr="{fill: s.info.color}" text-anchor="middle" alignment-baseline="middle" bn-text="s.info.text"></text>			
+							<text bn-attr="{fill: s.info.color, class: s.info.className}" text-anchor="middle" alignment-baseline="middle" bn-text="s.info.text"></text>			
 						</g>
 					</g>
 				</g>			
 		</g>
 		<g class="trigger" bn-show="hasTrigger" bn-event="click: onTriggerClick">
 			<circle bn-attr="{r: triggerRadius}" fill="red" />
-			<text class="label" text-anchor="middle" alignment-baseline="middle" bn-text="triggerLabel"></text>
+			<text class="label fa" text-anchor="middle" alignment-baseline="middle" bn-text="triggerLabel"></text>
 		</g>
 		
 	</g>
