@@ -33,13 +33,34 @@ $$.control.registerControl('brainjs.tree', {
 
 		elt.fancytree(options)
 
-
-		this.getActiveNode = function() {
+		function getActiveNode() {
 			return elt.fancytree('getActiveNode')
 		}
 
-		this.getRootNode = function() {
+		function clear() {
+			return elt.fancytree('clear')
+		}
+
+		function getRootNode() {
 			return elt.fancytree('getRootNode')
+		}
+
+		function getNodePath(node) {
+			const path = node.getParentList(false, true).map((node) => node.key == 'root' ? '/' : node.title)
+			return path.join('/')			
+		}
+
+		this.getActiveNode = getActiveNode
+		this.getNodePath = getNodePath
+		this.getRootNode = getRootNode
+
+		this.setData = function(data) {
+			console.log('[TreeCtrl] setData', data)
+			if (Array.isArray(data.source)) {
+				//clear()
+				getRootNode().addChildren(data.source)
+
+			}
 		}
 
 	},
