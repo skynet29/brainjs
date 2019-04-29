@@ -47,7 +47,7 @@ function update(ctx, data, excludeElt, forceElt) {
 
     info.oldValue = value
 
-    console.log(`[binding] update ${dir}="${attrValue}" value=`, value)
+    //console.log(`[binding] update ${dir}="${attrValue}" value=`, value)
     
 
     if (type == 1 || type == 2) {
