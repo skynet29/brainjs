@@ -38,20 +38,31 @@ $$.control.registerControl('brainjs.pager', {
 		const content = ctrl.scope.content
 		const stack = []
 
+		function restorePage(data) {
+
+			let {$ctrl, buttons, title} = stack[stack.length-1]
+			let iface = $ctrl.iface()
+
+			if (typeof iface.onReturn == 'function' && data != undefined) {
+				iface.onReturn(data)
+			}
+			$ctrl.show()
+
+			ctrl.setData({showBack: stack.length > 1, title, buttons: buttons || []})
+		}
+
 		this.popPage = function(data) {
-			const page = stack.pop()
-			const pageCtrl = page.iface()
+			let {$ctrl} = stack.pop()
+			
+			let iface = $ctrl.iface()
 			//console.log('popPage', pageCtrl)
-			if (typeof pageCtrl.dispose == 'function') {
-				pageCtrl.dispose()
+			if (typeof iface.dispose == 'function') {
+				iface.dispose()
 			}
-			page.safeEmpty().remove()
-			const curPage = getLastCtrl().iface()
-			if (typeof curPage.onReturn == 'function' && data != undefined) {
-				curPage.onReturn(data)
-			}
-			getLastCtrl().show()
-			ctrl.setData({showBack: stack.length > 1})
+			$ctrl.safeEmpty().remove()
+
+			restorePage(data)
+
 		}
 
 		this.pushPage = function(ctrlName, options) {
@@ -65,7 +76,7 @@ $$.control.registerControl('brainjs.pager', {
 
 			content.addControl(ctrlName, $.extend({$pager: this}, props))
 
-			stack.push(getLastCtrl())
+			stack.push({$ctrl:getLastCtrl(), buttons, title})
 			ctrl.setData({showBack: stack.length > 1, title, buttons: buttons || []})
 		}	
 
