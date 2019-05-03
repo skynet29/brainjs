@@ -97,6 +97,7 @@ task('map.js',
 		'./src/ext/map/markers/*.js',
 		'./src/ext/map/shapes/*.js',
 		'./src/ext/map/map.js',	
+		'./src/ext/map/image.js'	
 	],
 	{concat: 'brainjs-map.js', isCode: true}
 )

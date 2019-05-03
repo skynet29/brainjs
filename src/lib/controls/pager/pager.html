@@ -6,10 +6,13 @@
 		</button>
 		<div bn-text="title"></div>
 		<div bn-each="buttons" bn-event="click.action: onAction">
-			<button class="w3-button action" 
+			<button bn-show="$i.icon == undefined" class="w3-button action" 
 				bn-text="$i.label" 
 				bn-data="{cmd: $i.name}"
 				></button>
+			<button bn-show="$i.icon != undefined" class="w3-button action" 
+				bn-data="{cmd: $i.name}"
+				><i bn-attr="{class: $i.icon}"></i></button>
 		</div>
 	</div>
 	<div bn-bind="content" style="flex: 1; overflow: hidden;"></div>
