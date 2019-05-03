@@ -17,14 +17,8 @@ $$.control.registerControl('brainjs.image', {
 			minZoom: -4
 		})
 
-		map.on('zoom', () => {
-			console.log('zoom', map.getZoom())
-		})
-
 		let bounds
 		let imageOverlay = null
-
-
 
 		function load(url) {
 			const image = new Image()
