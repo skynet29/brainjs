@@ -16,12 +16,7 @@ $$.control.registerControl('brainjs.tree', {
 			console.log('activate', data.node.title)
 			elt.trigger('treeactivate')
 		}
-		options.click = function(ev, data) {
-			console.log('click',data)
-			if (data.node == getActiveNode() && data.targetType == 'title') {
-				elt.trigger('treeactivate')
-			}
-		}		
+	
 
 		if (this.props.contextMenu != null) {
 			options.extensions.push('contextMenu')

@@ -43,7 +43,7 @@ $$.control.registerControl('brainjs.pager', {
 			let {$ctrl, buttons, title} = stack[stack.length-1]
 			let iface = $ctrl.iface()
 
-			if (typeof iface.onReturn == 'function' && data != undefined) {
+			if (typeof iface.onReturn == 'function') {
 				iface.onReturn(data)
 			}
 			$ctrl.show()
