@@ -34,11 +34,6 @@ function update(ctx, data, excludeElt, forceElt) {
 
     let {type, f, elt, name, template, iter, attrValue, dir, oldValue} = info
 
-    if (elt.get(0) == excludeElt) {
-      return
-    }
-
-
     let value = getValue(data, attrValue)
 
     if (elt.get(0) != forceElt && JSON.stringify(value) == JSON.stringify(oldValue)) {
@@ -46,6 +41,10 @@ function update(ctx, data, excludeElt, forceElt) {
     }
 
     info.oldValue = value
+
+    if (elt.get(0) == excludeElt) {
+      return
+    }    
 
     //console.log(`[binding] update ${dir}="${attrValue}" value=`, value)
     
