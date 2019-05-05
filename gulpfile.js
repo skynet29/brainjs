@@ -187,7 +187,20 @@ task('doc.html',
 	{concat: 'doc.html'}
 )
 
+task('pdf.js', 
+	[
+		'./externals/pdf/pdf.min.js',
+		'./src/ext/pdf/*.js',
+	], 
+	{concat: 'brainjs-pdf.js', isCode: true}
+)
 
+task('pdf.worker.js', 
+	[
+		'./externals/pdf/pdf.worker.min.js',
+	], 
+	{concat: 'worker.js', dest: 'pdf'}
+)
 
 gulp.task('tree', ['tree.js', 'tree.css', 'tree.images', 'tree.fonts'])
 gulp.task('map', ['map.js', 'map.css', 'map.images'])
@@ -212,7 +225,9 @@ gulp.task('all', [
 	'milsymbol',
 	'circularmenu',
 	'flightpanel',
-	'doc'
+	'doc',
+	'pdf.js',
+	'pdf.worker.js'
 ])
 
 		
@@ -225,6 +240,7 @@ gulp.task('watch', ['all'], function() {
 	gulp.watch(['./src/ext/circularmenu/*.js', './src/ext/circularmenu/*.html'], ['circularmenu.js'])
 	gulp.watch(['./src/ext/circularmenu/*.css'], ['circularmenu.css'])
 	gulp.watch(['./src/ext/flightpanel.js'], ['flightpanel.js'])
+	gulp.watch(['./src/ext/pdf/**/*.js', './src/ext/pdf/**/*.html'], ['pdf.js'])
 
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
 	gulp.watch(['./doc/*.html', './doc/*.js'], ['doc'])
