@@ -11,7 +11,8 @@ $$.control.registerControl('brainjs.tree', {
 		console.log('options', options)
 
 		options.source = this.props.source
-		options.extensions = []
+		options.extensions = ['glyph']
+
 		options.activate = function(ev, data) {
 			console.log('activate', data.node.title)
 			elt.trigger('treeactivate')
