@@ -19,49 +19,26 @@ $$.control.registerControl('brainjs.pdf', {
 
 		const canvas = ctrl.scope.canvas.get(0)
 		const canvasContext = canvas.getContext('2d')
-		let pageRendering = false
-		let pageNumPending = null
 		let pdfDoc = null
-		let scale = 1
-		let currentPage = 1
 
 
-		function renderPage(num) {
-			console.log('renderPage', num)
-			console.log('width:', canvas.width, ' height:', canvas.height)
-			pageRendering = true
+		this.renderPage = function(pageNo, scale) {
+			console.log('renderPage', pageNo, scale)
 
-			pdfDoc.getPage(num).then((page) => {
+			return pdfDoc.getPage(pageNo).then((page) => {
 				const viewport = page.getViewport(scale)
-				console.log('viewport', viewport)
+				//console.log('viewport', viewport)
 				canvas.width = viewport.width
 				canvas.height = viewport.height
 
-				const renderTask = page.render({
+				return  page.render({
 					canvasContext,
 					viewport
-				})
-
-				renderTask.then(() => {
-					console.log('render finished')
-					pageRendering = false
-					if (pageNumPending != null) {
-						renderPage(pageNumPending)
-						pageNumPending = null
-					}
 				})
 
 			})
 		}
 
-		function queueRenderPage(num) {
-			if (pageRendering) {
-				pageNumPending = num
-			}
-			else {
-				renderPage(num)
-			}
-		}
 
 
 		this.openFile = function(url) {
@@ -69,7 +46,6 @@ $$.control.registerControl('brainjs.pdf', {
 			return new Promise((resolve, reject) => {
 				pdfjsLib.getDocument(url).then((pdfDoc_) => {
 					pdfDoc = pdfDoc_
-					renderPage(currentPage)
 					resolve()
 				})
 			})
@@ -80,35 +56,13 @@ $$.control.registerControl('brainjs.pdf', {
 			return pdfDoc.numPages
 		}
 
-		this.nextPage = function() {
-			if (currentPage >= pdfDoc.numPages) {
-				return
-			}
-			currentPage++
-			queueRenderPage(currentPage)
-		}
-
-		this.prevPage = function() {
-			if (currentPage <= 1) {
-				return
-			}
-			currentPage--
-			queueRenderPage(currentPage)
-		}
-
-		this.setZoom = function(zoom) {
-			scale = zoom
-			renderPage(currentPage)
-		}
 
 	},
 
 	$iface: `
 		openFile(url):Promise;
 		getNumPages():Number;
-		nextPage();
-		prevPage();
-		setZoom(zoomLevel)
+		renderPage(pageNo, zoomLevel):Promise;
 	`
 
 
