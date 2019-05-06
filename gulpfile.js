@@ -190,7 +190,7 @@ task('doc.html',
 task('pdf.js', 
 	[
 		'./externals/pdf/pdf.min.js',
-		'./src/ext/pdf/*.js',
+		'./src/ext/pdf.js',
 	], 
 	{concat: 'brainjs-pdf.js', isCode: true}
 )
@@ -240,7 +240,7 @@ gulp.task('watch', ['all'], function() {
 	gulp.watch(['./src/ext/circularmenu/*.js', './src/ext/circularmenu/*.html'], ['circularmenu.js'])
 	gulp.watch(['./src/ext/circularmenu/*.css'], ['circularmenu.css'])
 	gulp.watch(['./src/ext/flightpanel.js'], ['flightpanel.js'])
-	gulp.watch(['./src/ext/pdf/**/*.js', './src/ext/pdf/**/*.html'], ['pdf.js'])
+	gulp.watch(['./src/ext/pdf.js'], ['pdf.js'])
 
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
 	gulp.watch(['./doc/*.html', './doc/*.js'], ['doc'])

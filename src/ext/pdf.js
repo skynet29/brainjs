@@ -1,7 +1,5 @@
 $$.control.registerControl('brainjs.pdf', {
 
-	template: {gulp_inject: './pdf.html'},
-
 	props: {
 		worker: ''
 
@@ -17,7 +15,9 @@ $$.control.registerControl('brainjs.pdf', {
 
 		pdfjsLib.GlobalWorkerOptions.workerSrc = worker
 
-		const canvas = ctrl.scope.canvas.get(0)
+		elt.css({'text-align': 'center', width: '100%'})
+
+		const canvas = $('<canvas>').appendTo(elt).get(0)
 		const canvasContext = canvas.getContext('2d')
 		let pdfDoc = null
 		let scale = 1
@@ -26,11 +26,11 @@ $$.control.registerControl('brainjs.pdf', {
 
 
 		function renderPage(pageNo) {
-			console.log('renderPage', pageNo)
+			//console.log('renderPage', pageNo)
 
 			return pdfDoc.getPage(pageNo).then((page) => {
 				const viewport = page.getViewport(scale)
-				//console.log('viewport', viewport)
+				console.log('viewport', viewport)
 				canvas.width = viewport.width
 				canvas.height = viewport.height
 
@@ -42,6 +42,11 @@ $$.control.registerControl('brainjs.pdf', {
 				})
 
 			})
+		}
+
+		this.setZoomLevel = function(zoomLevel) {
+			scale = zoomLevel
+			return renderPage(currentPage)
 		}
 
 		this.nextPage = function() {
@@ -75,7 +80,8 @@ $$.control.registerControl('brainjs.pdf', {
 	$iface: `
 		openFile(url):Promise(numPages);
 		prevPage():Promise(currentPage);
-		nextPage():Promise(currentPage)
+		nextPage():Promise(currentPage);
+		setZoomLevel(zoomLevel):Promise
 	`
 
 
