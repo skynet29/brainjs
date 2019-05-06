@@ -20,10 +20,13 @@ $$.control.registerControl('brainjs.pdf', {
 		const canvas = ctrl.scope.canvas.get(0)
 		const canvasContext = canvas.getContext('2d')
 		let pdfDoc = null
+		let scale = 1
+		let currentPage = 1
 
 
-		this.renderPage = function(pageNo, scale) {
-			console.log('renderPage', pageNo, scale)
+
+		function renderPage(pageNo) {
+			console.log('renderPage', pageNo)
 
 			return pdfDoc.getPage(pageNo).then((page) => {
 				const viewport = page.getViewport(scale)
@@ -34,35 +37,45 @@ $$.control.registerControl('brainjs.pdf', {
 				return  page.render({
 					canvasContext,
 					viewport
+				}).then(() => {
+					return pageNo
 				})
 
 			})
 		}
 
+		this.nextPage = function() {
+			if (currentPage < pdfDoc.numPages) {
+				currentPage++
+				return renderPage(currentPage)
+			}
+			return Promise.resolve(currentPage)
+		}
 
+		this.prevPage = function() {
+			if (currentPage > 1) {
+				currentPage--
+				return renderPage(currentPage)
+			}
+			return Promise.resolve(currentPage)
+		}
 
 		this.openFile = function(url) {
 			console.log('[pdf] openFile', url)
-			return new Promise((resolve, reject) => {
-				pdfjsLib.getDocument(url).then((pdfDoc_) => {
-					pdfDoc = pdfDoc_
-					resolve()
+			return pdfjsLib.getDocument(url).then((pdfDoc_) => {
+				pdfDoc = pdfDoc_
+				return renderPage(currentPage).then(() => {
+					return pdfDoc.numPages
 				})
 			})
-
 		}
-
-		this.getNumPages = function() {
-			return pdfDoc.numPages
-		}
-
 
 	},
 
 	$iface: `
-		openFile(url):Promise;
-		getNumPages():Number;
-		renderPage(pageNo, zoomLevel):Promise;
+		openFile(url):Promise(numPages);
+		prevPage():Promise(currentPage);
+		nextPage():Promise(currentPage)
 	`
 
 
