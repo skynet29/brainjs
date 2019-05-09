@@ -19,16 +19,7 @@ $$.control.registerControl('brainjs.pdf', {
 		})
 
 		let bounds
-		let imageOverlay = null
-
-		function load(url) {
-			const image = new Image()
-			image.onload = function() {
-
-
-			}
-			image.src = url			
-		}		
+		let imageOverlay = null	
 
 		const pdfjsLib = window['pdfjs-dist/build/pdf']
 
@@ -47,16 +38,20 @@ $$.control.registerControl('brainjs.pdf', {
 		function renderPage(pageNo) {
 			//console.log('renderPage', pageNo)
 
-			return pdfDoc.getPage(pageNo).then((page) => {
-				const viewport = page.getViewport(scale)
-				//console.log('viewport', viewport)
-				canvas.width = viewport.width
-				canvas.height = viewport.height
+			return pdfDoc.getPage(pageNo)
+				.then((page) => {
+					const viewport = page.getViewport(scale)
+					//console.log('viewport', viewport)
+					canvas.width = viewport.width
+					canvas.height = viewport.height
 
-				return  page.render({
-					canvasContext,
-					viewport
-				}).then(() => {
+					return page.render({
+						canvasContext,
+						viewport
+					})
+				})
+
+				.then(() => {
 					const dataUrl = canvas.toDataURL('image/png')
 
 					//console.log('width: ', width, ' height:', height)
@@ -71,8 +66,6 @@ $$.control.registerControl('brainjs.pdf', {
 					map.fitBounds(bounds)					
 					return pageNo
 				})
-
-			})
 		}
 
 
