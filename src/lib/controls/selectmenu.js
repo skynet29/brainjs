@@ -8,6 +8,10 @@ $$.control.registerControl('brainjs.selectmenu', {
 			elt.val(val)
 			elt.selectmenu('refresh')
 		}
+
+		this.refresh = function() {
+			elt.selectmenu('refresh')
+		}
 	},
 
 	$events: 'selectmenuchange'

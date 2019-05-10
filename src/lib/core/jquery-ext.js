@@ -125,7 +125,7 @@ $.fn.resetForm = function() {
 $.fn.setFormData = function(data) {
 
   //console.log('setFormData', data)
-  this.resetForm()
+  //this.resetForm()
 
   for(var name in data) {
     var value = data[name]

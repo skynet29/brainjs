@@ -59,7 +59,7 @@ $$.control.registerControl('brainjs.tree', {
 		this.setData = function(data) {
 			console.log('[TreeCtrl] setData', data)
 			if (Array.isArray(data.source)) {
-				//clear()
+				getRootNode().removeChildren()
 				getRootNode().addChildren(data.source)
 
 			}
