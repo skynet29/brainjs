@@ -22,12 +22,13 @@ $$.formDialogController = function(options) {
 		options.template.children().clone().appendTo(form)
 	}
 
+	$$.viewController(form)
+
 	var submitBtn = $('<input>', {type: 'submit', hidden: true}).appendTo(form)
 
 	var dlgOptions = $.extend({
 		autoOpen: false,
 		modal: true,
-		width: 'auto',	
 		buttons: {
 			'Cancel': function() {
 				$(this).dialog('close')

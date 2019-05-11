@@ -15,7 +15,8 @@ $$.control.registerControl('brainjs.pdf', {
 			crs: L.CRS.Simple,
 			attributionControl: false,
 			zoomControl: false,
-			minZoom: -4
+			minZoom: -4,
+			zoomSnap: 0.25
 		})
 
 		let bounds

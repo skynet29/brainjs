@@ -4859,6 +4859,9 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 	z-index: 1000;
 }
 
+* {
+	box-sizing: border-box;
+}
 .brainjs-htmleditor {
 	display: flex;
 	flex-direction: column;
