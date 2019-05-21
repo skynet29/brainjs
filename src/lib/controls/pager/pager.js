@@ -70,7 +70,11 @@ $$.control.registerControl('brainjs.pager', {
 
 			options = options || {}
 
-			let {buttons, title, props} = options
+			const desc = $$.control.getControlInfo(ctrlName)
+
+			const buttons = desc.options.buttons
+
+			let {title, props} = options
 
 			getLastCtrl().hide()
 
