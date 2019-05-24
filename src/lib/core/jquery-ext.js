@@ -165,4 +165,8 @@ $.fn.addControl = function(ctrlName, data) {
   return this
 }
 
+$.fn.setItems = function(items) {
+  return this.empty().append(items.map((text) => $('<option>').text(text)))
+}
+
 })();

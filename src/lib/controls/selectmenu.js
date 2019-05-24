@@ -1,7 +1,15 @@
 
 $$.control.registerControl('brainjs.selectmenu', {
+
+	props: {
+		items: []
+	},
+
 	init: function(elt) {
 
+		const {items} = this.props
+
+		elt.setItems(items)
 		elt.selectmenu()
 
 		this.setValue = function(val) {
@@ -9,8 +17,11 @@ $$.control.registerControl('brainjs.selectmenu', {
 			elt.selectmenu('refresh')
 		}
 
-		this.refresh = function() {
-			elt.selectmenu('refresh')
+		this.setData = function(data) {
+			if (Array.isArray(data.items)) {
+				elt.setItems(data.items)
+				elt.selectmenu('refresh')
+			}
 		}
 	},
 
