@@ -150,17 +150,32 @@ function process(root, data, updateCbk) {
       
   })
 
+  const removedElts = []
+
   // process other directive
   
   for(let dir in map) {
     
-    //console.log('dir=', dir)
+    //console.log('dir=', dir, removedElts)
     root.bnFindAttr(dir, function(elt, attrValue) {
+
+      //console.log('dir=', dir, elt)
+
+      //console.log('attrValue', attrValue)
+
+      if (removedElts.indexOf(elt.get(0)) >= 0) {
+        //console.log('skip elt', elt, removedElts)
+        return
+      }
 
       if (dir == 'bn-if') {
         let value = getValue(data, attrValue)
+        //console.log('bn-if', attrValue, value)
         if (value === false) {
+          //console.log('remove', elt)
+          removedElts.push(elt.get(0))
           elt.remove()
+         
           return
         }
       }

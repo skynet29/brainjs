@@ -42,6 +42,25 @@ function isImage(fileName) {
 	return (/\.(gif|jpg|jpeg|png)$/i).test(fileName)
 }
 
+function getFileType(fileName) {
+	if (isImage(fileName)) {
+		return 'image'
+	}
+
+	if ((/\.(ogg|mp3)$/i).test(fileName)) {
+		return 'audio'
+	}
+
+	if ((/\.(mp4)$/i).test(fileName)) {
+		return 'video'
+	}
+
+	if ((/\.(pdf)$/i).test(fileName)) {
+		return 'pdf'
+	}	
+
+}
+
 function dataURLtoBlob(dataURL) {
   // Decode the dataURL
   const [ , mimeType, encodage, data] = dataURL.split(/[:,;]/)
@@ -211,7 +230,8 @@ $$.util = {
 	dataURLtoBlob,
 	loadStyle,
 	checkType,
-	safeEval
+	safeEval,
+	getFileType
 }
 
 

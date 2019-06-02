@@ -8,6 +8,15 @@ $$.control.registerControl('brainjs.image', {
 
 		const {src} = this.props
 
+		elt.css('position', 'relative')
+		$('<button>')
+			.addClass('w3-button')
+			.attr('title', 'Fit image bounds')
+			.css({position: 'absolute', left: '10px', top: '10px', zIndex: 1000})
+			.append($('<i>').addClass('fa fa-expand'))
+			.appendTo(elt)
+			.on('click', fitImage)
+
 		const div = $('<div>').css('height', '100%').appendTo(elt).get(0)
 
 		const map = L.map(div, {
@@ -46,7 +55,7 @@ $$.control.registerControl('brainjs.image', {
 			load(src)
 		}
 
-		this.fitImage = function() {
+		function fitImage() {
 			if (bounds != undefined) {
 				map.fitBounds(bounds)
 			}

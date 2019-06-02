@@ -169,4 +169,18 @@ $.fn.setItems = function(items) {
   return this.empty().append(items.map((text) => $('<option>').text(text)))
 }
 
+
+$.fn.isEqual = function($otherSet) {
+  if (this === $otherSet) return true
+  if (this.length != $otherSet.length) return false
+  var ret = true
+  this.each(function(idx) { 
+    if (this !== $otherSet[idx]) {
+       ret = false; return false;
+     }
+    
+  })
+  return ret;
+}
+
 })();
