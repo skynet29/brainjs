@@ -200,6 +200,14 @@ $$.control.registerControl('brainjs.map', {
 			})			
 		}
 
+		this.getZoom = function() {
+			return map.getZoom()
+		}
+
+		this.getCenter = function() {
+			return map.getCenter()
+		}
+
 		for(let shapeId in this.props.shapes) {
 			this.addShape(shapeId, this.props.shapes[shapeId])
 		}
@@ -212,7 +220,10 @@ $$.control.registerControl('brainjs.map', {
 		addShape(shapeId, options);
 		removeShape(shapeId);
 		getShapeInfo(shapeId): ShapeInfo;
-		enableHandlers(enabled)
+		enableHandlers(enabled);
+		getZoom():ZoomLevel;
+		getCenter(): LatLng
+
 		`,
 
 	$events: `
