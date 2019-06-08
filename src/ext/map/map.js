@@ -208,6 +208,14 @@ $$.control.registerControl('brainjs.map', {
 			return map.getCenter()
 		}
 
+		this.panTo = function(latlng) {
+			return map.panTo(latlng, {animate: true})
+		}		
+
+		this.flyTo = function(latlng, zoom) {
+			return map.flyTo(latlng, zoom, {animate: true})
+		}		
+
 		for(let shapeId in this.props.shapes) {
 			this.addShape(shapeId, this.props.shapes[shapeId])
 		}
@@ -222,7 +230,8 @@ $$.control.registerControl('brainjs.map', {
 		getShapeInfo(shapeId): ShapeInfo;
 		enableHandlers(enabled);
 		getZoom():ZoomLevel;
-		getCenter(): LatLng
+		getCenter(): LatLng;
+		panTo(latlng)
 
 		`,
 

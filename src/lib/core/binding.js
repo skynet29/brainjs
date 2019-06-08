@@ -15,12 +15,12 @@ const map = {
   'bn-form': {f: 'setFormData', type:1},
   'bn-text': {f: 'text', type: 1},
   'bn-html': {f: 'html', type: 1},
+  'bn-data': {f: 'setData', type: 2},
   'bn-val': {f: 'setValue', type: 1},
   'bn-show': {f: 'setVisible', type: 1},
   'bn-style': {f: 'css', type: 2},
   'bn-attr': {f: 'attr', type: 2},
   'bn-prop': {f: 'setProp', type: 2},
-  'bn-data': {f: 'setData', type: 2},
   'bn-class': {f: 'setClass', type: 2},
   'bn-control': {type: 4}
 }
