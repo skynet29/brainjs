@@ -183,4 +183,9 @@ $.fn.isEqual = function($otherSet) {
   return ret;
 }
 
+$.fn.scrollToBottom = function() {
+  return this.scrollTop(this.get(0).scrollHeight)
+}
+
+
 })();

@@ -36,7 +36,7 @@ function update(ctx, data, excludeElt, forceElt) {
     let {type, f, elt, name, template, iter, attrValue, dir, oldValue} = info
 
     let value = getValue(data, attrValue)
-
+    
     if (elt.get(0) != forceElt && JSON.stringify(value) == JSON.stringify(oldValue)) {
       return
     }
