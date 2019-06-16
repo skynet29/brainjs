@@ -40,7 +40,7 @@ $.fn.setVisible = function(isVisible) {
 }
 
 $.fn.iface = function() {
-  return this.get(0).ctrl
+  return this.get(0) && this.get(0).ctrl
 }
 
 $.fn.setProp = function(data) {
