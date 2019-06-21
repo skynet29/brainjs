@@ -222,6 +222,19 @@ function safeEval(varName, data) {
 
 }
 
+function getUrlParams(url, params) {
+	if (typeof params == 'object') {
+		const keys = []
+		for(let i in params) {
+			keys.push(i + '=' + encodeURIComponent(params[i]))
+		}
+
+		url += `?` + keys.join('&')
+	}
+	return url
+
+}
+
 $$.util = {
 	readTextFile,
 	readFileAsDataURL,
@@ -231,7 +244,8 @@ $$.util = {
 	loadStyle,
 	checkType,
 	safeEval,
-	getFileType
+	getFileType,
+	getUrlParams
 }
 
 

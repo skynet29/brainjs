@@ -4904,6 +4904,24 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 * {
 	box-sizing: border-box;
 }
+.brainjs-htmleditor {
+	display: flex;
+	flex-direction: column;
+}
+
+.brainjs-htmleditor  .scrollPanel {
+	flex: 1;
+	overflow-y: auto;
+}
+
+.brainjs-htmleditor .editor {
+	height: 100%;
+	padding: 10px;
+}
+
+.brainjs-htmleditor .toolbar {
+	margin-left: 10px;
+}
 .data-title:before {
     content: attr(data-menutitle);
     display: block;
@@ -4941,22 +4959,4 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 
 .context-menu-item > i {
     margin-right: 10px;
-}
-.brainjs-htmleditor {
-	display: flex;
-	flex-direction: column;
-}
-
-.brainjs-htmleditor  .scrollPanel {
-	flex: 1;
-	overflow-y: auto;
-}
-
-.brainjs-htmleditor .editor {
-	height: 100%;
-	padding: 10px;
-}
-
-.brainjs-htmleditor .toolbar {
-	margin-left: 10px;
 }
