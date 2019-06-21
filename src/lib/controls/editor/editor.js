@@ -4,6 +4,16 @@ $$.control.registerControl('brainjs.htmleditor', {
 
 	init: function(elt) {
 
+		const colorMap = {
+			black: '#0',
+			red: '##f44336',
+			green: '#4CAF50',
+			blue: '#2196F3',
+			yellow: '#ffeb3b',
+			cyan: '#00bcd4',
+			pink: '#e91e63'
+
+		}
 		var cmdArgs = {
 			'foreColor': function() {
 				return ctrl.model.color
@@ -13,15 +23,15 @@ $$.control.registerControl('brainjs.htmleditor', {
 
 		var ctrl = $$.viewController(elt, {
 			data: {
-				color: 'blue',
+				color: '#0',
 				colorItems: {
-					black: {name: 'Black'},
-					red: {name: 'Red'},
-					green: {name: 'Green'},
-					blue: {name: 'Blue'},
-					yellow: {name: 'Yellow'},
-					cyan: {name: 'Cyan'},
-					magenta: {name: 'Magenta'}
+					black: {name: 'Black', icon: 'fas fa-square-full w3-text-black'},
+					red: {name: 'Red', icon: 'fas fa-square-full w3-text-red'},
+					green: {name: 'Green', icon: 'fas fa-square-full w3-text-green'},
+					blue: {name: 'Blue', icon: 'fas fa-square-full w3-text-blue'},
+					yellow: {name: 'Yellow', icon: 'fas fa-square-full w3-text-yellow'},
+					cyan: {name: 'Cyan', icon: 'fas fa-square-full w3-text-cyan'},
+					pink: {name: 'Magenta', icon: 'fas fa-square-full w3-text-pink'}
 				}
 			},
 			events: {
@@ -41,8 +51,8 @@ $$.control.registerControl('brainjs.htmleditor', {
 				
 				},
 				onColorMenuChange: function(ev, data) {
-					//console.log('onColorMenuChange', color)
-					ctrl.setData({color: data.cmd})
+					//console.log('onColorMenuChange', data)
+					ctrl.setData({color: colorMap[data.cmd]})
 				}
 
 			}
