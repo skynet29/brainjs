@@ -34,5 +34,10 @@
 }
 
 .context-menu-item > i {
-    margin-right: 10px;
+    margin-right: 10px !important;
+}
+
+.context-menu-item.context-menu-disabled > i {
+    color: #bbb !important;
+    
 }
