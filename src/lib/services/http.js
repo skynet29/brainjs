@@ -3,8 +3,8 @@ $$.service.registerService('brainjs.http', {
 
 	init: function() {
 		return {
-			get(url) {
-				return $.getJSON(url)
+			get(url, params) {
+				return $.getJSON($$.util.getUrlParams(url, params))
 			},
 
 
