@@ -8,24 +8,24 @@ $$.service.registerService('brainjs.resource', {
 		return function(prefix) {
 			return {
 				get(url, params) {
-					return http.get(`/${prefix}/${url}`, params)
+					return http.get(`${prefix}${url}`, params)
 				},
 
 
 				post(url, data) {
-					return http.post(`/${prefix}/${url}`, data)
+					return http.post(`${prefix}${url}`, data)
 				},
 
 				put(url, data) {
-					return http.put(`/${prefix}/${url}`, data)
+					return http.put(`${prefix}${url}`, data)
 				},			
 
 				delete(url) {
-					return http.delete(`/${prefix}/${url}`)		
+					return http.delete(`${prefix}${url}`)		
 				},
 
 				postFormData(url, fd) {
-					return http.postFormData(`/${prefix}/${url}`, fd)			
+					return http.postFormData(`${prefix}${url}`, fd)			
 				}				
 			}			
 
