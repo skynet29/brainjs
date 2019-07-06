@@ -84,6 +84,7 @@ $.fn.setValue = function(value) {
   }
   else {
     this.val(value)
+    this.data('value', value)
   }
 }
 

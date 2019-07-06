@@ -17,8 +17,7 @@ const htmlCode = `
 	<select bn-control="brainjs.selectmenu" 
 		bn-val="favoriteFruit" 
 		bn-update="selectmenuchange" 
-		bn-each="fruits">
-			<option bn-text="$i"></option>
+		bn-data="{items: fruits}">
 	</select>
 </div>
 `

@@ -2,14 +2,16 @@
 $$.control.registerControl('brainjs.selectmenu', {
 
 	props: {
-		items: []
+		items: [],
+		value: ''
 	},
 
 	init: function(elt) {
 
-		const {items} = this.props
+		const {items, value} = this.props
 
 		elt.setItems(items)
+		elt.val(value)
 		elt.selectmenu().selectmenu('menuWidget').css('max-height', '200px')
 
 		this.setValue = function(val) {
