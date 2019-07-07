@@ -1,0 +1,29 @@
+<div bn-control="brainjs.tabs">
+
+	<div title="Result">
+
+		<div  style="padding: 20px;">
+			<div bn-control="brainjs.slider" bn-val="value" bn-update="input"></div>	
+			<div style="margin-bottom: 10px;">
+				<label>Value</label>	
+				<span bn-text="value"></span>			
+			</div>
+
+			<div bn-control="brainjs.slider" bn-val="values" bn-data="{min: 0, max: 500}" bn-update="input"></div>	
+			<div>
+				<label>Values</label>	
+				<span bn-text="values"></span>			
+			</div>
+
+		</div>
+
+	</div>
+
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+

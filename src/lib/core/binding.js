@@ -187,9 +187,13 @@ function process(root, data, updateCbk) {
           let updateEvt = elt.attr('bn-update')
           if (updateEvt) {
             elt.removeAttr('bn-update')
-            elt.on(updateEvt, function() {
-              //console.log('[binding] updateEvt', updateEvt, elt)
-              updateCbk(attrValue, elt.getValue(), elt.get(0))
+            elt.on(updateEvt, function(ev, data) {
+              //console.log('[binding] updateEvt', updateEvt, data)
+              let value = elt.getValue()
+              if (elt.hasClass('brainjs-slider')) {
+                value = data
+              }
+              updateCbk(attrValue, value, elt.get(0))
 
             })
           }
