@@ -11,7 +11,6 @@ $$.control.registerControl('brainjs.pager', {
 	init: function(elt) {
 
 		const {rootPage} = this.props
-		const iface = this
 
 		const ctrl = $$.viewController(elt, {
 			data: {
@@ -22,12 +21,12 @@ $$.control.registerControl('brainjs.pager', {
 			events: {
 				onBack: function(ev) {
 					//console.log('onBack')
-					iface.popPage()
+					restorePage(true)
 				},
 				onAction: function(ev) {
 					const cmd = $(this).data('cmd')
 					//console.log('onAction', cmd)
-					const pageCtrl = getLastCtrl().iface()
+					const pageCtrl = curInfo.ctrl.iface()
 					if (typeof pageCtrl.onAction == 'function') {
 						pageCtrl.onAction(cmd)
 					}
@@ -37,56 +36,61 @@ $$.control.registerControl('brainjs.pager', {
 
 		const content = ctrl.scope.content
 		const stack = []
+		let curInfo = null
 
-		function restorePage(data) {
 
-			let {$ctrl, buttons, title} = stack[stack.length-1]
-			let iface = $ctrl.iface()
-
-			if (typeof iface.onReturn == 'function') {
-				iface.onReturn(data)
-			}
-			$ctrl.show()
-
-			ctrl.setData({showBack: stack.length > 1, title, buttons: buttons || []})
-		}
-
-		this.popPage = function(data) {
-			let {$ctrl} = stack.pop()
+		function restorePage(isBack, data) {
 			
-			let iface = $ctrl.iface()
+			const iface = curInfo.ctrl.iface()
 			//console.log('popPage', pageCtrl)
 			if (typeof iface.dispose == 'function') {
 				iface.dispose()
 			}
-			$ctrl.safeEmpty().remove()
+			curInfo.ctrl.safeEmpty().remove()
+			if (isBack) {
+				if (typeof curInfo.onBack == 'function') {
+					curInfo.onBack()
+				}
+			}
+			else if (typeof curInfo.onReturn == 'function') {
+				curInfo.onReturn(data)
+			}
 
-			restorePage(data)
+			curInfo = stack.pop()			
+			curInfo.ctrl.show()
+			const {title, buttons} = curInfo
+			ctrl.setData({showBack: stack.length > 0, title, buttons})
 
+		}
+
+		this.popPage = function(data) {
+			return restorePage(false, data)
 		}
 
 		this.pushPage = function(ctrlName, options) {
 			//console.log('[pager] pushPage', ctrlName, options)
 
+
+			if (curInfo != null) {
+				curInfo.ctrl.hide()
+				stack.push(curInfo)
+			}
+
 			options = options || {}
 
 			const desc = $$.control.getControlInfo(ctrlName)
 
-			const buttons = desc.options.buttons
+			const buttons = desc.options.buttons || []
 
-			let {title, props} = options
+			let {title, props, onReturn, onBack} = options
 
-			getLastCtrl().hide()
+			curInfo = {title, buttons, onReturn, onBack}
 
-			content.addControl(ctrlName, $.extend({$pager: this}, props))
+			curInfo.ctrl = content.addControl(ctrlName, $.extend({$pager: this}, props))
 
-			stack.push({$ctrl:getLastCtrl(), buttons, title})
-			ctrl.setData({showBack: stack.length > 1, title, buttons: buttons || []})
+			ctrl.setData({showBack: stack.length > 0, title, buttons})
 		}	
 
-		function getLastCtrl() {
-			return content.children('.CustomControl').last()
-		}	
 
 		this.pushPage(rootPage)
 

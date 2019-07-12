@@ -163,7 +163,7 @@ $.fn.addControl = function(ctrlName, data) {
     newCtrl.data(data)
   }
   $$.control.createControl(ctrlName, newCtrl)
-  return this
+  return newCtrl
 }
 
 $.fn.setItems = function(items) {
