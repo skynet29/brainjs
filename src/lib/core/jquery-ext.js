@@ -27,6 +27,7 @@ $.fn.setClass = function(data) {
       this.removeClass(className)
     }    
   }
+  return this
 
 }
 
@@ -37,6 +38,8 @@ $.fn.setVisible = function(isVisible) {
     else {
       this.hide()
     }
+
+    return this
 }
 
 $.fn.iface = function() {

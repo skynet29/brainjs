@@ -1,0 +1,21 @@
+<div bn-control="brainjs.tabs">
+
+	<div title="Result">
+
+		<div  style="padding: 20px;">
+			<div bn-control="brainjs.progressbar" bn-val="value" bn-data= "{showPercent: true, initText: 'Loading...', color: 'blue'}"></div>	
+
+			<button bn-event="click: onDownload" style="margin-top: 10px">Download</button>
+
+		</div>
+
+	</div>
+
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+

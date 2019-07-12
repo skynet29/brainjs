@@ -4943,3 +4943,16 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
     margin-top: 30px;
 }
 
+
+.ui-progressbar {
+    position: relative;
+  }
+
+
+.brainjs-progressbar .progress-label {
+	position: absolute;
+	left: 50%;
+	top: 4px;
+	font-weight: bold;
+	text-shadow: 1px 1px 0 #fff;
+}
