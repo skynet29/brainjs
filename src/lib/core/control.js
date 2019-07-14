@@ -69,6 +69,8 @@ function createControl(controlName, elt) {
 			template.children().clone().appendTo(elt)
 		}
 
+		elt.get(0).ctrl = iface
+		
 		if (typeof init == 'function') {
 
 			var args = [elt].concat(ctrl.deps)
@@ -81,7 +83,7 @@ function createControl(controlName, elt) {
 		}
 
 
-		elt.get(0).ctrl = iface
+		
 		
 		return iface				
 	}
