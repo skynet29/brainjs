@@ -99,7 +99,8 @@ task('map.js',
 		'./src/ext/map/markers/*.js',
 		'./src/ext/map/shapes/*.js',
 		'./src/ext/map/map.js',	
-		'./src/ext/map/image.js'	
+		'./src/ext/map/image/*.js',
+		'./src/ext/map/lib/*.js'	
 	],
 	{concat: 'brainjs-map.js', isCode: true}
 )
@@ -109,6 +110,7 @@ task('map.css',
 		'./externals/leaflet-1.0.3/leaflet.css',
 		'./externals/leaflet-plugins/Leaflet.Coordinates.css',
 		'./externals/leaflet-plugins/leaflet.contextmenu.min.css',	
+		'./src/ext/map/image/*.css'
 	],
 	{concat: 'brainjs-map.css', dest: 'map'}
 )
@@ -237,7 +239,8 @@ gulp.task('watch', ['all'], function() {
 	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], ['brainjs.js'])
 	gulp.watch(['./src/lib/core/core.css', './src/lib/controls/**/*.css'], ['brainjs.css'])
 	gulp.watch(['./src/ext/tree.js'], ['tree.js'])
-	gulp.watch(['./src/ext/map/**/*.js'], ['map.js', 'map.editor.js'])
+	gulp.watch(['./src/ext/map/**/*.js', './src/ext/map/**/*.html'], ['map.js', 'map.editor.js'])
+	gulp.watch(['./src/ext/map/**/*.css'], ['map.css'])
 	gulp.watch(['./src/ext/milsymbol.js'], ['milsymbol.js'])
 	gulp.watch(['./src/ext/circularmenu/*.js', './src/ext/circularmenu/*.html'], ['circularmenu.js'])
 	gulp.watch(['./src/ext/circularmenu/*.css'], ['circularmenu.css'])

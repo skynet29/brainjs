@@ -1,0 +1,14 @@
+.brainjs-image {
+	position: relative;
+}
+
+.brainjs-image .toolbar {
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	z-index: 1000;	
+}
+
+.brainjs-image .map {
+	height: 100%;
+}
