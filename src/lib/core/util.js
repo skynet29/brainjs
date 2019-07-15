@@ -235,6 +235,23 @@ function getUrlParams(url, params) {
 
 }
 
+function getVideoDevices() {
+	return navigator.mediaDevices.enumerateDevices().then((mediaDevices) => {
+		const ret = []
+		let count = 1
+		mediaDevices.forEach((mediaDevice) => {
+			if (mediaDevice.kind == 'videoinput') {
+				ret.push({
+					id: mediaDevice.deviceId,
+					label: mediaDevice.label || `Camera ${count++}`
+				})
+			}
+		})
+		return ret
+
+	})
+}
+
 $$.util = {
 	readTextFile,
 	readFileAsDataURL,
@@ -245,7 +262,8 @@ $$.util = {
 	checkType,
 	safeEval,
 	getFileType,
-	getUrlParams
+	getUrlParams,
+	getVideoDevices
 }
 
 

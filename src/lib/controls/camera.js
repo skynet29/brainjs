@@ -67,7 +67,7 @@ $$.control.registerControl('brainjs.camera', {
 			stop()
 		}	
 
-		this.update = function(data) {
+		this.setData = function(data) {
 			console.log('[camera] update', data)
 			if (data.constraints != undefined) {
 				iface.stop()

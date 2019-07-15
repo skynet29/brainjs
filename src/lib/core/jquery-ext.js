@@ -32,14 +32,20 @@ $.fn.setClass = function(data) {
 }
 
 $.fn.setVisible = function(isVisible) {
-    if (isVisible) {
-      this.show()
-    }
-    else {
-      this.hide()
-    }
-
+  if (this.hasClass('brainjs-selectmenu')) {
+    console.log('id', this.attr('id'))
+    $('#' + this.attr('id') + '-button').setVisible(isVisible)
     return this
+  }
+
+  if (isVisible) {
+    this.show()
+  }
+  else {
+    this.hide()
+  }
+
+  return this
 }
 
 $.fn.iface = function() {
@@ -170,7 +176,17 @@ $.fn.addControl = function(ctrlName, data) {
 }
 
 $.fn.setItems = function(items) {
-  return this.empty().append(items.map((text) => $('<option>').text(text)))
+  return this.empty().append(items.map((item) => {
+      const option = $('<option>')
+
+      if (typeof item == 'string') {
+        option.text(item)
+      }
+      else {
+        option.val(item.value).text(item.label)
+      }
+      return option
+  }))
 }
 
 
