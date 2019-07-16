@@ -10,11 +10,13 @@ $$.control.registerControl('brainjs.selectmenu', {
 		const {items} = this.props
 
 		console.log('value', elt.val())
+		console.log('disabled', elt.prop('disabled'))
 
 		const select = $('<select>').appendTo(elt)
 
 		select.setItems(items)
 		select.val(elt.val())
+		select.prop('disabled', elt.prop('disabled'))
 		select.selectmenu().selectmenu('menuWidget').css('max-height', '200px')
 		// select.on('selectmenuchange', () => {
 		// 	elt.trigger('selectmenuchange')
@@ -36,6 +38,10 @@ $$.control.registerControl('brainjs.selectmenu', {
 				select.setItems(data.items)
 				select.selectmenu('refresh')
 			}
+		}
+
+		this.setProp = function(data) {
+			select.prop(data)
 		}
 	},
 

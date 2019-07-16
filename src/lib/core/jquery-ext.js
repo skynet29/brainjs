@@ -48,6 +48,14 @@ $.fn.iface = function() {
 
 $.fn.setProp = function(data) {
 
+  const iface = this.iface()
+
+  if (iface && typeof iface.setProp == 'function') {
+    iface.setProp.call(iface, data)
+    return
+  }    
+
+
   for(let propName in data) {
 
     const value = data[propName]
