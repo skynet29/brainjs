@@ -60,7 +60,7 @@ function registerService(name, options) {
 
 	var deps = options.deps || []
 
-	console.log(`[service] register service '${name}' with deps`, deps)
+	//console.log(`[service] register service '${name}' with deps`, deps)
 
 	services[name] = {deps, options, status: 'notloaded'}
 }

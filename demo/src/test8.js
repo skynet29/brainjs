@@ -14,11 +14,11 @@ const htmlCode = `
 <div id="main">
 	<h2>Fruits</h2>
 	<p>Your favorit fruit: <span bn-text="favoriteFruit"></span></p>
-	<select bn-control="brainjs.selectmenu" 
+	<div bn-control="brainjs.selectmenu" 
 		bn-val="favoriteFruit" 
 		bn-update="selectmenuchange" 
 		bn-data="{items: fruits}">
-	</select>
+	</div>
 </div>
 `
 

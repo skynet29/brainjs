@@ -22,7 +22,7 @@ function registerControl(name, options) {
 
 	var deps = options.deps || []
 
-	console.log(`[control] register control '${name}' with deps`, deps)
+	//console.log(`[control] register control '${name}' with deps`, deps)
 
 	controls[name] = {deps, options, status: 'notloaded'}
 }

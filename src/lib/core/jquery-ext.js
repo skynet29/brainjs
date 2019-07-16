@@ -32,12 +32,6 @@ $.fn.setClass = function(data) {
 }
 
 $.fn.setVisible = function(isVisible) {
-  if (this.hasClass('brainjs-selectmenu')) {
-    console.log('id', this.attr('id'))
-    $('#' + this.attr('id') + '-button').setVisible(isVisible)
-    return this
-  }
-
   if (isVisible) {
     this.show()
   }
@@ -93,7 +87,6 @@ $.fn.setValue = function(value) {
   }
   else {
     this.val(value)
-    this.data('value', value)
   }
 }
 

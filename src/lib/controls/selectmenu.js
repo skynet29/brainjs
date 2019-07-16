@@ -2,32 +2,39 @@
 $$.control.registerControl('brainjs.selectmenu', {
 
 	props: {
-		items: [],
-		value: ''
+		items: []
 	},
 
 	init: function(elt) {
 
-		const {items, value} = this.props
+		const {items} = this.props
 
-		const isVisible = elt.is(':visible')
+		console.log('value', elt.val())
 
-		elt.setItems(items)
-		elt.val(value)
-		elt.selectmenu().selectmenu('menuWidget').css('max-height', '200px')
-		elt.setVisible(isVisible)
+		const select = $('<select>').appendTo(elt)
+
+		select.setItems(items)
+		select.val(elt.val())
+		select.selectmenu().selectmenu('menuWidget').css('max-height', '200px')
+		// select.on('selectmenuchange', () => {
+		// 	elt.trigger('selectmenuchange')
+		// })
 
 		this.setValue = function(val) {
 			//console.log('selectmenu setValue', val)
-			elt.val(val)
-			elt.selectmenu('refresh')
+			select.val(val)
+			select.selectmenu('refresh')
+		}
+
+		this.getValue = function() {
+			return select.val()
 		}
 
 		this.setData = function(data) {
 			//console.log('selectmenu setData', data)
 			if (Array.isArray(data.items)) {
-				elt.setItems(data.items)
-				elt.selectmenu('refresh')
+				select.setItems(data.items)
+				select.selectmenu('refresh')
 			}
 		}
 	},
