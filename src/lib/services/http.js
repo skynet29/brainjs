@@ -34,14 +34,18 @@ $$.service.registerService('brainjs.http', {
 				})				
 			},
 
-			postFormData(url, fd) {
-				return $.ajax({
+			postFormData(url, fd, options) {
+				const settings = $.extend({
 				  url: url,
-				  type: "POST",
+				  method: "POST",
 				  data: fd,
 				  processData: false,  // indique à jQuery de ne pas traiter les données
 				  contentType: false   // indique à jQuery de ne pas configurer le contentType
-				})				
+				}, options)
+
+				console.log('ajax settings', settings)
+
+				return $.ajax(settings)				
 			}
 
 			
