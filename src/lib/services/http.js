@@ -43,8 +43,6 @@ $$.service.registerService('brainjs.http', {
 				  contentType: false   // indique à jQuery de ne pas configurer le contentType
 				}, options)
 
-				console.log('ajax settings', settings)
-
 				return $.ajax(settings)				
 			}
 
