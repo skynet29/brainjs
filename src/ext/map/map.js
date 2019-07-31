@@ -28,7 +28,8 @@ $$.control.registerControl('brainjs.map', {
 			zoom,
 			closePopupOnClick: false,
 			contextmenu: true,
-			contextmenuWidth: 140
+			contextmenuWidth: 140,
+			attributionControl: false
 		}
 
 		mapOptions.contextmenuItems = Object.keys(contextMenu).map(function(cmd) {
@@ -92,9 +93,7 @@ $$.control.registerControl('brainjs.map', {
 			}
 		}
 
-		L.tileLayer(tileUrl, {
-			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-		}).addTo(map)
+		L.tileLayer(tileUrl).addTo(map)
 
 		setTimeout(function(){
 			map.invalidateSize()
