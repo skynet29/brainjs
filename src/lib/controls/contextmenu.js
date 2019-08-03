@@ -39,10 +39,6 @@ $$.control.registerControl('brainjs.contextmenu', {
 
 		})
 
-		if (title != '') {
-			$('.' + id).attr('data-menutitle', title)
-		}
-
 		this.setData = function(data) {
 			//console.log('[contextmenu] setData', data)
 			if ('title' in data) {
