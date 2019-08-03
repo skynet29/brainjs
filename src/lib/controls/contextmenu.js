@@ -14,28 +14,29 @@ $$.control.registerControl('brainjs.contextmenu', {
 			className += ' data-title'
 		}
 
-		const kItems = $.extend(true, {}, items)
-		for(let k in items) {
-
-			kItems[k].disabled = function() {	
-				//console.log('disabled', k, items[k])	
-				if (items[k].disabled == undefined)	{
-					return false
-				}	
-				return items[k].disabled
-			}
-		}
-
 		$.contextMenu({
 			//appendTo: elt.get(0),
 			trigger,
-			className,
 			selector: '#' + id,
-			zIndex: 1000,
-			callback: function(cmd) {
-				elt.trigger('contextmenuchange', {cmd})
-			},
-			items: kItems
+			build: function($trigger, ev) {
+				return {
+					events: {
+						show: function(options) {
+							//console.log('show', options)
+							if (title != '') {
+								$('.' + id).attr('data-menutitle', title)
+							}							
+						}
+					},
+					zIndex: 1000,
+					className,
+					callback: function(cmd) {
+						elt.trigger('contextmenuchange', {cmd})
+					},
+					items					
+				}
+			}
+
 		})
 
 		if (title != '') {
@@ -45,7 +46,7 @@ $$.control.registerControl('brainjs.contextmenu', {
 		this.setData = function(data) {
 			//console.log('[contextmenu] setData', data)
 			if ('title' in data) {
-				$('.' + id).attr('data-menutitle', data.title)
+				title = data.title
 			}
 			if ('items' in data) {
 				items = data.items
