@@ -2,23 +2,27 @@ $$.control.registerControl('brainjs.contextmenu', {
 	props: {
 		items: {},
 		trigger: 'right',
-		title: false
+		title: ''
 	},
 	init: function(elt) {
 
 		let {items, trigger, title} = this.props
 
 		const id = elt.attr('id')
-		let className = id
-		if (title !== false) {
-			className += ' data-title'
-		}
+
 
 		$.contextMenu({
 			//appendTo: elt.get(0),
 			trigger,
 			selector: '#' + id,
 			build: function($trigger, ev) {
+				if (Object.keys(items).length == 0) {
+					return false
+				}
+				let className = id
+				if (title !== '') {
+					className += ' data-title'
+				}				
 				return {
 					events: {
 						show: function(options) {

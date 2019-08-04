@@ -24,6 +24,19 @@ function readFileAsDataURL(fileName, onRead) {
 	fileReader.readAsDataURL(fileName)
 }
 
+function readFile(fileName) {
+  return new Promise((resolve, reject) => {
+    var fileReader = new FileReader()
+
+    fileReader.onload = function() {
+      resolve(dataURLtoBlob(fileReader.result))
+    }
+    fileReader.readAsDataURL(fileName)    
+  })
+
+}
+
+
 
 var inputFile = $('<input>', {type: 'file'}).on('change', function() {
 	var onApply = $(this).data('onApply')
@@ -282,9 +295,17 @@ function parseUrlParams(url) {
   return ret
 }
 
+function downloadUrl(url, fileName) {
+  const link = document.createElement('a')
+  link.href = url
+  link.download = fileName
+  link.click()  
+}
+
 $$.util = {
 	readTextFile,
 	readFileAsDataURL,
+  readFile,
 	openFileDialog,
 	isImage,
 	dataURLtoBlob,
@@ -296,7 +317,8 @@ $$.util = {
 	getVideoDevices,
   decodeAudioData,
   arrayBufferToString,
-  parseUrlParams
+  parseUrlParams,
+  downloadUrl
 }
 
 

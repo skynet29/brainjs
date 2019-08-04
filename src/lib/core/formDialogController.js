@@ -1,5 +1,7 @@
-$$.formDialogController = function(options) {
+$$.formDialogController = function(options, data) {
 	var div = $('<div>', {title: options.title || 'Dialog'})
+
+	data = data || {}
 
 	var private = {}
 
@@ -22,7 +24,7 @@ $$.formDialogController = function(options) {
 		options.template.children().clone().appendTo(form)
 	}
 
-	$$.viewController(form)
+	$$.viewController(form, {data})
 
 	var submitBtn = $('<input>', {type: 'submit', hidden: true}).appendTo(form)
 

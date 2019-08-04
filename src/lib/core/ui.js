@@ -49,17 +49,24 @@ function showPrompt(options, callback) {
 
 	const label = options.label || ''
 
+	const attrs = $.extend({type: 'text'}, options.attrs)
+
 	options.template = `
-	<p>${label}</p>
-	<input type="text" required="" name="value" autocomplete="off">
+	<div style="margin-bottom: 5px">${label}</div>
+	<input required="" name="value" autocomplete="off" bn-attr="attrs" style="width: 100%; padding: 5px">
 	`
+
+
 
 	options.close = function() {
 		$(this).dialog('destroy')
 	}
 
-	$$.formDialogController(options)
-	.show(function(data) {
+	const formDialog = $$.formDialogController(options, {attrs})
+	if (options.value != undefined) {
+		formDialog.setData({value: options.value})
+	}
+	formDialog.show(function(data) {
 		if (typeof callback == 'function') {
 			callback(data.value)
 		}
