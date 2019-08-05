@@ -37,7 +37,7 @@ $$.control.registerControl('brainjs.image', {
 			attributionControl: false,
 			zoomControl: false,
 			minZoom: -4,
-			zoomSnap: 0.1,
+			zoomSnap: 0.05,
 		})
 
 		let bounds
@@ -103,7 +103,7 @@ $$.control.registerControl('brainjs.image', {
 		}
 
 		this.setData = function(data) {
-			console.log('[image] setData', data)
+			//console.log('[image] setData', data)
 			if (data.src) {
 				load(data.src)
 			}

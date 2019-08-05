@@ -23,5 +23,14 @@ L.RotateImageLayer = L.ImageOverlay.extend({
             this._reset()
         }
         return this
-    }
+    },
+
+    setBounds:function(bounds) {
+        //console.log('setBounds', bounds)
+        const corner1 = L.latLng(bounds[0][0], bounds[0][1])
+        const corner2 = L.latLng(bounds[1][0], bounds[1][1])
+        bounds = L.latLngBounds(corner1, corner2);        
+        L.ImageOverlay.prototype.setBounds.call(this, bounds);
+        return this
+    }    
 });
