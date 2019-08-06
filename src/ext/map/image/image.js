@@ -45,6 +45,8 @@ $$.control.registerControl('brainjs.image', {
 		let image = null
 
 		function load(url) {
+			ctrl.setData({ready: false})
+
 			image = new Image()
 			image.onload = function() {
 				ctrl.setData({ready: true})
@@ -59,6 +61,8 @@ $$.control.registerControl('brainjs.image', {
 				}
 				else {
 					imageOverlay.setBounds(bounds)
+					rotationAngle = 0
+					imageOverlay.setRotation(rotationAngle)
 					imageOverlay.setUrl(url)
 				}
 				map.fitBounds(bounds)
