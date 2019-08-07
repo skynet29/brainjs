@@ -17,28 +17,44 @@ $$.control.registerControl('brainjs.image', {
 				ready: false
 			},
 			events: {
-				onAction: function(ev, data) {
-					//console.log('onAction', data)
-					if (data.cmd == 'fit') {
-						fitImage()
-					}
-					if (data.cmd == 'rotateRight') {
-						rotate(90)
-					}
-					if (data.cmd == 'rotateLeft') {
-						rotate(-90)
-					}
-				}
 			}
 		})
 
-		const map = L.map(ctrl.scope.map.get(0), {
+		const mapOptions = {
 			crs: L.CRS.Simple,
 			attributionControl: false,
 			zoomControl: false,
 			minZoom: -4,
 			zoomSnap: 0.05,
-		})
+			contextmenu: true,
+			contextmenuWidth: 140,
+			contextmenuItems: [
+				{
+					text: 'Fit Image Size',
+					iconCls: 'fas fa-expand w3-text-blue',
+					callback: function() {
+						fitImage()
+					}
+				},
+				{separator: true},
+				{
+					text: 'Rotate Right',
+					iconCls: 'fas fa-redo-alt w3-text-blue',
+					callback: function() {
+						rotate(90)
+					}
+				},
+				{
+					text: 'Rotate Left', 
+					iconCls: 'fas fa-undo-alt w3-text-blue',
+					callback: function() {
+						rotate(-90)
+					}
+				}
+			]			
+		}
+
+		const map = L.map(ctrl.scope.map.get(0), mapOptions)
 
 		let bounds
 		let imageOverlay = null
