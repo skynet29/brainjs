@@ -91,6 +91,19 @@ $$.control.registerControl('brainjs.pager', {
 			ctrl.setData({showBack: stack.length > 0, title, buttons})
 		}	
 
+		this.setButtonVisible = function(buttonsVisible) {
+			 
+			const buttons = curInfo.buttons.map((button) => {
+				const b = $.extend({}, button)
+				if (b.name in buttonsVisible) {
+					b.visible = buttonsVisible[b.name]
+				}
+				return b
+			})
+				
+			ctrl.setData({buttons})
+		}
+
 
 		this.pushPage(rootPage)
 

@@ -122,6 +122,35 @@ $$.control.registerControl('brainjs.image', {
 			fitImage()
 		}
 
+		this.fitImage = fitImage
+		this.rotate = rotate
+
+		this.enableHandlers = function(isEnabled) {
+			map._handlers.forEach((handler) => {
+				if (isEnabled) {
+					handler.enable()
+				}
+				else {
+					handler.disable()
+				}
+			})
+		}
+
+		this.enableContextMenu = function(isEnabled) {
+
+			if (isEnabled) {
+				map.contextmenu.enable()
+			}
+			else {
+				map.contextmenu.disable()
+			}
+		}
+
+		this.invalidateSize = function() {
+			map.invalidateSize()
+			fitImage()
+		}
+
 		this.setData = function(data) {
 			//console.log('[image] setData', data)
 			if (data.src) {
@@ -129,6 +158,15 @@ $$.control.registerControl('brainjs.image', {
 			}
 		}
 
-	}
+	},
+	$iface: `
+		setData({src});
+		invalidateSize();
+		enableHandlers(isEnabled);
+		enableContextMenu(isEnabled);
+		fitImage();
+		rotate(angleDeg)
+
+	`
 
 })

@@ -6,12 +6,17 @@
 		</button>
 		<div bn-text="title"></div>
 		<div bn-each="buttons" bn-event="click.action: onAction">
-			<button bn-show="$i.icon == undefined" class="w3-button action" 
+			<button 
+				bn-show="$i.icon == undefined && !($i.visible === false)" 
+				class="w3-button action" 
 				bn-text="$i.label" 
 				bn-data="{cmd: $i.name}"
 				></button>
-			<button bn-show="$i.icon != undefined" class="w3-button action" 
+			<button 
+				bn-show="$i.icon != undefined && !($i.visible === false)" 
+				class="w3-button action" 
 				bn-data="{cmd: $i.name}"
+				bn-attr="{title: $i.title}"
 				><i bn-attr="{class: $i.icon}"></i></button>
 		</div>
 	</div>
