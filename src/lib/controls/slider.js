@@ -47,7 +47,7 @@ $$.control.registerControl('brainjs.slider', {
 		}
 
 		this.setData = function(data) {
-			console.log('[slider] setData', data)
+			//console.log('[slider] setData', data)
 			if (data.max != undefined) {
 				elt.slider('option', 'max', data.max)
 			}
