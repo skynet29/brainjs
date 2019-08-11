@@ -236,7 +236,9 @@ function getUrlParams(url, params) {
 	if (typeof params == 'object') {
 		const keys = []
 		for(let i in params) {
-			keys.push(i + '=' + encodeURIComponent(params[i]))
+			if (params[i] != undefined) {
+				keys.push(i + '=' + encodeURIComponent(params[i]))
+			}
 		}
 
 		url += `?` + keys.join('&')

@@ -18,7 +18,7 @@ $$.control.registerControl('brainjs.flipswitch', {
 		if (value == '') {
 			value = texts.right
 		}
-		console.log('value', value)
+		//console.log('value', value)
 		const init = (value == texts.left ? 'right' : 'left')
 
 		elt.flipswitch({
@@ -35,7 +35,7 @@ $$.control.registerControl('brainjs.flipswitch', {
 		})
 
 		this.getValue = function() {
-			console.log('getValue', value)
+			//console.log('getValue', value)
 			return value
 		}
 
