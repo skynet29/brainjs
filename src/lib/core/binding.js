@@ -1,14 +1,6 @@
 (function(){
 
 
-function getValue(data, varName) {
-
-    return $$.util.safeEval(varName, data)
-
-}
-
-
-
 const map = {
   // 'bn-each': {type: 3},
   'bn-if': {type: 5},
@@ -30,12 +22,13 @@ function update(ctx, data, excludeElt, forceElt) {
 
   //console.log('[binding] update', data, excludeElt)
   //console.log('ctx', ctx)
+  const str = $$.util.toSourceString(data)
 
   ctx.forEach(function(info) {
 
     let {type, f, elt, name, template, iter, attrValue, dir, oldValue} = info
 
-    let value = getValue(data, attrValue)
+    let value = $$.util.evaluate(attrValue, str)
     
     if (elt.get(0) != forceElt && JSON.stringify(value) == JSON.stringify(oldValue)) {
       return
@@ -102,6 +95,8 @@ function process(root, data, updateCbk) {
   //console.log('### process ####', root.get(0).outerHTML, data)
 
   const ctx = []
+  const str = $$.util.toSourceString(data)
+
 
   // first process bn-each directive
 
@@ -135,7 +130,7 @@ function process(root, data, updateCbk) {
     }
 
 
-    let value = getValue(data, attrValue)
+    let value = $$.util.evaluate(attrValue, str)
 
     ctx.push({elt, type: 3, template, iter, attrValue, dir: 'bn-each', oldValue: value})   
 
@@ -169,7 +164,7 @@ function process(root, data, updateCbk) {
       }
 
       if (dir == 'bn-if') {
-        let value = getValue(data, attrValue)
+        let value = $$.util.evaluate(attrValue, str)
         //console.log('bn-if', attrValue, value)
         if (value === false) {
           //console.log('remove', elt)
@@ -199,7 +194,7 @@ function process(root, data, updateCbk) {
           }
         }
 
-        let value = getValue(data, attrValue)        
+        let value = $$.util.evaluate(attrValue, str)        
 
         ctx.push({f, elt, type, attrValue, dir, oldValue: value})
 
