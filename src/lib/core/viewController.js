@@ -7,28 +7,34 @@ class ViewController {
     		elt = $(elt)
     	}
 
-        if (elt.hasClass('CustomControl')) {
-            elt = elt.children()
-        }
+        // if (elt.hasClass('CustomControl')) {
+        //     elt = elt.children()
+        // }
 
-    	options = $.extend({}, options)
         this.elt = elt
+    	options = $.extend({}, options)
 
         this.model = $.extend({}, options.data)
 
-        this.ctx = $$.binding.process(elt, this.model,
+        const {ctx, scope, events, ctrls} = $$.binding.parse(elt.get(0),
             (name, value, excludeElt) => {
                 //console.log('[ViewController] updateCbk', name, value, excludeElt)
                 this.setData(name, value, excludeElt)                
             })
 
+        this.ctx = ctx
+
+        this.update()
+        $$.binding.processCtrls(ctrls)
+
 
         if (typeof options.events == 'object') {
-            $$.binding.processEvents(elt, options.events)
+            $$.binding.processEvents(events, options.events)
         }
 
 
-        this.scope = $$.binding.processBindings(elt)
+        //this.scope = $$.binding.processBindings(elt)
+        this.scope = $$.binding.processBindings(scope)
 
         //console.log('scope', this.scope)
        
@@ -50,14 +56,16 @@ class ViewController {
 
     update(excludeElt) {
     	//console.log('[ViewController] update', fieldsName, excludeElt)
-        $$.binding.update(this.ctx, this.model, excludeElt)
+        const t = Date.now()
+        $$.binding.render(this.ctx, this.model, excludeElt)        
+        console.log('update time', Date.now() - t, this.elt.get(0).tagName + '.' + this.elt.attr('class'))
 
     }
 
-    forceUpdate(bindingName) {
-        const forceElt = this.scope[bindingName]
-        $$.binding.update(this.ctx, this.model, null, forceElt.get(0))
-    }
+    // forceUpdate(bindingName) {
+    //     const forceElt = this.scope[bindingName]
+    //     $$.binding.update(this.ctx, this.model, null, forceElt.get(0))
+    // }
 }
 
 $$.viewController = function(elt, options) {

@@ -1,64 +1,27 @@
 (function(){
 
 
+
 const map = {
-  // 'bn-each': {type: 3},
-  'bn-if': {type: 5},
-  'bn-form': {f: 'setFormData', type:1},
-  'bn-text': {f: 'text', type: 1},
-  'bn-html': {f: 'html', type: 1},
-  'bn-data': {f: 'setData', type: 2},
-  'bn-val': {f: 'setValue', type: 1},
-  'bn-show': {f: 'setVisible', type: 1},
-  'bn-style': {f: 'css', type: 2},
-  'bn-attr': {f: 'attr', type: 2},
-  'bn-prop': {f: 'setProp', type: 2},
-  'bn-class': {f: 'setClass', type: 2},
-  'bn-control': {type: 4}
+  'bn-form': 'setFormData',
+  'bn-text': 'text',
+  'bn-html': 'html',
+  'bn-data': 'setData',
+  'bn-val': 'setValue',
+  'bn-show': 'setVisible',
+  'bn-style': 'css',
+  'bn-attr': 'attr',
+  'bn-prop': 'setProp',
+  'bn-class': 'setClass',
+  'bn-control': true,
+  'bn-each': true,
+  'bn-if': true,
+  'bn-bind': true,
+  'bn-iface': true,
+  'bn-event': true
 }
 
 
-function update(ctx, data, excludeElt, forceElt) {
-
-  //console.log('[binding] update', data, excludeElt)
-  //console.log('ctx', ctx)
-  const str = $$.util.toSourceString(data)
-
-  ctx.forEach(function(info) {
-
-    let {type, f, elt, name, template, iter, attrValue, dir, oldValue} = info
-
-    let value = $$.util.evaluate(attrValue, str)
-    
-    if (elt.get(0) != forceElt && JSON.stringify(value) == JSON.stringify(oldValue)) {
-      return
-    }
-
-    info.oldValue = value
-
-    if (elt.get(0) == excludeElt) {
-      return
-    }    
-
-    //console.log(`[binding] update ${dir}="${attrValue}" value=`, value)
-    
-
-    if (type == 1 || type == 2) {
-      //console.log('update', variable, f, newValue)
-       elt[f].call(elt, value)
-    }
-    if (type == 3 && Array.isArray(value)) {
-      elt.safeEmpty()
-      value.forEach(function(item) {
-        var itemData = $.extend({}, data)
-        itemData[iter] = item
-        var $item = template.clone()
-        process($item, itemData)
-        elt.append($item)           
-      })
-    }
-  })
-}
 
 function splitAttr(attrValue, cbk) {
   attrValue.split(',').forEach(function(i) {
@@ -67,175 +30,209 @@ function splitAttr(attrValue, cbk) {
   })
 }
 
-function processEvents(root, events) {
-  root.bnFindAttr('bn-event', function(elt, attrValue) {
-      
-      splitAttr(attrValue, function(evtName, value) {
-        let fn  = events[value]
-        if (typeof fn == 'function') {        
-          const [name, selector] = evtName.split('.')
 
-          if (selector != undefined) {
-            elt.on(name, '.' + selector, fn)
-          }
-          else {
-            elt.on(name, fn)
-          }
-          
-          
+function processEvents(events, data) {
+  events.forEach((info) => {
+    const {attrValue, node} = info
+    const elt = $(node)
+    splitAttr(attrValue, function(evtName, value) {
+      let fn  = data[value]
+      if (typeof fn == 'function') {        
+        const [name, selector] = evtName.split('.')
+
+        if (selector != undefined) {
+          elt.on(name, '.' + selector, fn)
         }
-      })
-     
+        else {
+          elt.on(name, fn)
+        }                
+      }
     })
-     
+
+  })
+            
 }
 
-function process(root, data, updateCbk) {
+function parse(root, updateCbk) {
 
-  //console.log('### process ####', root.get(0).outerHTML, data)
+  const nodeIterator = document.createNodeIterator(root, NodeFilter.SHOW_ELEMENT,
+     { acceptNode: function(node) {
+        if (node == root && node.classList.contains('CustomControl')) {
+          return NodeFilter.REJECT;
+        }
+
+        for(let name of node.getAttributeNames()) {
+          if (name.startsWith('bn-')) {
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        }
+          
+      }}
+      )
 
   const ctx = []
-  const str = $$.util.toSourceString(data)
+  const scope = []
+  const events = []
+  const ctrls = []
+
+  let node
+  while(node = nodeIterator.nextNode()) {
+    const attrs = node.getAttributeNames()
+    attrs
+    .filter((name) => name in map)
+    .forEach((attrName) => {
+      const attrValue =  node.getAttribute(attrName)
+      node.removeAttribute(attrName)
 
 
-  // first process bn-each directive
-
-
-  const bnEach = []
-  root.bnFind('[bn-each]').each(function() {
-    const elt = $(this)
-    let contained = false
-    bnEach.forEach(function(i) {
-      if ($.contains(i.get(0), elt.get(0))) {
-        contained = true
-      }
-    })    
-    if (!contained) {
-      bnEach.push(elt)
-    }
-  })
-  //console.log('bn-each=', bnEach)
-  // process bn-each directive which are not contained in another one
-
-  bnEach.forEach(function(elt) {
-    const attrValue = elt.attr('bn-each')
-    elt.removeAttr('bn-each')
-    let template = elt.children().remove().clone()
-    let iter = elt.attr('bn-iter')
-    if (iter != undefined) {
-      elt.removeAttr('bn-iter')
-    }
-    else {
-      iter = '$i'
-    }
-
-
-    let value = $$.util.evaluate(attrValue, str)
-
-    ctx.push({elt, type: 3, template, iter, attrValue, dir: 'bn-each', oldValue: value})   
-
-    elt.empty()
-    value.forEach(function(item) {
-      var itemData = $.extend({}, data)
-      itemData[iter] = item
-      var $item = template.clone()
-      process($item, itemData)
-      elt.append($item)           
-    })           
-      
-  })
-
-  const removedElts = []
-
-  // process other directive
-  
-  for(let dir in map) {
-    
-    //console.log('dir=', dir, removedElts)
-    root.bnFindAttr(dir, function(elt, attrValue) {
-
-      //console.log('dir=', dir, elt)
-
-      //console.log('attrValue', attrValue)
-
-      if (removedElts.indexOf(elt.get(0)) >= 0) {
-        //console.log('skip elt', elt, removedElts)
-        return
+      if (attrName == 'bn-bind' || attrName == 'bn-iface') {
+        scope.push({node, attrValue, attrName})
       }
 
-      if (dir == 'bn-if') {
-        let value = $$.util.evaluate(attrValue, str)
-        //console.log('bn-if', attrValue, value)
-        if (value === false) {
-          //console.log('remove', elt)
-          removedElts.push(elt.get(0))
-          elt.remove()
-         
-          return
+
+      else if (attrName == 'bn-event') {
+        events.push({node, attrValue})
+      }
+
+      else if (attrName == 'bn-control') {
+        ctrls.push({node, attrValue})
+      }
+
+      else if (attrName == 'bn-each' || attrName == 'bn-if') {
+        const template = document.createElement('template')
+        $(template.content).append($(node).children().remove())
+        let iter = node.getAttribute('bn-iter')
+        if (iter == null) {
+          iter = '$i'
         }
+        else {
+          node.removeAttribute('bn-iter')
+        }
+        ctx.push({attrName, node, template, attrValue, iter})
       }
 
-      let {type, f} = map[dir]
-      
-      if (type == 1 || type == 2) {
-        if (dir == 'bn-val') {
-          let updateEvt = elt.attr('bn-update')
-          if (updateEvt) {
-            elt.removeAttr('bn-update')
-            elt.on(updateEvt, function(ev, data) {
-              //console.log('[binding] updateEvt', updateEvt, data)
-              let value = elt.getValue()
-              if (elt.hasClass('brainjs-slider')) {
-                value = data
-              }
-              updateCbk(attrValue, value, elt.get(0))
+      else if (attrName == 'bn-val') {
+        const updateEvt = node.getAttribute('bn-update')
 
-            })
-          }
+        if (updateEvt != null) {
+          node.removeAttribute('bn-update')
+          const elt = $(node)
+          elt.on(updateEvt, function(ev, data) {
+            //console.log('[binding] updateEvt', updateEvt, data)
+            let value = elt.getValue()
+            if (elt.hasClass('brainjs-slider')) {
+              value = data
+            }
+            updateCbk(attrValue, value, node)
+
+          })
         }
 
-        let value = $$.util.evaluate(attrValue, str)        
-
-        ctx.push({f, elt, type, attrValue, dir, oldValue: value})
-
-
-        elt[f].call(elt, value)
+        ctx.push({attrName, node, attrValue})
       }
 
-      if (type == 4) {
-        $$.control.createControl(attrValue, elt)
+      else  {
+        ctx.push({attrName, node, attrValue})
       }
-            
+
     })
-     
-  
+
+ 
   }
-  
-  //console.log('#### end process ####', ctx)
-  return ctx
+
+  return {ctx, scope, events, ctrls}
 }
 
-function processBindings(root) {
+function processCtrls(ctrls) {
+  ctrls.forEach((info) => {
+    const {node, attrValue} = info
+    $$.control.createControl(attrValue, $(node))
+  })
+}
+
+function render(ctx, data) {
+  //console.log('render', ctx, data)
+
+  const str = $$.util.toSourceString(data)
+  
+  for(let info of ctx) {
+    const {attrName, attrValue, node, template, iter, oldValue} = info
+
+    //console.log('render', attrName, attrValue)
+
+    const t2 = Date.now()
+    const value = $$.util.evaluate(attrValue, str)
+    //console.log('t2', attrValue, Date.now() - t2)
+    const strValue = JSON.stringify(value)
+
+    if (oldValue != undefined &&  oldValue == strValue && attrName != 'bn-if') {
+      continue
+    }
+
+    info.oldValue = strValue
+
+
+    if (attrName == 'bn-each') {
+        node.innerHTML = ''
+        value.forEach((item) => {
+          const clone = document.importNode(template.content, true) 
+          const {ctx, ctrls} = parse(clone)
+          const itemData = $.extend({}, data)
+          itemData[iter] = item
+          render(ctx, itemData)
+          processCtrls(ctrls)
+          node.appendChild(clone)
+        })
+    }
+    else if (attrName == 'bn-if') {
+        node.innerHTML = ''
+        node.style.height = '100%'
+        if (value === true) {
+          node.hidden = false
+          const clone = document.importNode(template.content, true) 
+          const {ctx, ctrls} = parse(clone)
+          render(ctx, data)
+          processCtrls(ctrls)
+          node.appendChild(clone)
+        }    
+        else {
+          node.hidden = true
+        }
+    }
+     else {
+      const f = map[attrName]
+      $(node)[f](value)    
+    }
+  }
+
+
+}
+
+function processBindings(scope) {
 
   var data = {}
 
-  root.bnFindAttr('bn-bind', function(elt, attrValue) {
-    data[attrValue] = elt
-  })
-
-  root.bnFindAttr('bn-iface', function(elt, attrValue) {
-    data[attrValue] = elt.iface()
+  scope.forEach((info) => {
+    const {attrValue, attrName, node} = info
+    if (attrName == 'bn-bind') {
+      data[attrValue] = $(node)
+    }
+    else if (attrName == 'bn-iface') {
+      data[attrValue] = $(node).iface()
+    }
   })
 
   return data
   
-}
+}  
+
 
 $$.binding = {
-  process,
-  update,
+  parse,
+  render,
   processEvents,
-  processBindings
+  processBindings,
+  processCtrls
 }
 
 })();

@@ -37,6 +37,7 @@ function resolveControl(name) {
 }
 
 function createControl(controlName, elt) {
+	//console.log('createControl', controlName, elt.data())
 	var ctrl = resolveControl(controlName)
 		
 	if (ctrl == undefined) {
@@ -48,18 +49,20 @@ function createControl(controlName, elt) {
 		elt.addClass(controlName.replace('.', '-'))
 		elt.addClass('CustomControl').uniqueId()	
 		
+
+		let {init, props, template} = ctrl.options
+		//props = props || {}
 		var iface = {
-			props: {},
+			props: $.extend({}, props, elt.data()),
 			name: controlName
 		}
 
-		let {init, props, template} = ctrl.options
-		props = props || {}
-
+		/*
 		Object.keys(props).forEach(function(propName) {
 			const prop = elt.data(propName)
 			iface.props[propName] = (prop != undefined) ? prop : props[propName]
 		})
+		*/
 
 		if (typeof template == 'string') {
 			$(template).appendTo(elt)

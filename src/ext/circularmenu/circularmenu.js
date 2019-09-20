@@ -125,7 +125,7 @@ $$.control.registerControl('brainjs.circularmenu', {
 			}
 		})
 
-		const svg = ctrl.elt
+		const svg = ctrl.scope.svg
 
 		const item = svg.find('.item')
 		const items = svg.find('.items')
@@ -150,6 +150,7 @@ $$.control.registerControl('brainjs.circularmenu', {
 
 
 		function showMenu(x, y) {
+			console.log('showMenu', x, y)
 			show(x, y)
 			openMenu()
 		}

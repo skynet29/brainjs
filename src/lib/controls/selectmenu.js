@@ -9,8 +9,8 @@ $$.control.registerControl('brainjs.selectmenu', {
 
 		const {items} = this.props
 
-		console.log('value', elt.val())
-		console.log('disabled', elt.prop('disabled'))
+		//console.log('value', elt.val())
+		//console.log('disabled', elt.prop('disabled'))
 
 		const select = $('<select>').appendTo(elt)
 

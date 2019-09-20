@@ -51,7 +51,6 @@
 				processRoute(getNewRoute())
 			})
 
-
 			var routes = this.props.routes
 
 			if (!Array.isArray(routes)) {
