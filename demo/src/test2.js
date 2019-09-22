@@ -4,7 +4,8 @@
 const jsCode = `
 const ctrl = $$.viewController('#main', {
 	data: {
-		message: 'Hello World'
+		message: 'Hello World',
+		toUpper: function() {return this.message.toUpperCase()}
 	}
 }
 `
@@ -12,7 +13,7 @@ const ctrl = $$.viewController('#main', {
 const htmlCode = `
 <div id="main">
 	<input type="text" bn-val="message" bn-update="input">
-	<p>Message: <span bn-text="message.toUpperCase()"></span></p>	
+	<p>Message: <span bn-text="toUpper"></span></p>	
 </div>
 `
 
@@ -23,6 +24,7 @@ $$.control.registerControl('test2', {
 		const ctrl = $$.viewController(elt, {
 			data: {
 				message: 'Hello World',
+				toUpper: function() {return this.message.toUpperCase()},
 				htmlCode: htmlCode.trim(),
 				jsCode: jsCode.trim()
 			}

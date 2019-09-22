@@ -21,7 +21,73 @@ const map = {
   'bn-event': true
 }
 
+function getObjectValue(data, expr) {
+  //console.log('getValue', data, expr)
+  const t = expr.split('.')
+  const v = t.shift()
+  if (t.length == 0) {
+    return data[v]
+  }
+  return getObjectValue(data[v], t.join('.'))
 
+}
+
+function getValue(data, expr) {
+  //console.log('getValue', data, expr)
+  expr = expr.trim()
+  const v = parseFloat(expr)
+  if (!isNaN(v)) {
+    return v
+  }
+
+  if (expr == 'true') {
+    return true
+  }
+
+  if (expr == 'false') {
+    return false
+  }
+
+  var ar = expr.match(/\'(.*?)\'/)
+  if (ar != null) {
+    return ar[1]
+  }
+
+  let not = false
+  if (expr.startsWith('!')) {
+    expr = expr.substr(1)
+    not = true
+  }
+  let ret
+  const f = data[expr]  
+  if (typeof f == 'function') {
+    ret = f.call(data)
+  }
+  else {
+    ret = getObjectValue(data, expr)
+  }
+  return (not) ? !ret : ret
+
+}
+
+function evaluate(data, expr) {
+  //console.log('evaluate', data, expr)
+  var ar = expr.match(/\{(.*?)\}/)
+  //console.log('ar', ar)
+  if (ar == null) {
+    return getValue(data, expr)
+  }
+  const args = ar[1].split(',')
+  //console.log('args', args)
+  const ret = {}
+  args.forEach((i) => {
+     const t = i.split(':')
+     const name = t[0].trim()
+     const value = (t.length == 1) ? name : t[1].trim() 
+     ret[name] = getValue(data, value) 
+  })
+  return ret
+}
 
 function splitAttr(attrValue, cbk) {
   attrValue.split(',').forEach(function(i) {
@@ -152,17 +218,15 @@ function processCtrls(ctrls) {
 
 function render(ctx, data) {
   //console.log('render', ctx, data)
-
-  const str = $$.util.toSourceString(data)
   
   for(let info of ctx) {
     const {attrName, attrValue, node, template, iter, oldValue} = info
 
-    //console.log('render', attrName, attrValue)
-
-    const t2 = Date.now()
-    const value = $$.util.evaluate(attrValue, str)
-    //console.log('t2', attrValue, Date.now() - t2)
+    const value = evaluate(data, attrValue)
+    if (value == undefined) {
+      console.warn('evaluate', attrValue)
+      console.warn('return', value)
+    }
     const strValue = JSON.stringify(value)
 
     if (oldValue != undefined &&  oldValue == strValue && attrName != 'bn-if') {

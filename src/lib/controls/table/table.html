@@ -4,9 +4,9 @@
 			<th bn-text="$i.label"></th>
 		</tr>
 	</thead>
-	<tbody bn-each="getFilteredData()" bn-event="click.cmd: onCmdClick">
+	<tbody bn-each="getFilteredData" bn-event="click.cmd: onCmdClick">
 		<tr bn-each="columns" bn-data="{item: $i}" bn-iter="$col">
-			<td bn-html="getRowData($i, $col)"></td>
+			<td bn-html="getRowData"></td>
 		</tr>
 	</tbody>
 </table>	

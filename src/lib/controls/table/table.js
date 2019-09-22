@@ -2,6 +2,23 @@
 
 
 
+function getButtonsTemplate(buttons) {
+	return buttons.map((button) => {
+		if (button.icon != undefined && button.title != undefined) {
+			return `<button 
+				data-cmd="${button.cmd}" 
+				class="cmd" 
+				title="${button.title}"><i class="${button.icon}"></i></button>`
+		}
+		if (button.icon != undefined) {
+			return `<button 
+				data-cmd="${button.cmd}" 
+				class="cmd" 
+				"><i class="${button.icon}"></i></button>`
+		}
+		return `<button data-cmd="${button.cmd}" class="cmd">${button.title}</button>`
+	}).join('')
+}
 
 
 $$.control.registerControl('brainjs.table', {
@@ -27,46 +44,31 @@ $$.control.registerControl('brainjs.table', {
 
 				data: this.props.data,
 
-				getRowData: function(data, col) {
+				getRowData: function() {
 					//console.log('getRowData', data, col)
+					const col = this.$col
+					const data = this.$i
 					if (col.buttons != undefined) {
 						return getButtonsTemplate(col.buttons)
 					}
 					return data[col.name]
 				},
 
-				getButtonsTemplate: function(buttons) {
-					return buttons.map((button) => {
-						if (button.icon != undefined && button.title != undefined) {
-							return `<button 
-								data-cmd="${button.cmd}" 
-								class="cmd" 
-								title="${button.title}"><i class="${button.icon}"></i></button>`
-						}
-						if (button.icon != undefined) {
-							return `<button 
-								data-cmd="${button.cmd}" 
-								class="cmd" 
-								"><i class="${button.icon}"></i></button>`
-						}
-						return `<button data-cmd="${button.cmd}" class="cmd">${button.title}</button>`
-					}).join('')
-				},
 
 
 				isInFilter: function(data) {
 					var ret = true
-					for(var f in filters) {
+					for(var f in this.filters) {
 						var value = data[f]
-						var filterValue = filters[f]
+						var filterValue = this.filters[f]
 						ret &= (filterValue == '' || value.startsWith(filterValue))
 					}
 					return ret
 				},				
 				
 				getFilteredData: function() {
-					return data.filter(function(item) {
-						return isInFilter(item)
+					return this.data.filter((item) => {
+						return this.isInFilter(item)
 					})
 				}					
 			},

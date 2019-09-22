@@ -16,7 +16,13 @@ $$.control.registerControl('brainjs.pager', {
 			data: {
 				showBack: false,
 				title: '',
-				buttons: []
+				buttons: [],
+				show1: function() {
+					return this.$i.icon == undefined && !(this.$i.visible === false)
+				},
+				show2: function() {
+					return this.$i.icon != undefined && !(this.$i.visible === false)
+				}
 			},
 			events: {
 				onBack: function(ev) {

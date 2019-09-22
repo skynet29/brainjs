@@ -24,6 +24,7 @@ $$.control.registerControl('test14', {
 		this.ctrl = $$.viewController(elt, {
 			data: { 
 				date: new Date(1972, 0, 3),
+				toDateString: function() {return this.date.toDateString()},
 				htmlCode,
 				jsCode,
 			},

@@ -13,8 +13,8 @@ const ctrl = $$.viewController('#main', {
 	   ],
 	   filter:'',
 	   getFilteredClients: function() {
-	     return clients.filter(function(client) {
-	       return client.name.startsWith(filter);
+	     return this.clients.filter((client) => {
+	       return client.name.startsWith(this.filter)
 	     })
 	   }    
 
@@ -33,7 +33,7 @@ const htmlCode = `
 	      <th>Age</th>
 	    </tr>
 	  </thead>
-	  <tbody bn-each="getFilteredClients()">
+	  <tbody bn-each="getFilteredClients">
 	    <tr>
 	      <td bn-text="$i.name"></td>
 	      <td bn-text="$i.age"></td>
@@ -59,8 +59,8 @@ $$.control.registerControl('test9', {
 			   ],
 			   filter:'',
 			   getFilteredClients: function() {
-			     return clients.filter(function(client) {
-			       return client.name.startsWith(filter);
+			     return this.clients.filter((client) => {
+			       return client.name.startsWith(this.filter);
 			     })
 
 			   },

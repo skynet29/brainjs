@@ -17,8 +17,8 @@ const htmlCode = `
 		<input type="text" bn-val="name" bn-update="input">	
 	</div>
 
-	<div bn-control="brainjs.milsymbol" data-sidc="SFG-UCI----D" 
-		bn-data="size: size, name: name"></div>
+	<div bn-control="brainjs.milsymbol"
+		bn-data="{size, name, sidc: 'SFG-UCI----D'}></div>
 </div>
 `.trim()
 
