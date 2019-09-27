@@ -72,6 +72,7 @@ function getValue(data, expr) {
 
 function evaluate(data, expr) {
   //console.log('evaluate', data, expr)
+  expr = expr.replace(/\n/g, '').trim()
   var ar = expr.match(/\{(.*?)\}/)
   //console.log('ar', ar)
   if (ar == null) {
@@ -223,10 +224,13 @@ function render(ctx, data) {
     const {attrName, attrValue, node, template, iter, oldValue} = info
 
     const value = evaluate(data, attrValue)
-    if (value == undefined) {
-      console.warn('evaluate', attrValue)
-      console.warn('return', value)
-    }
+    // console.log('evaluate', attrValue)
+    // if (value == undefined) {
+    //   console.warn('return', value)
+    // }
+    // else {
+    //   console.log('return', value)
+    // }
     const strValue = JSON.stringify(value)
 
     if (oldValue != undefined &&  oldValue == strValue && attrName != 'bn-if') {
