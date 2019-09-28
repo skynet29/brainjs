@@ -32,7 +32,7 @@ function getValue(data, t) {
   if (t.startsWith("'") && t.endsWith("'")) {
   	t = t.substr(1, t.length-2)
   	if (t.startsWith('\\u')) {
-  		return String.fromCharCode(t.substr(2))
+  		return String.fromCharCode(parseInt(t.substr(2), 16))
   	}
   	return t
   }
