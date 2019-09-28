@@ -53,6 +53,24 @@ function getValue(data, t) {
 
 function evalSimple(data, s) {
 	//console.log('evalSimple', s)
+	let d = s.lastIndexOf('[')
+	      //console.log('d', d, s[d+1])
+	      //var data = {}
+	let idx = 1;
+	while (d != -1) {
+		const f = s.indexOf(']', d)
+		const tab = []
+		s.substring(d+1, f).split(',').forEach((i) => {
+			tab.push(getValue(data, i.trim()))
+		})
+		//console.log('ev', ev)
+		const vName = '$$' + idx++
+		data[vName] = tab      
+		//console.log('data', data)
+		s = s.substring(0, d) + vName + s.substring(f+1)
+		//console.log('s', s)
+		d= s.lastIndexOf('[')
+	}  
 
 	const ret = {}
 	s.split(',').forEach((i) => {

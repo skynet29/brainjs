@@ -4,12 +4,6 @@
 const jsCode = `
 const ctrl = $$.viewController('#main', {
 	data: { 
-        items: [
-            {"text": "Red", color: 'red'},
-            {"text": "Blue", "color": "blue"},
-            {"text": "Green", "color": "green"},
-            {"text": "Black", "color": "black"}
-        ]
 	},
 	events: {
 
@@ -17,7 +11,7 @@ const ctrl = $$.viewController('#main', {
 			console.log('onMapShapeContextMenu', data)
 			const {id, pos} = data
 			const info = $(this).iface().getShapeInfo(id)
-			const idx = ctrl.model.items.findIndex((item) => item.color == info.icon.color)
+			const idx = ctrl.scope.menu.props.items.findIndex((item) => item.color == info.icon.color)
 			ctrl.scope.map.enableHandlers(false)
 			ctrl.scope.menu.closeMenu(function() {
 				this.select(idx).showMenu(pos.x, pos.y)
@@ -69,7 +63,12 @@ const htmlCode = `
 			style="position: relative;top: -100%" 
 			bn-event="menuSelected: onMenuSelected, menuClosed: onMenuClosed" 
 			bn-data="{
-				items,
+				items: [
+				    {text: 'Red', color: 'red'},
+				    {text: 'Blue', color: 'blue'},
+				    {text: 'Green', color: 'green'},
+				    {text: 'Black', color: 'black'}
+				],
 				radius: 80,
 				innerRadius: 20,
 				iconPos: 50,
@@ -92,28 +91,6 @@ $$.control.registerControl('test23', {
 			data: { 
 				htmlCode,
 				jsCode,
-				center: {lat: 48.39, lng: -4.486},
-		        items: [
-		            {"text": "Red", color: 'red'},
-		            {"text": "Blue", "color": "blue"},
-		            {"text": "Green", "color": "green"},
-		            {"text": "Black", "color": "black"}
-		        ],
-		        shapes: {
-					'shape1': {
-						type: 'marker',
-						latlng: {lat: 48.395, lng: -4.491},
-						rotationAngle: 20,
-						icon: {type: 'ais', color: 'blue'}
-					},	        	
-					'shape2': {
-						type: 'marker',
-						latlng: {lat: 48.395, lng: -4.471},
-						icon: {type: 'ais', color: 'red'},
-					}
-		        }
-			
-
 			},
 			events: {
 
@@ -121,7 +98,7 @@ $$.control.registerControl('test23', {
 					console.log('onMapShapeContextMenu', data)
 					const {id, pos} = data
 					const info = $(this).iface().getShapeInfo(id)
-					const idx = ctrl.model.items.findIndex((item) => item.color == info.icon.color)
+					const idx = ctrl.scope.menu.props.items.findIndex((item) => item.color == info.icon.color)
 					ctrl.scope.map.enableHandlers(false)
 					ctrl.scope.menu.closeMenu(function() {
 						this.select(idx).showMenu(pos.x, pos.y)

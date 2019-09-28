@@ -4,12 +4,6 @@
 const jsCode = `
 const ctrl = $$.viewController('#main', {
 	data: {
-
-        items: [
-	            {"text": "\\uf015", "action": "toto", color: 'red'},
-	            {"text": "\\uf099", "color": "blue"}
-            ]
-        }
     },
     events: {
     	onMenuSelected: function(ev, data) {
@@ -27,7 +21,10 @@ const htmlCode = `
 		    	radius: 120,
 		    	iconPos: 80,
 		    	innerRadius: 40,
-		    	items,
+	    		items: [
+	    		   {text: '\uf015', className: 'fa', action: 'toto', color: 'red'},
+	    		   {text: '\uf099', className: 'fab', color: 'blue'}
+	    		],
 		    	triggerPos: {left: 100, top: 200}		    	
 		    }"
 	    	bn-event="menuSelected: onMenuSelected" 
@@ -43,11 +40,6 @@ $$.control.registerControl('test22', {
 
 		const ctrl = $$.viewController(elt, {
 			data: {
-
-		        items: [
-		           {text: '\uf015', className: 'fa', action: 'toto', color: 'red'},
-		           {text: '\uf099', className: 'fab', color: 'blue'}
-		        ],
 		        jsCode,
 		        htmlCode
 		    },
