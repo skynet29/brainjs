@@ -30,7 +30,11 @@ function getValue(data, t) {
   }
 
   if (t.startsWith("'") && t.endsWith("'")) {
-  	return t.substr(1, t.length-2)
+  	t = t.substr(1, t.length-2)
+  	if (t.startsWith('\\u')) {
+  		return String.fromCharCode(t.substr(2))
+  	}
+  	return t
   }
 
   let not = false
