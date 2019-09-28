@@ -4,16 +4,6 @@
 const jsCode = `
 const ctrl = $$.viewController('#main', {
 	data: { 
-		center: {lat: 48.39, lng: -4.486}, // Brest city
-		layers: {
-			'layer1': {label: 'Layer 1', visible: true},
-			'layer2': {label: 'Layer 2', visible: true}
-		},
-		contextMenu: {
-			edit: {name: 'Edit'},
-			sep: {name: '--'},
-			copy: {name: 'Copy'}
-		}			
 	},
 	events: {
 		onMapClick: function(ev, data) {					
@@ -56,7 +46,18 @@ ctrl.scope.map.addShape('shape2', {
 const htmlCode = `
 <div id="main">
 	<div bn-control="brainjs.map" class="map" 
-		bn-data="{center, layers, contextMenu}" 
+		bn-data="{
+			center: {lat: 48.39, lng: -4.486},
+			layers: {
+				layer1: {label: 'Layer 1', visible: true},
+				layer2: {label: 'Layer 2', visible: true}
+			},
+			contextMenu: {
+				edit: {name: 'Edit'},
+				sep: {name: '--'},
+				copy: {name: 'Copy'}
+			}			
+		}" 
 		bn-iface="map"
 		bn-event="mapclick: onMapClick, mapcontextmenu: onMapContextMenu"
 		data-scale="true"
@@ -72,18 +73,7 @@ $$.control.registerControl('test17', {
 		const ctrl = $$.viewController(elt, {
 			data: { 
 				htmlCode,
-				jsCode,
-				center: {lat: 48.39, lng: -4.486},
-				layers: {
-					'layer1': {label: 'Layer 1', visible: true},
-					'layer2': {label: 'Layer 2', visible: true}
-				},
-				contextMenu: {
-					edit: {name: 'Edit'},
-					sep: {name: '--'},
-					copy: {name: 'Copy'}
-				}
-
+				jsCode
 			},
 			events: {
 				onMapClick: function(ev, data) {					

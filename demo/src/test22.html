@@ -2,7 +2,19 @@
 
 	<div title="Result">
 		<div style="width:300px; height: 300px; border: 1px solid black;">
-		    <div bn-control="brainjs.circularmenu" data-radius="120" data-icon-pos="80" data-inner-radius="40" bn-event="menuSelected: onMenuSelected" bn-data="{items: items, triggerPos: triggerPos}"></div>
+		    <div bn-control="brainjs.circularmenu" 
+		    	bn-data="{
+		    		radius: 120,
+		    		iconPos: 80,
+		    		innerRadius: 40,
+		    		items,
+		    		triggerPos: {left: 100, top: 200}		    	
+		    	}"
+		    	data-radius="120" 
+		    	data-icon-pos="80" 
+		    	data-inner-radius="40" 
+		    	bn-event="menuSelected: onMenuSelected" 
+		    	></div>
 		</div>
 	</div>
 

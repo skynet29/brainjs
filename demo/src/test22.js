@@ -6,12 +6,9 @@ const ctrl = $$.viewController('#main', {
 	data: {
 
         items: [
-            {"text": "\\uf015", "action": "toto", color: 'red'},
-            {"text": "\\uf099", "color": "blue"}
-            ],
-        triggerPos: {
-            "left": 100,
-            "top": 200
+	            {"text": "\\uf015", "action": "toto", color: 'red'},
+	            {"text": "\\uf099", "color": "blue"}
+            ]
         }
     },
     events: {
@@ -26,11 +23,15 @@ const htmlCode = `
 <div id="main">
 	<div style="width:300px; height: 300px; border: 1px solid black;">
 	    <div bn-control="brainjs.circularmenu" 
-	    	data-radius="120" 
-	    	data-icon-pos="80" 
-	    	data-inner-radius="40" 
+		    bn-data="{
+		    	radius: 120,
+		    	iconPos: 80,
+		    	innerRadius: 40,
+		    	items,
+		    	triggerPos: {left: 100, top: 200}		    	
+		    }"
 	    	bn-event="menuSelected: onMenuSelected" 
-	    	bn-data="items: items, triggerPos: triggerPos"></div>
+	    	></div>
 	</div>
 </div>
 `.trim()
@@ -44,13 +45,9 @@ $$.control.registerControl('test22', {
 			data: {
 
 		        items: [
-		            {text: '\uf015', className: 'fa', action: 'toto', color: 'red'},
-		            {text: '\uf099', className: 'fab', color: 'blue'}
-		            ],
-		        triggerPos: {
-		            "left": 100,
-		            "top": 200
-		        },
+		           {text: '\uf015', className: 'fa', action: 'toto', color: 'red'},
+		           {text: '\uf099', className: 'fab', color: 'blue'}
+		        ],
 		        jsCode,
 		        htmlCode
 		    },

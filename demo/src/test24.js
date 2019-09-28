@@ -38,7 +38,7 @@ const htmlCode = `
 	</div>
 
 	<div bn-control="brainjs.flightpanel" 
-		bn-data="roll: roll, pitch: pitch, speed: speed, altitude: altitude">
+		bn-data="{roll, pitch, speed, altitude}">
 		
 </div>
 </div>
