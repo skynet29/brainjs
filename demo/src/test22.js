@@ -22,8 +22,8 @@ const htmlCode = `
 		    	iconPos: 80,
 		    	innerRadius: 40,
 	    		items: [
-	    		   {text: '\uf015', className: 'fa', action: 'toto', color: 'red'},
-	    		   {text: '\uf099', className: 'fab', color: 'blue'}
+	    		   {text: '\\uf015', className: 'fa', action: 'toto', color: 'red'},
+	    		   {text: '\\uf099', className: 'fab', color: 'blue'}
 	    		],
 		    	triggerPos: {left: 100, top: 200}		    	
 		    }"

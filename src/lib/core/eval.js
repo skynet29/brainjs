@@ -65,7 +65,7 @@ function evalSimple(data, s) {
 		const f = s.indexOf(']', d)
 		const tab = []
 		s.substring(d+1, f).split(',').forEach((i) => {
-			tab.push(getValue(data, i.trim()))
+			tab.push(getValue(data, i))
 		})
 		//console.log('ev', ev)
 		const vName = '$$' + idx++

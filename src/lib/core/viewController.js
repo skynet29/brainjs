@@ -58,7 +58,7 @@ class ViewController {
     	//console.log('[ViewController] update', fieldsName, excludeElt)
         const t = Date.now()
         $$.binding.render(this.ctx, this.model, excludeElt)        
-        //console.log('update time', Date.now() - t, this.elt.get(0).tagName + '.' + this.elt.attr('class'))
+        console.log('update time', Date.now() - t, this.elt.get(0).tagName + '.' + this.elt.attr('class'))
 
     }
 

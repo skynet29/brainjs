@@ -28,7 +28,6 @@ $$.control.registerControl('test8', {
 
 		const ctrl = $$.viewController(elt, {
 			data: {
-				fruits:['orange', 'apple', 'bananas', 'lemon'],
 				favoriteFruit:'apple',
 				htmlCode: htmlCode.trim(),
 				jsCode: jsCode.trim()			  
