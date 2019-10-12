@@ -28,7 +28,7 @@ $$.control.registerControl('brainjs.tabs', {
 					'flex-direction': 'row',
 					'align-items': 'center'
 				})
-				.attr('data-name', title)
+				.data('name', title)
 				.append($('<a>', {href: '#' + id}).text(title).css('padding-right', (removable) ? '0' : '15px'))
 				.appendTo(ul)
 
@@ -86,7 +86,7 @@ $$.control.registerControl('brainjs.tabs', {
 					'flex-direction': 'row',
 					'align-items': 'center'
 				})
-				.attr('data-name', title)
+				.data('name', title)
 				.append($('<a>', {href: '#' + id}).text(title).css('padding-right', (removable) ? '0' : '15px'))
 				.appendTo(ul)
 			if (removable) {
@@ -112,7 +112,7 @@ $$.control.registerControl('brainjs.tabs', {
 
 		this.getTabInfo = function(index) {
 			const $li = ul.children('li').eq(index)
-			const title = $li.attr('title')
+			const title = $li.data('name')
 			const panelId = $li.attr('aria-controls')
 			const panel = $('#' + panelId)
 			const info = {title, panel}
