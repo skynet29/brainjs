@@ -5,6 +5,11 @@ $$.dialogController = function(options) {
 		$(options.template).appendTo(div)
 	}	
 
+	if (options.template instanceof jQuery) {
+		options.template.children().clone().appendTo(div)
+	}
+
+
 	var ctrl = $$.viewController(div, options)
 
 	var dlgOptions = $.extend({
@@ -13,26 +18,15 @@ $$.dialogController = function(options) {
 		width: 'auto',		
 	}, options)
 
-	var private = {}
-
-	//console.log('dlgOptions', dlgOptions)
 
 	div.dialog(dlgOptions)
 
-	ctrl.show = function(onApply) {
-		private.onApply = onApply
+	ctrl.show = function() {
 		div.dialog('open')
 	}
 
 	ctrl.hide = function() {
 		div.dialog('close')
-	}
-
-	ctrl.apply = function(retValue) {
-		ctrl.hide()
-		if (typeof private.onApply == 'function') {
-			private.onApply(retValue)
-		}
 	}
 
 	ctrl.setOption = function(optionName, value) {
