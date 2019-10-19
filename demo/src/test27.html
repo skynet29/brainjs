@@ -1,0 +1,32 @@
+<div bn-control="brainjs.tabs">
+	<div title="Result">
+		<button bn-event="click: openWindow">Open Window</button>
+		<button bn-event="click: addClient">Add Client</button>
+	</div>
+	<div title="HTML">
+		<pre bn-text="htmlCode"></pre>
+	</div>
+	<div title="Javascript">
+		<pre bn-text="jsCode"></pre>
+	</div>	
+</div>
+
+<div id="template" hidden>
+	<h2>Fruits</h2>
+	<p>Your favorit fruit: <span bn-text="favoriteFruit"></span></p>
+	<div 
+		bn-control="brainjs.selectmenu" 
+		bn-val="favoriteFruit" 
+		bn-update="selectmenuchange" 
+		bn-data="{
+			items: ['orange', 'apple', 'bananas', 'lemon']
+		}">
+		
+	</div>
+	<h2>Clients</h2>
+	<ul bn-each="clients">
+		<li bn-text="$i"></li>
+	</ul>
+	
+</div>
+

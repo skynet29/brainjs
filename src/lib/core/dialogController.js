@@ -6,7 +6,7 @@ $$.dialogController = function(options) {
 	}	
 
 	if (options.template instanceof jQuery) {
-		options.template.children().clone().appendTo(div)
+		options.template.children().remove().appendTo(div)
 	}
 
 

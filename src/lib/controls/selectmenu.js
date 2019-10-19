@@ -2,22 +2,24 @@
 $$.control.registerControl('brainjs.selectmenu', {
 
 	props: {
-		items: []
+		items: [],
+		maxHeight: 200
 	},
 
 	init: function(elt) {
 
-		const {items} = this.props
+		const {items, maxHeight} = this.props
 
 		//console.log('value', elt.val())
-		//console.log('disabled', elt.prop('disabled'))
+		//console.log('disabled', elt.prop('disabled'))*
+		elt.addClass('ui-front')
 
 		const select = $('<select>').appendTo(elt)
 
 		select.setItems(items)
 		select.val(elt.val())
 		select.prop('disabled', elt.prop('disabled'))
-		select.selectmenu().selectmenu('menuWidget').css('max-height', '200px')
+		select.selectmenu().selectmenu('menuWidget').css('max-height', maxHeight + 'px')
 		// select.on('selectmenuchange', () => {
 		// 	elt.trigger('selectmenuchange')
 		// })

@@ -19,14 +19,14 @@ const ctrl = $$.viewController('#main', {
 			console.log('onAddClient')
 			dlgAddClient.show(function(data) {
 				ctrl.model.clients.push(data)
-				ctrl.update('clients')	
+				ctrl.update()	
 			})
 		},
 		onRemoveClient: function(ev) {
 			var idx = $(this).closest('tr').index()
 			console.log('onRemoveClient', idx)
 			ctrl.model.clients.splice(idx, 1)
-			ctrl.update('clients')
+			ctrl.update()
 		}
 	}
 }

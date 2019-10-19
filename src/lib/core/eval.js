@@ -55,26 +55,33 @@ function getValue(data, t) {
 }
 
 
-function evalSimple(data, s) {
-	//console.log('evalSimple', s)
-	let d = s.lastIndexOf('[')
-	      //console.log('d', d, s[d+1])
-	      //var data = {}
-	let idx = 1;
+function replace(s, firstChar, lastChar, callback) {
+	//console.log('replace', firstChar, lastChar, s)
+	let d = s.lastIndexOf(firstChar)
 	while (d != -1) {
-		const f = s.indexOf(']', d)
+		const f = s.indexOf(lastChar, d)
+		if (f == -1) {
+			throw 'syntax error while evaluating' + s
+		}
+		const ret = callback(s.substring(d+1, f))
+		s = s.substring(0, d) + ret + s.substring(f+1)
+		d = s.lastIndexOf(firstChar)
+	} 
+	return s 
+}
+
+function evalSimple(data, s) {
+	//console.log('evalSimple', s, data)
+	let idx = 1
+	s = replace(s, '[', ']', function(expr) {
 		const tab = []
-		s.substring(d+1, f).split(',').forEach((i) => {
+		expr.split(',').forEach((i) => {
 			tab.push(getValue(data, i))
 		})
-		//console.log('ev', ev)
 		const vName = '$$' + idx++
 		data[vName] = tab      
-		//console.log('data', data)
-		s = s.substring(0, d) + vName + s.substring(f+1)
-		//console.log('s', s)
-		d= s.lastIndexOf('[')
-	}  
+		return vName
+	}) 
 
 	const ret = {}
 	s.split(',').forEach((i) => {
@@ -95,24 +102,17 @@ function evaluate(data, t) {
 	if (t.startsWith('{') && t.endsWith('}')) {
 		let s = t.substr(1, t.length-2)
 
-		//console.log('t', t)
-		let d = s.lastIndexOf('{')
-		//console.log('d', d, s[d+1])
-		//var data = {}
-		let idx = 1;
-		while (d != -1) {
-			const f = s.indexOf('}', d)
-			const ev = evalSimple(data, s.substring(d+1, f))
+		let idx = 1
+
+		s = replace(s, '{', '}', function(expr) {
+			const ev = evalSimple(data, expr)
 			//console.log('ev', ev)
 			const vName = '$' + idx++
 			data[vName] = ev
-			//console.log('data', data)
-			s = s.substring(0, d) + vName + s.substring(f+1)
-			//console.log('s', s)
-			d = s.lastIndexOf('{')
-		}
-	  //console.log('ret', s)
-	  return evalSimple(data, s)		
+			return vName
+		}) 		
+
+		return evalSimple(data, s)		
 	}
   
 	return getValue(data, t)
