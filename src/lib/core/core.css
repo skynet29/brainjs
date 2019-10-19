@@ -2,6 +2,9 @@
 	z-index: 1000;
 }
 
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
 
 * {
 	box-sizing: border-box;

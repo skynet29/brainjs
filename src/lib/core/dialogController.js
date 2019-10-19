@@ -15,9 +15,14 @@ $$.dialogController = function(options) {
 	var dlgOptions = $.extend({
 		autoOpen: false,
 		modal: true,
-		width: 'auto',		
+		width: 'auto',
+		canClose: true		
 	}, options)
 
+	if (dlgOptions.canClose === false) {
+		dlgOptions.dialogClass = 'no-close'
+		dlgOptions.closeOnEscape = false
+	}
 
 	div.dialog(dlgOptions)
 
