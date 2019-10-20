@@ -32,7 +32,8 @@ $$.control.registerControl('brainjs.htmleditor', {
 					yellow: {name: 'Yellow', icon: 'fas fa-square-full w3-text-yellow'},
 					cyan: {name: 'Cyan', icon: 'fas fa-square-full w3-text-cyan'},
 					pink: {name: 'Magenta', icon: 'fas fa-square-full w3-text-pink'}
-				}
+				},
+				html: elt.val()
 			},
 			events: {
 				onCommand: function() {
@@ -57,7 +58,7 @@ $$.control.registerControl('brainjs.htmleditor', {
 
 			}
 
-		})
+		})	
 
 		this.html = function(htmlString) {
 			if (htmlString == undefined) {
@@ -73,6 +74,19 @@ $$.control.registerControl('brainjs.htmleditor', {
 
 		this.insertImage = function(url) {
 			document.execCommand('insertImage', false, url)
+		}
+
+		this.getValue = function() {
+			return ctrl.scope.editor.html() 
+		}
+
+		this.setValue = function(value) {
+			//console.log('brainjs.htmleditor:setValue', value)
+			ctrl.scope.editor.html(value)
+		}
+
+		this.focus = function() {
+			ctrl.scope.editor.get(0).focus()
 		}
 
 
