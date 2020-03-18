@@ -28,7 +28,7 @@ $$.control.registerControl('brainjs.tabs', {
 					'flex-direction': 'row',
 					'align-items': 'center'
 				})
-				.data('name', title)
+				.attr('data-name', title)
 				.append($('<a>', {href: '#' + id}).text(title).css('padding-right', (removable) ? '0' : '15px'))
 				.appendTo(ul)
 
@@ -86,7 +86,7 @@ $$.control.registerControl('brainjs.tabs', {
 					'flex-direction': 'row',
 					'align-items': 'center'
 				})
-				.data('name', title)
+				.attr('data-name', title)
 				.append($('<a>', {href: '#' + id}).text(title).css('padding-right', (removable) ? '0' : '15px'))
 				.appendTo(ul)
 			if (removable) {
