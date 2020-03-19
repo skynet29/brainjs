@@ -108,7 +108,11 @@ function parse(root, updateCbk) {
         else {
           node.removeAttribute('bn-iter')
         }
-        ctx.push({attrName, node, template, attrValue, iter})
+        let index = node.getAttribute('bn-index')
+        if (index != null) {
+          node.removeAttribute('bn-index')
+        }
+        ctx.push({attrName, node, template, attrValue, iter, index})
       }
 
       else if (attrName == 'bn-val') {
@@ -154,7 +158,7 @@ function render(ctx, data) {
   //console.log('render', ctx, data)
   
   for(let info of ctx) {
-    const {attrName, attrValue, node, template, iter, oldValue} = info
+    const {attrName, attrValue, node, template, iter, oldValue, index} = info
 
     const value = $$.eval.evaluate(data, attrValue)
     // console.log('evaluate', attrValue)
@@ -175,11 +179,14 @@ function render(ctx, data) {
 
     if (attrName == 'bn-each') {
         node.innerHTML = ''
-        value.forEach((item) => {
+        value.forEach((item, idx) => {
           const clone = document.importNode(template.content, true) 
           const {ctx, ctrls} = parse(clone)
           const itemData = $.extend({}, data)
           itemData[iter] = item
+          if (index != null) {
+            itemData[index] = idx
+          }
           render(ctx, itemData)
           processCtrls(ctrls)
           node.appendChild(clone)
