@@ -44,10 +44,10 @@ $$.control.registerControl('brainjs.table', {
 
 				data: this.props.data,
 
-				getRowData: function() {
+				getRowData: function(scope) {
 					//console.log('getRowData', data, col)
-					const col = this.$col
-					const data = this.$i
+					const col = scope.$col
+					const data = scope.$i
 					if (col.buttons != undefined) {
 						return getButtonsTemplate(col.buttons)
 					}

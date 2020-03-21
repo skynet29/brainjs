@@ -182,10 +182,10 @@ function render(ctx, data) {
         value.forEach((item, idx) => {
           const clone = document.importNode(template.content, true) 
           const {ctx, ctrls} = parse(clone)
-          const itemData = $.extend({}, data)
-          itemData[iter] = item
+          const itemData = $.extend({$scope: {}}, data)
+          itemData.$scope[iter] = item
           if (index != null) {
-            itemData[index] = idx
+            itemData.$scope[index] = idx
           }
           render(ctx, itemData)
           processCtrls(ctrls)

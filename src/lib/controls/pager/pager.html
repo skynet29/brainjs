@@ -10,14 +10,14 @@
 				bn-show="show1" 
 				class="w3-button action" 
 				bn-text="$i.label" 
-				bn-data="{cmd: $i.name}"
+				bn-data="{cmd: $scope.$i.name}"
 				></button>
 			<button 
 				bn-show="show2" 
 				class="w3-button action" 
-				bn-data="{cmd: $i.name}"
-				bn-attr="{title: $i.title}"
-				><i bn-attr="{class: $i.icon}"></i></button>
+				bn-data="{cmd: $scope.$i.name}"
+				bn-attr="{title: $scope.$i.title}"
+				><i bn-attr="{class: $scope.$i.icon}"></i></button>
 		</div>
 	</div>
 	<div bn-bind="content" style="flex: 1; overflow: hidden;"></div>

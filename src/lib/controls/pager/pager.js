@@ -17,11 +17,11 @@ $$.control.registerControl('brainjs.pager', {
 				showBack: false,
 				title: '',
 				buttons: [],
-				show1: function() {
-					return this.$i.icon == undefined && !(this.$i.visible === false)
+				show1: function(scope) {
+					return scope.$i.icon == undefined && !(scope.$i.visible === false)
 				},
-				show2: function() {
-					return this.$i.icon != undefined && !(this.$i.visible === false)
+				show2: function(scope) {
+					return scope.$i.icon != undefined && !(scope.$i.visible === false)
 				}
 			},
 			events: {

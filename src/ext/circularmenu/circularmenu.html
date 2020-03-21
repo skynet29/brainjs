@@ -2,11 +2,11 @@
 	<g bn-attr="{transform: transform1}">
 		<g class="items" data-svg-origin="0 0" bn-iter="s" bn-each="sectors" bn-event="click.item: onItemClicked">
 				<g class="item" data-svg-origin="0 0">
-					<g bn-attr="{transform: s.transform1}">
-						<path bn-attr="{d: arcPath, fill: s.info.fill}" class="sector" stroke="black"/>			
-						<g  bn-attr="{transform: s.transform2}">
+					<g bn-attr="{transform: $scope.s.transform1}">
+						<path bn-attr="{d: arcPath, fill: $scope.s.info.fill}" class="sector" stroke="black"/>			
+						<g  bn-attr="{transform: $scope.s.transform2}">
 
-							<text bn-attr="{fill: s.info.color, class: s.info.className}" text-anchor="middle" alignment-baseline="middle" bn-text="s.info.text"></text>			
+							<text bn-attr="{fill: $scope.s.info.color, class: $scope.s.info.className}" text-anchor="middle" alignment-baseline="middle" bn-text="$scope.s.info.text"></text>			
 						</g>
 					</g>
 				</g>			

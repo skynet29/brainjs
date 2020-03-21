@@ -45,7 +45,7 @@ function getValue(data, t) {
   let ret
   const f = data[t]  
   if (typeof f == 'function') {
-    ret = f.call(data)
+    ret = f.call(data, data.$scope)
   }
   else {
     ret = getObjectValue(data, t)
