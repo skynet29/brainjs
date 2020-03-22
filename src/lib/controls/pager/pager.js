@@ -88,11 +88,11 @@ $$.control.registerControl('brainjs.pager', {
 
 			const buttons = desc.options.buttons || []
 
-			let {title, props, onReturn, onBack} = options
+			let {title, props, onReturn, onBack, events} = options
 
 			curInfo = {title, buttons, onReturn, onBack}
 
-			curInfo.ctrl = content.addControl(ctrlName, $.extend({$pager: this}, props))
+			curInfo.ctrl = content.addControl(ctrlName, $.extend({$pager: this}, props), events)
 
 			ctrl.setData({showBack: stack.length > 0, title, buttons})
 		}	

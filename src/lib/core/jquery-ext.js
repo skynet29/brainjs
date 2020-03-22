@@ -165,12 +165,28 @@ $.fn.safeEmpty = function() {
   return this
 }
 
-$.fn.addControl = function(ctrlName, data) {
+$.fn.addControl = function(ctrlName, data, events) {
   //console.log('$.addControl', ctrlName, data)
   var newCtrl = $('<div>', {style: 'height: 100%;overflow: hidden;'})
   this.append(newCtrl) 
   if (data) {
     newCtrl.data(data)
+  }
+  if (typeof events == 'object') {
+    for(let evName in events) {
+      let fn  = events[evName]
+      if (typeof fn == 'function') {        
+        const [name, selector] = evName.split('.')
+
+        if (selector != undefined) {
+          newCtrl.on(name, '.' + selector, fn)
+        }
+        else {
+          newCtrl.on(name, fn)
+        }                
+      }
+
+    }
   }
   $$.control.createControl(ctrlName, newCtrl)
   return newCtrl
