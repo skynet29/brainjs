@@ -2,11 +2,12 @@ $$.control.registerControl('brainjs.contextmenu', {
 	props: {
 		items: {},
 		trigger: 'right',
-		title: ''
+		title: '',
+		fontSize: '20px'
 	},
 	init: function(elt) {
 
-		let {items, trigger, title} = this.props
+		let {items, trigger, title, fontSize} = this.props
 
 		const id = elt.attr('id')
 
@@ -30,6 +31,11 @@ $$.control.registerControl('brainjs.contextmenu', {
 							if (title != '') {
 								$('.' + id).attr('data-menutitle', title)
 							}							
+						},
+						activated: function(options) {
+							options.$menu
+								.find('.context-menu-item')
+								.css('font-size', fontSize)
 						}
 					},
 					zIndex: 1000,
