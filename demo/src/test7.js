@@ -45,8 +45,8 @@ const htmlCode = `
 		</thead>
 		<tbody bn-each="clients" bn-event="click.delBtn: onRemoveClient">
 			<tr>
-				<td bn-text="$i.name"></td>
-				<td bn-text="$i.age"></td>
+				<td bn-text="$scope.$i.name"></td>
+				<td bn-text="$scope.$i.age"></td>
 				<td><button class="delBtn" title="Delete">Delete</button>
 			</tr>
 

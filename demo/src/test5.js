@@ -23,8 +23,8 @@ const htmlCode = `
 		</thead>
 		<tbody bn-each="clients">
 			<tr>
-				<td bn-text="$i.name"></td>
-				<td bn-text="$i.age"></td>
+				<td bn-text="$scope.$i.name"></td>
+				<td bn-text="$scope.$i.age"></td>
 			</tr>
 		</tbody>
 	 

@@ -23,7 +23,7 @@ const htmlCode = `
 <div id="main">
 	<h2>Clients</h2>
 	<ul bn-each="clients">
-		<li bn-text="$i"></li>
+		<li bn-text="$scope.$i"></li>
 	</ul>
 
 	<h2>Add client</h2>
