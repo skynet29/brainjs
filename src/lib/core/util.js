@@ -301,6 +301,16 @@ function downloadUrl(url, fileName) {
   link.click()  
 }
 
+function objToArray(obj, keyName) {
+	const ret = []
+	for(let key in obj) {
+		const data = $.extend({}, obj[key])
+		data[keyName] = key
+		ret.push(data)
+	}
+	return ret
+}
+
 $$.util = {
 	readTextFile,
 	readFileAsDataURL,
@@ -319,7 +329,8 @@ $$.util = {
 	parseUrlParams,
 	downloadUrl,
 	toSourceString,
-	evaluate
+	evaluate,
+	objToArray
 }
 
 
