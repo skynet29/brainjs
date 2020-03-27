@@ -6,7 +6,7 @@ $$.control.registerControl('brainjs.htmleditor', {
 
 		const colorMap = {
 			black: '#0',
-			red: '##f44336',
+			red: '#f44336',
 			green: '#4CAF50',
 			blue: '#2196F3',
 			yellow: '#ffeb3b',
