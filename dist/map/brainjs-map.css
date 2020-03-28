@@ -640,3 +640,17 @@
 .brainjs-image .map {
 	height: 100%;
 }
+
+@media screen and (max-width: 767px) {
+
+
+.leaflet-contextmenu-item {
+	font-size: 20px !important;
+	margin-bottom: 5px !important;
+}
+
+.leaflet-contextmenu-icon {
+	margin: 0px 15px 0 0 !important;
+}
+
+}

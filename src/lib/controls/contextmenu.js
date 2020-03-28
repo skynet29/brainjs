@@ -33,9 +33,10 @@ $$.control.registerControl('brainjs.contextmenu', {
 							}							
 						},
 						activated: function(options) {
-							options.$menu
-								.find('.context-menu-item')
-								.css('font-size', fontSize)
+							if ($$.util.isMobileDevice()) {
+								options.$menu.find('.context-menu-item')
+									.css('font-size', fontSize)
+							}
 						}
 					},
 					zIndex: 1000,

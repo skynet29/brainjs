@@ -28,7 +28,7 @@ $$.control.registerControl('brainjs.map', {
 			zoom,
 			closePopupOnClick: false,
 			contextmenu: true,
-			contextmenuWidth: 140,
+			contextmenuWidth: 200,
 			attributionControl: false
 		}
 

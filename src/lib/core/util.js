@@ -311,6 +311,10 @@ function objToArray(obj, keyName) {
 	return ret
 }
 
+function isMobileDevice() {
+	return window.matchMedia("(max-width: 767px)").matches;
+}
+
 $$.util = {
 	readTextFile,
 	readFileAsDataURL,
@@ -330,7 +334,8 @@ $$.util = {
 	downloadUrl,
 	toSourceString,
 	evaluate,
-	objToArray
+	objToArray,
+	isMobileDevice
 }
 
 

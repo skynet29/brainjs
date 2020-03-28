@@ -27,7 +27,6 @@ $$.control.registerControl('brainjs.image', {
 			minZoom: -4,
 			zoomSnap: 0.05,
 			contextmenu: true,
-			contextmenuWidth: 140,
 			contextmenuItems: [
 				{
 					text: 'Fit Image Size',
