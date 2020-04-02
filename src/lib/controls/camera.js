@@ -8,7 +8,9 @@ $$.control.registerControl('brainjs.camera', {
 		let {constraints} = this.props
 		const iface = this
 
-		const video = $('<video>', {autoplay: true})
+		const video = document.createElement('video')
+		video.autoplay = true
+		$(video)
 		.css('object-fit', 'scale-down')
 		.css('width', '100%')
 		.css('height', '100%')
@@ -18,7 +20,6 @@ $$.control.registerControl('brainjs.camera', {
 			
 		})
 		.appendTo(elt)
-		.get(0)
 
 
 		let _stream = null
@@ -47,7 +48,7 @@ $$.control.registerControl('brainjs.camera', {
 			canvas.width = video.videoWidth
 			canvas.height = video.videoHeight
 			const ctx = canvas.getContext('2d')
-		    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+			ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 		    return canvas.toDataURL('image/png');
 		}	
 
@@ -76,9 +77,7 @@ $$.control.registerControl('brainjs.camera', {
 			}
 
 		}
-	},
-	$iface: 'start();stop();takePicture():DataURL;dispose()',
-	$events: 'cameraready' 
+	}
 
 
 

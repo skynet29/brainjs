@@ -1,4 +1,3 @@
-
 $$.service.registerService('brainjs.resource', {
 
 	deps: ['brainjs.http'],

@@ -1,4 +1,4 @@
-
+//@ts-check
 $$.service.registerService('brainjs.http', {
 
 	init: function() {

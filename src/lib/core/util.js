@@ -74,6 +74,10 @@ function getFileType(fileName) {
 
 }
 
+function buildDataURL(type, subtype, data) {
+	return `data:${type}/${subtype};base64,` + data
+}
+
 function dataURLtoBlob(dataURL) {
   // Decode the dataURL
   const [ , mimeType, encodage, data] = dataURL.split(/[:,;]/)
@@ -335,7 +339,8 @@ $$.util = {
 	toSourceString,
 	evaluate,
 	objToArray,
-	isMobileDevice
+	isMobileDevice,
+	buildDataURL
 }
 
 
