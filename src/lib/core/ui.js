@@ -35,8 +35,17 @@ function showAlert(options, callback) {
 		})
 	}
 
+	let content = options.content
+	if (typeof content == 'object') {
+		const items = []
+		for(key in content) {
+			items.push(`<p>${key} : ${content[key]}</p>`)
+		}
+		content = items.join('')
+	}
+
 	$('<div>', {title: options.title})
-		.append($('<p>').html(options.content))
+		.append($('<p>').html(content))
 		.dialog(options)
 }
 
