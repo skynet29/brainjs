@@ -1,7 +1,5 @@
-$$.formDialogController = function(options, data) {
+$$.formDialogController = function(options) {
 	var div = $('<div>', {title: options.title || 'Dialog'})
-
-	data = data || {}
 
 	var private = {}
 
@@ -24,7 +22,10 @@ $$.formDialogController = function(options, data) {
 		options.template.children().clone().appendTo(form)
 	}
 
-	$$.viewController(form, {data})
+	$$.viewController(form, {
+		data: options.data,
+		events: options.events
+	})
 
 	var submitBtn = $('<input>', {type: 'submit', hidden: true}).appendTo(form)
 
@@ -50,9 +51,16 @@ $$.formDialogController = function(options, data) {
 			private.onApply = onApply			
 			div.dialog('open')	
 		},
-		setData: function(data) {
+		setData: function(data, isReset) {
+			if (isReset === true) {
+				form.resetForm()
+			}
 			form.setFormData(data)
 			return this
+		},
+
+		getData: function() {
+			return form.getFormData()
 		},
 
 		destroy: function() {
