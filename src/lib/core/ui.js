@@ -64,14 +64,14 @@ function showPrompt(options, callback) {
 	<div style="margin-bottom: 5px">${label}</div>
 	<input required="" name="value" autocomplete="off" bn-attr="attrs" style="width: 100%; padding: 5px">
 	`
-
+	options.data = {attrs}
 
 
 	options.close = function() {
 		$(this).dialog('destroy')
 	}
 
-	const formDialog = $$.formDialogController(options, {attrs})
+	const formDialog = $$.formDialogController(options)
 	if (options.value != undefined) {
 		formDialog.setData({value: options.value})
 	}
