@@ -43,13 +43,10 @@ $$.control.registerControl('brainjs.camera', {
 		}		
 
 		this.takePicture = function() {
-			console.log('width', video.videoWidth, "height", video.videoHeight)
-			const canvas = document.createElement('canvas')
-			canvas.width = video.videoWidth
-			canvas.height = video.videoHeight
-			const ctx = canvas.getContext('2d')
-			ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-		    return canvas.toDataURL('image/png');
+			const track = _stream.getVideoTracks()[0];
+			const imageCapture = new ImageCapture(track)
+
+			return imageCapture.takePhoto()
 		}	
 
 		function stop() {
