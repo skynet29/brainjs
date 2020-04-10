@@ -8,28 +8,49 @@ $$.control.registerControl('brainjs.camera', {
 		let {constraints} = this.props
 		const iface = this
 
+		let slider = null
+
 		const video = document.createElement('video')
 		video.autoplay = true
 		$(video)
 		.css('object-fit', 'scale-down')
 		.css('width', '100%')
 		.css('height', '100%')
-		.on('canplay', function(ev) {
+		.on('play', function(ev) {
 			//console.log('onCanPlay')
 			elt.trigger('cameraready')
-			
 		})
 		.appendTo(elt)
 
 
-		let _stream = null
+
+		let stream = null
+
+		this.getCapabilities = function() {
+			const track = stream.getVideoTracks()[0]
+			return track.getCapabilities()
+		}
 		
+		this.getSettings = function() {
+			const track = stream.getVideoTracks()[0]
+			return track.getSettings()
+		}
+
+		this.setZoom = function(zoom) {
+			console.log('setZoom', zoom)
+			const track = stream.getVideoTracks()[0]
+			track.applyConstraints({ advanced: [{ zoom }]}).catch((e) => {
+				console.log('setZoom error', e)
+			})
+		}
+
 		this.start = function() {
 
 			//console.log('[camera] start', constraints)
 
-			navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-				_stream = stream
+			navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
+				stream = mediaStream
+
 
 				try {
 					video.srcObject = stream
@@ -43,18 +64,32 @@ $$.control.registerControl('brainjs.camera', {
 		}		
 
 		this.takePicture = function() {
-			const track = _stream.getVideoTracks()[0];
-			const imageCapture = new ImageCapture(track)
+			if (typeof ImageCapture == 'function') {
+				const track = stream.getVideoTracks()[0];
+				const imageCapture = new ImageCapture(track)
 
-			return imageCapture.takePhoto()
+				return imageCapture.takePhoto()				
+			}
+			else {
+				const canvas = document.createElement('canvas')
+				canvas.width = video.videoWidth
+				canvas.height = video.videoHeight
+				const ctx = canvas.getContext('2d')
+				ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+			    return new Promise((resolve) => {
+			    	canvas.toBlob(function(blob) {
+			    		resolve(blob)
+			    	})
+			    })			
+			}
 		}	
 
 		function stop() {
-			if (_stream) {
-				_stream.getTracks().forEach(function(track) {
+			if (stream) {
+				stream.getTracks().forEach(function(track) {
 		            track.stop();
 		        })	
-		        _stream = null			
+		        stream = null			
 			}
 
 		}

@@ -3,8 +3,9 @@ $$.control.registerControl('brainjs.slider', {
 	props: {
 		max: 100,
 		min: 0, 
+		step: 1,
 		orientation: 'horizontal',
-		range: false			
+		range: 'min'			
 	},
 
 	init: function(elt) {
@@ -38,21 +39,24 @@ $$.control.registerControl('brainjs.slider', {
 
 		this.getValue = function() {
 			//console.log('[SliderControl] getValue')
-			return elt.slider((options.range) ? 'values' : 'value') 
+			return elt.slider((options.range === true) ? 'values' : 'value') 
 		}
 
 		this.setValue = function(value) {
 			//console.log('[SliderControl] setValue')
-			elt.slider((options.range) ? 'values' : 'value', value)
+			elt.slider((options.range === true) ? 'values' : 'value', value)
 		}
 
 		this.setData = function(data) {
-			//console.log('[slider] setData', data)
+			console.log('[slider] setData', data)
 			if (data.max != undefined) {
 				elt.slider('option', 'max', data.max)
 			}
 			if (data.min != undefined) {
 				elt.slider('option', 'min', data.min)
+			}
+			if (data.step != undefined) {
+				elt.slider('option', 'step', data.step)
 			}
 		}
 

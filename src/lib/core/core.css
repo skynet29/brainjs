@@ -9,3 +9,7 @@
 * {
 	box-sizing: border-box;
 }
+
+.ui-slider-range { 
+	background: #2196F3; 
+}
