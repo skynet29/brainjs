@@ -4912,6 +4912,17 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .ui-slider-range { 
 	background: #2196F3; 
 }
+
+.ui-slider-handle.ui-state-default {
+	background: #2196F3; 
+	border-radius: 50%;	
+}
+
+.ui-slider-handle.ui-state-default {
+	background: #2196F3; 
+	border-radius: 50%;	
+	outline: none;
+}
 .brainjs-htmleditor {
 	display: flex;
 	flex-direction: column;
