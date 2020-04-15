@@ -152,8 +152,20 @@ $.fn.setFormData = function(data) {
 }
 
 $.fn.safeEmpty = function() {
-  this.find('.CustomControl').each(function() {
+  this.bnFind('.CustomControl').each(function() {
     const iface = $(this).iface()
+    //console.log('remove ctrl', iface)
+
+    if (iface.wakeLock) {
+      console.log('release wakeLock')
+      iface.wakeLock.release()
+      delete iface.wakeLock
+
+    }
+
+    if (iface.onVisibilityChange) {
+      document.removeEventListener('visibilitychange', iface.onVisibilityChange)
+    }
 
     if (typeof iface.dispose == 'function') {
       iface.dispose()

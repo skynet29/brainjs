@@ -178,7 +178,7 @@ function render(ctx, data) {
 
 
     if (attrName == 'bn-each') {
-        node.innerHTML = ''
+        $(node).safeEmpty()
         value.forEach((item, idx) => {
           const clone = document.importNode(template.content, true) 
           const {ctx, ctrls} = parse(clone)
@@ -193,7 +193,7 @@ function render(ctx, data) {
         })
     }
     else if (attrName == 'bn-if') {
-        node.innerHTML = ''
+        $(node).safeEmpty()
         node.style.height = '100%'
         if (value === true) {
           node.hidden = false

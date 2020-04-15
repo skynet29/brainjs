@@ -36,6 +36,23 @@ function resolveControl(name) {
 	return ret
 }
 
+function requestWakeLock(iface) {
+	if (navigator.wakeLock && navigator.wakeLock.request) {
+		navigator.wakeLock.request('screen').then((lock) => {
+			console.log('take wakeLock')
+			iface.wakeLock = lock
+			lock.addEventListener('release', () => {
+				console.log('Wake Lock was released')
+			  })
+		})
+		.catch((e) => {
+			console.error('WakeLock', e)
+		})
+
+	}
+
+}
+
 function createControl(controlName, elt) {
 	//console.log('createControl', controlName, elt.data())
 	var ctrl = resolveControl(controlName)
@@ -50,7 +67,7 @@ function createControl(controlName, elt) {
 		elt.addClass('CustomControl').uniqueId()	
 		
 
-		let {init, props, template} = ctrl.options
+		let {init, props, template, wakeLock} = ctrl.options
 		//props = props || {}
 		var iface = {
 			props: $.extend({}, props, elt.data()),
@@ -75,6 +92,20 @@ function createControl(controlName, elt) {
 		elt.get(0).ctrl = iface
 		
 		if (typeof init == 'function') {
+
+			if (wakeLock === true) {
+				requestWakeLock(iface)
+
+				function onVisibilityChange() {
+					console.log('visibilitychange', document.visibilityState)
+					if (document.visibilityState === 'visible' && iface.wakeLock) {
+						requestWakeLock(iface)
+					}	
+				}
+
+				document.addEventListener('visibilitychange', onVisibilityChange)
+				iface.onVisibilityChange = onVisibilityChange
+			}
 
 			var args = [elt].concat(ctrl.deps)
 			//console.log(`[control] instance control '${controlName}' with props`, iface.props)

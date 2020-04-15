@@ -64,7 +64,7 @@ function getFileType(fileName) {
 		return 'audio'
 	}
 
-	if ((/\.(mp4)$/i).test(fileName)) {
+	if ((/\.(mp4|webm)$/i).test(fileName)) {
 		return 'video'
 	}
 
@@ -99,25 +99,6 @@ function dataURLtoBlob(dataURL) {
   // Return our Blob object
 	return new Blob([ new Uint8Array(array) ], {mimeType})
 }
-
-function loadStyle(styleFilePath, callback) {	
-	//console.log('[Core] loadStyle', styleFilePath)
-
-	var cssOk = $('head').find(`link[href="${styleFilePath}"]`).length
-	if (cssOk != 1) {
-		console.log(`loading '${styleFilePath}' style`)
-		$('<link>', {href: styleFilePath, rel: 'stylesheet'})
-		.on('load', function() {
-			console.log(`'${styleFilePath}' loaded`)
-			if (typeof callback == 'function') {
-				callback()
-			}
-		})
-		.appendTo($('head'))
-	}
-}
-
-
 
 	
 function isObject(a) {
@@ -319,6 +300,25 @@ function isMobileDevice() {
 	return window.matchMedia("(max-width: 767px)").matches;
 }
 
+function knuthShuffle(length) {
+	//console.log('knuthShuffle', length)
+	let arr = []
+	for(let k = 0; k < length; k++) {
+		arr.push(k)
+	}
+
+    var rand, temp, i;
+ 
+    for (i = arr.length - 1; i > 0; i -= 1) {
+        rand = Math.floor((i + 1) * Math.random());//get random between zero and i (inclusive)
+        temp = arr[rand];//swap i and the zero-indexed number
+        arr[rand] = arr[i];
+        arr[i] = temp;
+    }
+    return arr;
+}		
+
+
 $$.util = {
 	readTextFile,
 	readFileAsDataURL,
@@ -326,7 +326,6 @@ $$.util = {
 	openFileDialog,
 	isImage,
 	dataURLtoBlob,
-	loadStyle,
 	checkType,
 	safeEval,
 	getFileType,
@@ -340,7 +339,8 @@ $$.util = {
 	evaluate,
 	objToArray,
 	isMobileDevice,
-	buildDataURL
+	buildDataURL,
+	knuthShuffle
 }
 
 
