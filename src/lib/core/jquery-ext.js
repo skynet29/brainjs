@@ -209,10 +209,13 @@ $.fn.setItems = function(items) {
       const option = $('<option>')
 
       if (typeof item == 'string') {
-        option.text(item)
+        option.val(item).text(item)
       }
       else {
         option.val(item.value).text(item.label)
+        if (item.style) {
+          option.attr('data-style', item.style)
+        }
       }
       return option
   }))

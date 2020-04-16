@@ -1,5 +1,25 @@
+$( function() {
+    $.widget( "custom.combobox", $.ui.selectmenu, {
+      _renderItem: function( ul, item ) {
+        var li = $( "<li>" ),
+          wrapper = $( "<div>");
+ 
+        if ( item.disabled ) {
+          li.addClass( "ui-state-disabled" );
+        }
+ 
+        $( "<span>", {
+        	text: item.label,
+          style: item.element.attr( "data-style" )
+        })
+          .appendTo( wrapper );
+ 
+        return li.append( wrapper ).appendTo( ul );
+      }
+    });
+ })
 
-$$.control.registerControl('brainjs.selectmenu', {
+$$.control.registerControl('brainjs.combobox', {
 
 	props: {
 		items: [],
@@ -19,7 +39,7 @@ $$.control.registerControl('brainjs.selectmenu', {
 		select.setItems(items)
 		select.val(elt.val())
 		select.prop('disabled', elt.prop('disabled'))
-		select.selectmenu().selectmenu('menuWidget').css('max-height', maxHeight + 'px')
+		select.combobox().combobox('menuWidget').css('max-height', maxHeight + 'px')
 		// select.on('selectmenuchange', () => {
 		// 	elt.trigger('selectmenuchange')
 		// })
@@ -27,7 +47,7 @@ $$.control.registerControl('brainjs.selectmenu', {
 		this.setValue = function(val) {
 			//console.log('selectmenu setValue', val)
 			select.val(val)
-			select.selectmenu('refresh')
+			select.combobox('refresh')
 		}
 
 		this.getValue = function() {
@@ -38,7 +58,7 @@ $$.control.registerControl('brainjs.selectmenu', {
 			//console.log('selectmenu setData', data)
 			if (Array.isArray(data.items)) {
 				select.setItems(data.items)
-				select.selectmenu('refresh')
+				select.combobox('refresh')
 			}
 		}
 

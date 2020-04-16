@@ -14,9 +14,9 @@ const htmlCode = `
 <div id="main">
 	<h2>Fruits</h2>
 	<p>Your favorit fruit: <span bn-text="favoriteFruit"></span></p>
-	<div bn-control="brainjs.selectmenu" 
+	<div bn-control="brainjs.combobox" 
 		bn-val="favoriteFruit" 
-		bn-update="selectmenuchange" 
+		bn-update="comboboxchange" 
 		bn-data="{items: fruits}">
 	</div>
 </div>
