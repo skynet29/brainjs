@@ -39,7 +39,7 @@ function showAlert(options, callback) {
 	if (typeof content == 'object') {
 		const items = []
 		for(key in content) {
-			items.push(`<p>${key} : ${content[key]}</p>`)
+			items.push(`<p><strong>${key}:</strong> ${content[key]}</p>`)
 		}
 		content = items.join('')
 	}

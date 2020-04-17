@@ -18,13 +18,18 @@ $$.control.registerControl('brainjs.camera', {
 		.css('height', '100%')
 		.on('play', function(ev) {
 			//console.log('onCanPlay')
-			elt.trigger('cameraready')
+			elt.trigger('cameraready', stream)
 		})
 		.appendTo(elt)
 
 
 
 		let stream = null
+
+		this.getImageCapture = function() {
+			const track = stream.getVideoTracks()[0];
+			return new ImageCapture(track)			
+		}
 
 		this.getCapabilities = function() {
 			const track = stream.getVideoTracks()[0]
