@@ -54,7 +54,7 @@ function showConfirm(options, callback) {
 	showAlert(options, callback)
 }
 
-function showPrompt(options, callback) {
+function showPrompt(options) {
 
 	const label = options.label || ''
 
@@ -67,19 +67,17 @@ function showPrompt(options, callback) {
 	options.data = {attrs}
 
 
-	options.close = function() {
-		$(this).dialog('destroy')
-	}
-
+	options.destroyOnClose = true
+	
 	const formDialog = $$.formDialogController(options)
 	if (options.value != undefined) {
 		formDialog.setData({value: options.value})
 	}
-	formDialog.show(function(data) {
-		if (typeof callback == 'function') {
-			callback(data.value)
-		}
+
+	return formDialog.show().then((data) => {
+		return data && data.value
 	})
+
 }
 
 function showForm(formDesc, onApply) {

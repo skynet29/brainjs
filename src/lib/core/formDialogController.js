@@ -2,16 +2,15 @@ $$.formDialogController = function(options) {
 	var div = $('<div>', {title: options.title || 'Dialog'})
 
 	var private = {}
+	let retValue = null
 
 	var form = $('<form>')
 		.appendTo(div)
 		.on('submit', function(ev) {
 			ev.preventDefault()
+			retValue = $(this).getFormData()
 			div.dialog('close')
-			if (typeof private.onApply == 'function') {
-				private.onApply($(this).getFormData())
-				$(this).resetForm()
-			}				
+			$(this).resetForm()
 		})
 
 	if (typeof options.template == 'string') {
@@ -32,9 +31,16 @@ $$.formDialogController = function(options) {
 	var dlgOptions = $.extend({
 		autoOpen: false,
 		modal: true,
+		close: function() {
+			private.resolve(retValue)
+			if (options.destroyOnClose === true) {
+				$(this).dialog('destroy')
+			}
+		},
 		buttons: {
 			'Cancel': function() {
 				$(this).dialog('close')
+				private.resolve(null)
 			},
 			'Apply': function() {					
 				submitBtn.click()
@@ -47,9 +53,12 @@ $$.formDialogController = function(options) {
 
 
 	return {
-		show: function(onApply) {
-			private.onApply = onApply			
-			div.dialog('open')	
+		show: function() {
+			retValue = null			
+			return new Promise((resolve) => {
+				private.resolve = resolve			
+				div.dialog('open')					
+			})
 		},
 		setData: function(data, isReset) {
 			if (isReset === true) {
