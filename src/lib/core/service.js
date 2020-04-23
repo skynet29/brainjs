@@ -14,7 +14,7 @@ function resolveServices(deps) {
 			if (srv.status == 'notloaded') {
 				var deps2 = resolveServices(srv.deps)
 				var config = srv.config || {}
-				console.log(`[service] instance service '${depName}' with config`, config)
+				//console.log(`[service] instance service '${depName}' with config`, config)
 				var args = [config].concat(deps2)
 				srv.obj = srv.options.init.apply(null, args)
 				srv.status = 'ready'
@@ -32,7 +32,7 @@ function resolveServices(deps) {
 
 
 function configureService(name, config) {
-	console.log('[Core] configureService', name, config)
+	//console.log('[Core] configureService', name, config)
 	if (typeof name != 'string') {
 		console.warn('[Core] configureService called with bad arguments')
 		return
