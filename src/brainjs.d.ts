@@ -40,13 +40,18 @@ declare namespace $$ {
     interface ViewController {
         update(): void;
         setData(data: object): void;
+        removeArrayItem(arrayBindingName: string, idx: number): void;
+        updateArrayItem(arrayBindingName: string, idx: number, value: any): void;
+    
         scope: Object;
         model: Object;
     }
 
     interface ViewControllerOptions {
         data: Object;
-        events?: Object;
+        events?: {
+            [key: string]: function;
+        };
     }
     function viewController(elt: JQuery, options: ViewControllerOptions):ViewController;
 }

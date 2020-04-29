@@ -60,6 +60,27 @@ class ViewController {
 
     }
 
+    removeArrayItem(arrayBindingName, idx) {
+        const arrayNode = this.scope[arrayBindingName]
+        if (arrayNode != undefined) {
+            $$.binding.removeArrayItem(this.ctx, arrayNode.get(0), idx)
+        }
+    }
+
+    updateArrayItem(arrayBindingName, idx, value) {
+        const arrayNode = this.scope[arrayBindingName]
+        if (arrayNode != undefined) {
+            $$.binding.updateArrayItem(this.ctx, arrayNode.get(0), idx, value)
+        }
+    }
+
+    insertArrayItemAfter(arrayBindingName, idx, value) {
+        const arrayNode = this.scope[arrayBindingName]
+        if (arrayNode != undefined) {
+            $$.binding.insertArrayItemAfter(this.ctx, arrayNode.get(0), idx, value)
+        }
+    }
+
     // forceUpdate(bindingName) {
     //     const forceElt = this.scope[bindingName]
     //     $$.binding.update(this.ctx, this.model, null, forceElt.get(0))

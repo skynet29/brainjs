@@ -10,7 +10,7 @@ function registerModule(name, arg1, arg2) {
 		fn = arg2
 	}
 
-	console.log(`[module] register module '${name}' with deps`, deps)
+	//console.log(`[module] register module '${name}' with deps`, deps)
 
 	modules[name] = {deps, fn, status: 'notloaded'}
 }
@@ -22,7 +22,7 @@ function getModule(name) {
 
 		if (mod.status == 'notloaded') {
 			var deps = $$.service.getServices(mod.deps)
-			console.log(`[module] instance module '${name}'`)
+			//console.log(`[module] instance module '${name}'`)
 			mod.obj = mod.fn.apply(null, deps)
 			mod.status = 'ready'
 		}

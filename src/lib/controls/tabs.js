@@ -43,7 +43,7 @@ $$.control.registerControl('brainjs.tabs', {
 		elt.tabs()
 		.on('click', '.removeTab', function() {
 			const idx = $(this).closest('li').index()
-			console.log('[tabs] remove', idx)
+			//console.log('[tabs] remove', idx)
 			elt.trigger('tabsremove', idx)
 			// $('#' + panelId).safeEmpty().remove()
 			// elt.tabs('refresh')

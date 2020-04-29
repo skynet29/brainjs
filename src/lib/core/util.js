@@ -318,6 +318,16 @@ function knuthShuffle(length) {
     return arr;
 }		
 
+function concatTypedArray(a, b) {
+	if (a == null) {
+		return b
+	}
+	const c = new a.constructor(a.length + b.length)
+	c.set(a)
+	c.set(b, a.length)
+	return c
+}
+
 
 $$.util = {
 	readTextFile,
@@ -340,7 +350,8 @@ $$.util = {
 	objToArray,
 	isMobileDevice,
 	buildDataURL,
-	knuthShuffle
+	knuthShuffle,
+	concatTypedArray
 }
 
 
