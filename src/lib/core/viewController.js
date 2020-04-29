@@ -85,7 +85,7 @@ class ViewController {
         if (arrayNode != undefined) {
             $$.binding.insertArrayItemAfter(this.ctx, arrayNode.get(0), idx, value)
             if (typeof varName == 'string') {
-                this.model[varName].splice(idx, 0, value)
+                this.model[varName].splice(idx+1, 0, value)
             }
         }
     }
