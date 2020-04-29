@@ -60,24 +60,43 @@ class ViewController {
 
     }
 
-    removeArrayItem(arrayBindingName, idx) {
+    removeArrayItem(arrayBindingName, idx, varName) {
         const arrayNode = this.scope[arrayBindingName]
         if (arrayNode != undefined) {
             $$.binding.removeArrayItem(this.ctx, arrayNode.get(0), idx)
+            if (typeof varName == 'string') {
+                this.model[varName].splice(idx, 1)
+            }
         }
     }
 
-    updateArrayItem(arrayBindingName, idx, value) {
+    updateArrayItem(arrayBindingName, idx, value, varName) {
         const arrayNode = this.scope[arrayBindingName]
         if (arrayNode != undefined) {
             $$.binding.updateArrayItem(this.ctx, arrayNode.get(0), idx, value)
+            if (typeof varName == 'string') {
+                this.model[varName] = value
+            }
         }
     }
 
-    insertArrayItemAfter(arrayBindingName, idx, value) {
+    insertArrayItemAfter(arrayBindingName, idx, value, varName) {
         const arrayNode = this.scope[arrayBindingName]
         if (arrayNode != undefined) {
             $$.binding.insertArrayItemAfter(this.ctx, arrayNode.get(0), idx, value)
+            if (typeof varName == 'string') {
+                this.model[varName].splice(idx, 0, value)
+            }
+        }
+    }
+ 
+    updateNode(bindingName) {
+        let node = this.scope[bindingName]
+        if (node != undefined) {
+            node = node.get(0)
+            const info = this.ctx.find((i) => i.node == node)
+            $$.binding.render([info], this.model)        
+
         }
     }
 
