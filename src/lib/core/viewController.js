@@ -75,7 +75,7 @@ class ViewController {
         if (arrayNode != undefined) {
             $$.binding.updateArrayItem(this.ctx, arrayNode.get(0), idx, value)
             if (typeof varName == 'string') {
-                this.model[varName] = value
+                this.model[varName][idx] = value
             }
         }
     }
