@@ -23,8 +23,8 @@ $$.service.registerService('brainjs.resource', {
 					return http.delete(`${prefix}${url}`)		
 				},
 
-				postFormData(url, fd) {
-					return http.postFormData(`${prefix}${url}`, fd)			
+				postFormData(url, fd, onUploadProgress) {
+					return http.postFormData(`${prefix}${url}`, fd, onUploadProgress)			
 				}				
 			}			
 

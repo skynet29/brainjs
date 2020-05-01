@@ -1,7 +1,7 @@
 //@ts-check
 $$.service.registerService('brainjs.http', {
 
-	init: function() {
+	init: function () {
 		return {
 			get(url, params) {
 				return $.getJSON($$.util.getUrlParams(url, params))
@@ -12,7 +12,7 @@ $$.service.registerService('brainjs.http', {
 				//console.log('[HTTP] post', url, data)
 				return $.ajax({
 					method: 'POST',
-					url : url,
+					url: url,
 					contentType: 'application/json',
 					data: JSON.stringify(data)
 				})
@@ -21,32 +21,40 @@ $$.service.registerService('brainjs.http', {
 			put(url, data) {
 				return $.ajax({
 					method: 'PUT',
-					url : url,
+					url: url,
 					contentType: 'application/json',
 					data: JSON.stringify(data)
 				})
-			},			
+			},
 
 			delete(url) {
 				return $.ajax({
 					method: 'DELETE',
-					url : url,
-				})				
+					url: url,
+				})
 			},
 
-			postFormData(url, fd, options) {
-				const settings = $.extend({
-				  url: url,
-				  method: "POST",
-				  data: fd,
-				  processData: false,  // indique à jQuery de ne pas traiter les données
-				  contentType: false   // indique à jQuery de ne pas configurer le contentType
-				}, options)
+			postFormData(url, fd, onUploadProgress) {
+				return $.ajax({
+					xhr: function () {
+						var xhr = new window.XMLHttpRequest();
+						//Upload progress
+						if (typeof onUploadProgress == 'function') {
+							xhr.upload.addEventListener("progress", onUploadProgress, false)
 
-				return $.ajax(settings)				
+						}
+						return xhr;
+					},
+					url: url,
+					method: "POST",
+					data: fd,
+					processData: false,  // indique à jQuery de ne pas traiter les données
+					contentType: false   // indique à jQuery de ne pas configurer le contentType
+				})
+
 			}
 
-			
+
 		}
 	},
 

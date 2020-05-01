@@ -90,14 +90,20 @@ class ViewController {
         }
     }
  
-    updateNode(bindingName) {
-        let node = this.scope[bindingName]
-        if (node != undefined) {
-            node = node.get(0)
-            const info = this.ctx.find((i) => i.node == node)
-            $$.binding.render([info], this.model)        
-
-        }
+    updateNode(bindingNames) {
+        bindingNames.split(',').forEach((bindingName) => {
+            //console.log('bindingName', bindingName)
+            bindingName = bindingName.trim()
+            let node = this.scope[bindingName]
+            if (node != undefined) {
+                node = node.get(0)
+                const info = this.ctx.find((i) => i.node == node)
+                $$.binding.render([info], this.model)            
+            } 
+            else {
+                console.warn(`updateNode: "${bindingName}" not found!`)
+            }   
+        })
     }
 
     // forceUpdate(bindingName) {

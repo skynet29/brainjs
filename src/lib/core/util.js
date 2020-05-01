@@ -38,11 +38,11 @@ function readFile(fileName) {
 
 
 
-var inputFile = $('<input>', {type: 'file'}).on('change', function() {
-	var onApply = $(this).data('onApply')
-	var fileName = this.files[0]
-	if (typeof onApply == 'function') {
-		onApply(fileName)
+const inputFile = $('<input>', {type: 'file'}).on('change', function() {
+	const onApply = $(this).data('onApply')
+	const file = this.files[0]
+	if (typeof onApply == 'function' && file != undefined) {
+		onApply(file)
 	}
 })
 
