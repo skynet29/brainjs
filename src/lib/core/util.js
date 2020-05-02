@@ -328,6 +328,11 @@ function concatTypedArray(a, b) {
 	return c
 }
 
+function wait(delayMs) {
+	return new Promise((resolve) => {
+		setTimeout(resolve, delayMs)
+	})
+}
 
 $$.util = {
 	readTextFile,
@@ -351,7 +356,8 @@ $$.util = {
 	isMobileDevice,
 	buildDataURL,
 	knuthShuffle,
-	concatTypedArray
+	concatTypedArray,
+	wait
 }
 
 

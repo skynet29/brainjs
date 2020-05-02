@@ -141,12 +141,32 @@ function showForm(formDesc, onApply) {
 
 }
 
+function savingDialog() {
+	const ctrl = $$.dialogController({
+		title: 'Saving...',
+		canClose: false,
+		template: `<progress bn-val="percentage" style="width: 100%;"></progress>`,
+		width: 300,
+		resizable: false,
+		data: {
+			value: 0
+		}
+	})
+
+	ctrl.setPercentage = function(percentage) {
+		ctrl.setData({percentage})
+	}
+	
+	return ctrl;
+}
+
 
 $$.ui = {
 	showAlert,
 	showConfirm,
 	showPrompt,
-	showForm
+	showForm,
+	savingDialog
 }
 
 })();

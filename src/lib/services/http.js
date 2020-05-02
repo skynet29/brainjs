@@ -40,7 +40,13 @@ $$.service.registerService('brainjs.http', {
 						var xhr = new window.XMLHttpRequest();
 						//Upload progress
 						if (typeof onUploadProgress == 'function') {
-							xhr.upload.addEventListener("progress", onUploadProgress, false)
+							xhr.upload.addEventListener("progress", (evt) => {
+								if (evt.lengthComputable) {
+									const percentComplete = evt.loaded / evt.total
+									onUploadProgress(percentComplete)
+								  }
+
+							}, false)
 
 						}
 						return xhr;
