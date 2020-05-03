@@ -184,8 +184,8 @@
   }
 
   function processEach(startIdx, observer) {
-    //console.log('processEach', startIdx)
     let { lazzy, iter, index, value, node, template, data } = observer.info
+    //console.log('processEach', startIdx, data)
 
     if (startIdx == 0) {
       $(node).safeEmpty()
@@ -222,48 +222,70 @@
   }
 
   function removeArrayItem(ctx, arrayNode, idx) {
+    const node = arrayNode.childNodes[idx]
+
     const info = ctx.find((i) => i.node == arrayNode)
-    if (info != undefined && info.attrName == 'bn-each') {
-      const node = arrayNode.childNodes[idx]
-      arrayNode.removeChild(node)      
+    if (node != undefined) {
+      if (info != undefined && info.attrName == 'bn-each') {
+        arrayNode.removeChild(node)
+      }
+    }
+    else {
+      info.observer.info.value.splice(idx, 1)
     }
   }
-  
-  function updateArrayItem(ctx, arrayNode, idx, value) {
-    const info = ctx.find((i) => i.node == arrayNode)
-    if (info != undefined && info.attrName == 'bn-each') {
-      const { iter, index, template, data } = info.observer.info
-      const clone = document.importNode(template.content, true)
-      const { ctx, ctrls } = parse(clone)
-      const itemData = $.extend({ $scope: {} }, data)
-      itemData.$scope[iter] = value
-      if (index != null) {
-        itemData.$scope[index] = idx
-      }
-      render(ctx, itemData)
-      processCtrls(ctrls)
 
-      const node = arrayNode.childNodes[idx]
-      arrayNode.replaceChild(clone, node)
+  function updateArrayItem(ctx, arrayNode, idx, value) {
+    const node = arrayNode.childNodes[idx]
+
+    const info = ctx.find((i) => i.node == arrayNode)
+
+    if (info != undefined && info.attrName == 'bn-each') {
+      if (node != undefined) {
+        const { iter, index, template, data } = info.observer.info
+        const clone = document.importNode(template.content, true)
+        const { ctx, ctrls } = parse(clone)
+        const itemData = $.extend({ $scope: {} }, data)
+        itemData.$scope[iter] = value
+        if (index != null) {
+          itemData.$scope[index] = idx
+        }
+        render(ctx, itemData)
+        processCtrls(ctrls)
+
+        arrayNode.replaceChild(clone, node)
+
+      }
+      else {
+        info.observer.info.value[idx] = value
+      }
+
     }
   }
 
   function insertArrayItemAfter(ctx, arrayNode, idx, value) {
-    const info = ctx.find((i) => i.node == arrayNode)
-    if (info != undefined && info.attrName == 'bn-each') {
-      const { iter, index, template, data } = info.observer.info
-      const clone = document.importNode(template.content, true)
-      const { ctx, ctrls } = parse(clone)
-      const itemData = $.extend({ $scope: {} }, data)
-      itemData.$scope[iter] = value
-      if (index != null) {
-        itemData.$scope[index] = idx
-      }
-      render(ctx, itemData)
-      processCtrls(ctrls)
+    const node = arrayNode.childNodes[idx]
 
-      const node = arrayNode.childNodes[idx]
-      arrayNode.insertBefore(clone, node.nextSibling)
+    const info = ctx.find((i) => i.node == arrayNode)
+
+    if (info != undefined && info.attrName == 'bn-each') {
+      if (node != undefined) {
+        const { iter, index, template, data } = info.observer.info
+        const clone = document.importNode(template.content, true)
+        const { ctx, ctrls } = parse(clone)
+        const itemData = $.extend({ $scope: {} }, data)
+        itemData.$scope[iter] = value
+        if (index != null) {
+          itemData.$scope[index] = idx
+        }
+        render(ctx, itemData)
+        processCtrls(ctrls)
+
+        arrayNode.insertBefore(clone, node.nextSibling)
+      }
+      else {
+        info.observer.info.value.splice(idx + 1, 0, value)
+      }
     }
   }
 
