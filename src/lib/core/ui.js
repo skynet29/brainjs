@@ -141,9 +141,9 @@ function showForm(formDesc, onApply) {
 
 }
 
-function savingDialog() {
+function progressDialog(title) {
 	const ctrl = $$.dialogController({
-		title: 'Saving...',
+		title: title || 'Saving...',
 		canClose: false,
 		template: `<progress bn-val="percentage" style="width: 100%;"></progress>`,
 		width: 300,
@@ -166,7 +166,7 @@ $$.ui = {
 	showConfirm,
 	showPrompt,
 	showForm,
-	savingDialog
+	progressDialog
 }
 
 })();
