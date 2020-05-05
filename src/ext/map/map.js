@@ -234,9 +234,6 @@ $$.control.registerControl('brainjs.map', {
 
 		`,
 
-	$events: `
-		mapshapecontextmenu;
-		mapclick
-	`
+	$events: `mapshapecontextmenu;mapclick`
 
 });

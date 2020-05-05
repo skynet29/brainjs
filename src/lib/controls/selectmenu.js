@@ -67,5 +67,5 @@ $$.control.registerControl('brainjs.combobox', {
 		}
 	},
 
-	$events: 'selectmenuchange'
+	$events: 'comboboxchange'
 });

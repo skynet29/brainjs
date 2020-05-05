@@ -91,6 +91,9 @@ $$.control.registerControl('brainjs.htmleditor', {
 
 
 	},
-	$iface: 'html(htmlString): string;load(url);insertImage(url)'
+	$iface: `
+		html(htmlString): string;load(url);
+		insertImage(url)
+	`
 
 });

@@ -22,7 +22,10 @@ $$.control.registerControl('brainjs.radiogroup', {
 
 		this.setValue(elt.val())
 	},
-	$iface: 'setValue(value);getValue()',
+	$iface: `
+		setValue(value)
+		getValue()
+	`,
 	$events: 'input'
 });
 

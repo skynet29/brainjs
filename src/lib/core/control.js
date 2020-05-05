@@ -30,8 +30,8 @@ function registerControl(name, options) {
 function resolveControl(name) {
 	var ret = controls[name]
 	if (ret && ret.status == 'notloaded') {
-		ret.deps = $$.service.resolveServices(ret.deps)
-		ret.status = isDepsOk(ret.deps) ? 'ok' : 'ko'
+		ret.resolvedDeps = $$.service.resolveServices(ret.deps)
+		ret.status = isDepsOk(ret.resolvedDeps) ? 'ok' : 'ko'
 	}
 	return ret
 }
@@ -107,7 +107,7 @@ function createControl(controlName, elt) {
 				iface.onVisibilityChange = onVisibilityChange
 			}
 
-			var args = [elt].concat(ctrl.deps)
+			var args = [elt].concat(ctrl.resolvedDeps)
 			//console.log(`[control] instance control '${controlName}' with props`, iface.props)
 			init.apply(iface, args)
 			
@@ -128,8 +128,30 @@ function getControls() {
 }
 
 function getControlInfo(ctrlName) {
-	return controls[ctrlName]
+	const ctrl = controls[ctrlName]
+	if (ctrl != undefined) {
+		const ret = {
+			deps: ctrl.deps
+		}
+		if (ctrl.options.$iface) {
+			ret.iface = ctrl.options.$iface
+				.split('\n')
+				.map((i) => i.trim())
+				.filter((i) => i != '')
+		}
+		if (ctrl.options.$events) {
+			ret.events = ctrl.options.$events.split(';')
+		}
+		if (ctrl.options.props) {
+			ret.props = ctrl.options.props
+		}
+		return ret
+	}
+	else {
+		throw 'Unknown control'
+	}
 }
+
 
 $$.control = {
 	registerControl,

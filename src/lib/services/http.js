@@ -68,7 +68,7 @@ $$.service.registerService('brainjs.http', {
 		post(url, data):Promise;
 		put(url, data):Promise;
 		delete(url):Promise;
-		postFormData(url, formData):Promise`
+		postFormData(url, formData, onUploadProgress):Promise`
 
 });
 

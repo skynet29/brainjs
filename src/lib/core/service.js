@@ -70,7 +70,22 @@ function getServices() {
 }
 
 function getServiceInfo(srvName) {
-	return services[srvName]
+	const ctrl = services[srvName]
+	if (ctrl != undefined) {
+		const ret = {
+			deps: ctrl.deps
+		}
+		if (ctrl.options.$iface) {
+			ret.iface = ctrl.options.$iface
+				.split('\n')
+				.map((i) => i.trim())
+				.filter((i) => i != '')
+		}
+		return ret
+	}
+	else {
+		throw 'Unknown service'
+	}
 }
 
 
