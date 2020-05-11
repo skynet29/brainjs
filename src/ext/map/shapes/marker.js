@@ -30,10 +30,23 @@ $$.module.registerModule('brainjs.map.shape.marker', function() {
 
 			const marker = L.marker(data.latlng, options)							
 			
-			if (data.popupContent) {
-				let popup = L.popup({autoClose: false, closeButton: true, autoPan: false})
-				popup.setContent(data.popupContent)
-				marker.bindPopup(popup)
+			if (data.popup) {
+				const content = data.popup.content
+				if (typeof content == 'string') {
+					delete data.popup.content
+					const options = $.extend({autoClose: false, closeButton: true, autoPan: false}, data.popup)
+					let popup = L.popup(options)
+					popup.setContent(content)
+					marker.bindPopup(popup)
+	
+				}
+			}
+
+
+
+
+			if (typeof data.tooltip == 'string') {
+				marker.bindTooltip(data.tooltip).openTooltip()
 			}
 																
 			return marker

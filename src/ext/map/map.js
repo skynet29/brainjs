@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
 	console.log('[brainjs.map] Leaflet version', L.version)
 	//$$.util.loadStyle('map/brainjs-map.css')
 })
@@ -8,7 +8,7 @@ $(function() {
 $$.control.registerControl('brainjs.map', {
 	props: {
 		tileUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-		center: {lat: 51.505, lng: -0.09}, // london city
+		center: { lat: 51.505, lng: -0.09 }, // london city
 		zoom: 13,
 		layers: {},
 		scale: false,
@@ -17,33 +17,33 @@ $$.control.registerControl('brainjs.map', {
 		contextMenu: {},
 		shapes: {}
 	},
-	init: function(elt) {
+	init: function (elt) {
 
 		const div = $('<div>').css('height', '100%').appendTo(elt).get(0)
 
-		const {center, zoom, tileUrl, contextMenu} = this.props
+		const { center, zoom, tileUrl, contextMenu } = this.props
 
 		const mapOptions = {
-			center, 
+			center,
 			zoom,
 			closePopupOnClick: false,
 			contextmenu: true,
-			contextmenuWidth: 200,
+			//contextmenuWidth: 200,
 			attributionControl: false
 		}
 
-		mapOptions.contextmenuItems = Object.keys(contextMenu).map(function(cmd) {
+		mapOptions.contextmenuItems = Object.keys(contextMenu).map(function (cmd) {
 			const text = contextMenu[cmd].name
 			if (text === '--') {
-				return {separator: true}
+				return { separator: true }
 			}
 			return {
 				text,
-				callback: function(ev) {
-					elt.trigger('mapcontextmenu', {cmd,  latlng: ev.latlng})
+				callback: function (ev) {
+					elt.trigger('mapcontextmenu', { cmd, latlng: ev.latlng })
 				}
 			}
-			
+
 		})
 
 		const map = L.map(div, mapOptions)
@@ -52,14 +52,14 @@ $$.control.registerControl('brainjs.map', {
 
 		const confLayer = {}
 
-		for(let layerName in this.props.layers) {
-			const {label, visible} = this.props.layers[layerName]
+		for (let layerName in this.props.layers) {
+			const { label, visible } = this.props.layers[layerName]
 			const layer = new L.FeatureGroup()
 			layers[layerName] = layer
 			if (typeof label == 'string') {
 				confLayer[label] = layer
 			}
-			
+
 			if (visible === true) {
 				map.addLayer(layer)
 			}
@@ -67,10 +67,10 @@ $$.control.registerControl('brainjs.map', {
 
 		if (Object.keys(confLayer).length != 0) {
 			L.control.layers({}, confLayer).addTo(map)
-		}	
+		}
 
-		if (this.props.scale) {			
-			L.control.scale({imperial: false, position: 'bottomright'}).addTo(map)
+		if (this.props.scale) {
+			L.control.scale({ imperial: false, position: 'bottomright' }).addTo(map)
 		}
 
 		if (this.props.coordinates) {
@@ -78,13 +78,13 @@ $$.control.registerControl('brainjs.map', {
 				position: 'bottomleft',
 				useLatLngOrder: true,
 				enableUserInput: false,
-				decimals: 5					
+				decimals: 5
 			}).addTo(map)
 		}
 
-		const data = {elt, map, layers, shapes}
+		const data = { elt, map, layers, shapes }
 
-		for(let pluginName in this.props.plugins) {
+		for (let pluginName in this.props.plugins) {
 			const func = $$.module.getModule('brainjs.map.plugin.' + pluginName)
 			const config = this.props.plugins[pluginName]
 			if (typeof func == 'function') {
@@ -95,20 +95,20 @@ $$.control.registerControl('brainjs.map', {
 
 		L.tileLayer(tileUrl).addTo(map)
 
-		setTimeout(function(){
+		setTimeout(function () {
 			map.invalidateSize()
 		}, 100)
 
-		map.on('click', function(ev) {
+		map.on('click', function (ev) {
 			//console.log('[map] onclick', ev)
-			elt.trigger('mapclick', {latlng: ev.latlng})
+			elt.trigger('mapclick', { latlng: ev.latlng })
 		})
 
-		this.getShapes = function() {
+		this.getShapes = function () {
 			return Object.keys(shapes)
 		}
 
-		this.updateShape = function(id, options) {
+		this.updateShape = function (id, options) {
 			const shape = shapes[id]
 			if (shape) {
 				const shapeDesc = $$.module.getModule('brainjs.map.shape.' + shape.type)
@@ -117,56 +117,88 @@ $$.control.registerControl('brainjs.map', {
 					//console.log('[brainjs.map] updateShape with id', id)
 					shapeDesc.update(shape, options)
 					$.extend(shape.info, options)
-				}										
+				}
 			}
 			else {
 				throw `[brainjs.map] updateShape id '${id}' doesn't exist`
 			}
 		}
 
-		this.addShape = function(id, options) {
+		this.addShape = function (id, data) {
 			if (shapes[id]) {
 				throw `[brainjs.map] addShape id '${id}' already exist`
 			}
-			options = options || {}
+			data = data || {}
 
-			if (typeof options.type != 'string') {
+			if (typeof data.type != 'string') {
 				console.error('[brainjs.map] addShape, missing type field')
 				return
 			}
 
-			const shapeDesc = $$.module.getModule('brainjs.map.shape.' + options.type)
+			const shapeDesc = $$.module.getModule('brainjs.map.shape.' + data.type)
 
 			let layer = map
-			if (typeof options.layer == 'string') {
-				layer = layers[options.layer]
+			if (typeof data.layer == 'string') {
+				layer = layers[data.layer]
 				if (layer == undefined) {
-					throw `layer '${options.layer}' doesn't exist`
+					throw `layer '${data.layer}' doesn't exist`
 				}
 			}
 
 			if (shapeDesc && typeof shapeDesc.create == 'function') {
 
 				console.log('[brainjs.map] addShape with id', id)
-				shape = shapeDesc.create(options)
-				shape.type = options.type
+				if (data.contextMenu) {
+					data.options = {
+						contextmenu: true,
+						contextmenuInheritItems: false,
+						contextmenuItems: Object.entries(data.contextMenu).map((item) => {
+							const [cmd, info] = item
+							const text = info.name
+							if (text === '--') {
+								return { separator: true }
+							}
+							return {
+								text,
+								iconCls: info.iconCls,
+								callback: function (ev) {
+									elt.trigger('mapshapecontextmenu', { id, cmd, latlng: ev.latlng })
+								}
+							}
+	
+						})
+	
+					}
+				}
+
+				shape = shapeDesc.create(data)
+				shape.type = data.type
 				shape.ownlayer = layer
-				shape.info = options
+				shape.info = data
 				shape.id = id
 				shapes[id] = shape
-				shape.on('contextmenu', function(ev) {
-					const data = {id, latlng: ev.latlng}
-					if (typeof ev.target.getLatLng == 'function') {
-						data.pos = map.latLngToContainerPoint(ev.target.getLatLng())
-					}
-					elt.trigger('mapshapecontextmenu', data)
-				})
+				if (data.contextMenu == undefined) {
+					shape.on('contextmenu', function (ev) {
+						const data = { id, latlng: ev.latlng }
+						if (typeof ev.target.getLatLng == 'function') {
+							data.pos = map.latLngToContainerPoint(ev.target.getLatLng())
+						}
+						elt.trigger('mapshapecontextmenu', data)
+					})
+
+				}
+				else {
+					delete data.contextMenu
+				}
 				shape.addTo(layer)
-			}					
+				if (data.popup) {
+					shape.openPopup()
+				}
+			}
 		}
 
-		this.removeShape = function(id) {
-	
+		this.removeShape = function (id) {
+
 			const shape = shapes[id]
 			if (shape) {
 				console.log('[brainjs.map] removeShape with id', id)
@@ -179,8 +211,8 @@ $$.control.registerControl('brainjs.map', {
 		}
 
 
-		this.getShapeInfo = function(id) {
-	
+		this.getShapeInfo = function (id) {
+
 			const shape = shapes[id]
 			if (shape) {
 				return shape.info
@@ -188,34 +220,34 @@ $$.control.registerControl('brainjs.map', {
 			else {
 				console.warn(`[brainjs.map] removeShape id '${id}' doesn't exist`)
 			}
-		}	
+		}
 
-		this.enableHandlers =function (enabled) {
-			map._handlers.forEach(function(handler) {
+		this.enableHandlers = function (enabled) {
+			map._handlers.forEach(function (handler) {
 				if (enabled)
 					handler.enable()
 				else
 					handler.disable()
-			})			
+			})
 		}
 
-		this.getZoom = function() {
+		this.getZoom = function () {
 			return map.getZoom()
 		}
 
-		this.getCenter = function() {
+		this.getCenter = function () {
 			return map.getCenter()
 		}
 
-		this.panTo = function(latlng) {
-			return map.panTo(latlng, {animate: true})
-		}		
+		this.panTo = function (latlng) {
+			return map.panTo(latlng, { animate: true })
+		}
 
-		this.flyTo = function(latlng, zoom) {
-			return map.flyTo(latlng, zoom, {animate: true})
-		}		
+		this.flyTo = function (latlng, zoom) {
+			return map.flyTo(latlng, zoom, { animate: true })
+		}
 
-		for(let shapeId in this.props.shapes) {
+		for (let shapeId in this.props.shapes) {
 			this.addShape(shapeId, this.props.shapes[shapeId])
 		}
 
@@ -230,10 +262,10 @@ $$.control.registerControl('brainjs.map', {
 		enableHandlers(enabled);
 		getZoom():ZoomLevel;
 		getCenter(): LatLng;
-		panTo(latlng)
-
+		panTo(latlng);
+		flyTo(latlng, zoom)
 		`,
 
-	$events: `mapshapecontextmenu;mapclick`
+	$events: `mapcontextmenu;mapclick;mapshapecontextmenu`
 
 });

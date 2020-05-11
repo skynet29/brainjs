@@ -5,9 +5,9 @@ $$.control.registerControl('brainjs.pdf', {
 
 	},
 
-	init: function(elt) {
+	init: function (elt) {
 
-		const {worker} = this.props
+		const { worker } = this.props
 
 		const div = $('<div>').css('height', '100%').appendTo(elt).get(0)
 
@@ -20,15 +20,15 @@ $$.control.registerControl('brainjs.pdf', {
 		})
 
 		let bounds
-		let imageOverlay = null	
+		let imageOverlay = null
 
 		const pdfjsLib = window['pdfjs-dist/build/pdf']
 
 		pdfjsLib.GlobalWorkerOptions.workerSrc = worker
 
-		elt.css({'text-align': 'center', width: '100%'})
+		elt.css({ 'text-align': 'center', width: '100%' })
 
-		const canvas = $('<canvas>').get(0)
+		const canvas = document.createElement('canvas')
 		const canvasContext = canvas.getContext('2d')
 		let pdfDoc = null
 		let scale = 1.5
@@ -36,41 +36,38 @@ $$.control.registerControl('brainjs.pdf', {
 
 
 
-		function renderPage(pageNo) {
+		async function renderPage(pageNo) {
 			//console.log('renderPage', pageNo)
 
-			return pdfDoc.getPage(pageNo)
-				.then((page) => {
-					const viewport = page.getViewport(scale)
-					//console.log('viewport', viewport)
-					canvas.width = viewport.width
-					canvas.height = viewport.height
+			const page = await pdfDoc.getPage(pageNo)
+			const viewport = page.getViewport(scale)
+			//console.log('viewport', viewport)
+			canvas.width = viewport.width
+			canvas.height = viewport.height
 
-					return page.render({
-						canvasContext,
-						viewport
-					})
-				})
 
-				.then(() => {
-					const dataUrl = canvas.toDataURL('image/png')
+			await page.render({
+				canvasContext,
+				viewport
+			})
 
-					//console.log('width: ', width, ' height:', height)
-					bounds = [[0, 0], [canvas.height, canvas.width]]
-					if (imageOverlay == null) {
-						imageOverlay = L.imageOverlay(dataUrl, bounds).addTo(map)					
-					}
-					else {
-						imageOverlay.setBounds(L.latLngBounds(bounds))
-						imageOverlay.setUrl(dataUrl)
-					}
-					map.fitBounds(bounds)					
-					return pageNo
-				})
+			const dataUrl = canvas.toDataURL('image/png')
+
+			//console.log('width: ', width, ' height:', height)
+			bounds = [[0, 0], [canvas.height, canvas.width]]
+			if (imageOverlay == null) {
+				imageOverlay = L.imageOverlay(dataUrl, bounds).addTo(map)
+			}
+			else {
+				imageOverlay.setBounds(L.latLngBounds(bounds))
+				imageOverlay.setUrl(dataUrl)
+			}
+			map.fitBounds(bounds)
+			return pageNo
 		}
 
 
-		this.nextPage = function() {
+		this.nextPage = function () {
 			if (currentPage < pdfDoc.numPages) {
 				currentPage++
 				return renderPage(currentPage)
@@ -78,7 +75,7 @@ $$.control.registerControl('brainjs.pdf', {
 			return Promise.resolve(currentPage)
 		}
 
-		this.prevPage = function() {
+		this.prevPage = function () {
 			if (currentPage > 1) {
 				currentPage--
 				return renderPage(currentPage)
@@ -86,17 +83,14 @@ $$.control.registerControl('brainjs.pdf', {
 			return Promise.resolve(currentPage)
 		}
 
-		this.openFile = function(url) {
+		this.openFile = async function (url) {
 			//console.log('[pdf] openFile', url)
-			return pdfjsLib.getDocument(url).then((pdfDoc_) => {
-				pdfDoc = pdfDoc_
-				return renderPage(currentPage).then(() => {
-					return pdfDoc.numPages
-				})
-			})
+			pdfDoc = await pdfjsLib.getDocument(url)
+			await renderPage(currentPage)
+			return pdfDoc.numPages
 		}
 
-		this.fit = function() {
+		this.fit = function () {
 			if (bounds != undefined) {
 				map.fitBounds(bounds)
 			}
