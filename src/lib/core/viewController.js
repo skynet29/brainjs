@@ -111,7 +111,7 @@
             let node = this.scope[bindingName]
             if (node != undefined) {
                 node = node.get(0)
-                const infos = this.ctx.filter((i) => $.contains(node, i.node))
+                const infos = this.ctx.filter((i) => node == i.node || $.contains(node, i.node))
                 //console.log('updateNode', bindingName, infos)
                 $$.binding.render(infos, this.model)
             }
