@@ -24,7 +24,7 @@ task('brainjs.css',
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.css',
 		'./externals/jquery-contextMenu/jquery.contextMenu.css',
 		'./externals/jqflipswitch.default.style.css',			
-		'./externals/fontawesome-free-5.8.1-web/css/all.css',
+		'./externals/fontawesome-free-5.13.0-web/css/all.css',
 		'./externals/w3.css',
 		'./src/lib/core/core.css',
 		'./src/lib/controls/**/*.css'
@@ -42,7 +42,7 @@ task('brainjs.images',
 
 task('brainjs.fonts', 
 	[
-		'./externals/fontawesome-free-5.8.1-web/webfonts/*'
+		'./externals/fontawesome-free-5.13.0-web/webfonts/*'
 	], 
 	{dest: 'webfonts'}
 )
