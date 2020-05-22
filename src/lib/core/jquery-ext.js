@@ -156,17 +156,6 @@ $.fn.safeEmpty = function() {
     const iface = $(this).iface()
     //console.log('remove ctrl', iface)
 
-    if (iface.wakeLock) {
-      console.log('release wakeLock')
-      iface.wakeLock.release()
-      delete iface.wakeLock
-
-    }
-
-    if (iface.onVisibilityChange) {
-      document.removeEventListener('visibilitychange', iface.onVisibilityChange)
-    }
-
     if (typeof iface.dispose == 'function') {
       iface.dispose()
     }
