@@ -23,12 +23,13 @@ $$.control.registerControl('brainjs.combobox', {
 
 	props: {
 		items: [],
-		maxHeight: 200
+		maxHeight: 200,
+		width: false
 	},
 
 	init: function(elt) {
 
-		const {items, maxHeight} = this.props
+		const {items, maxHeight, width} = this.props
 
 		//console.log('value', elt.val())
 		//console.log('disabled', elt.prop('disabled'))*
@@ -39,7 +40,7 @@ $$.control.registerControl('brainjs.combobox', {
 		select.setItems(items)
 		select.val(elt.val())
 		select.prop('disabled', elt.prop('disabled'))
-		select.combobox().combobox('menuWidget').css('max-height', maxHeight + 'px')
+		select.combobox({width}).combobox('menuWidget').css('max-height', maxHeight + 'px')
 		// select.on('selectmenuchange', () => {
 		// 	elt.trigger('selectmenuchange')
 		// })
