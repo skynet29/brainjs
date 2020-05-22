@@ -3,7 +3,6 @@ $$.control.registerControl('brainjs.flipswitch', {
 
 	init: function(elt) {
 
-
 		const $input = $('<input>', {type: 'checkbox'})
 		.appendTo(elt)
 		elt.on('click', function(ev) {
@@ -14,7 +13,7 @@ $$.control.registerControl('brainjs.flipswitch', {
 		})
 		$('<span>').addClass('slider').appendTo(elt)
 
-
+		$input.setValue(elt.val())
 
 		this.getValue = function() {
 			//console.log('getValue', value)
