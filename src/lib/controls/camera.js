@@ -1,18 +1,21 @@
 $$.control.registerControl('brainjs.camera', {
 	props: {
-		constraints: { video: true }
+		constraints: { video: true },
+		mimeType: 'video/webm;codecs=vp9'
 	},
 
 	init: function (elt) {
 
-		let { constraints } = this.props
+		let { constraints, mimeType } = this.props
 		const iface = this
 
 		let slider = null
 
 		const video = document.createElement('video')
 		video.autoplay = true
+		video.muted = true
 		$(video)
+
 			.css('object-fit', 'scale-down')
 			.css('width', '100%')
 			.css('height', '100%')
@@ -25,6 +28,8 @@ $$.control.registerControl('brainjs.camera', {
 		let stream = null
 		let barcodeDetector = null
 		let imageCapture = null
+		let mediaRecorder = null
+		let chunks = []
 
 		async function detectBarcode() {
 			const bitmap = await imageCapture.grabFrame()
@@ -43,6 +48,32 @@ $$.control.registerControl('brainjs.camera', {
 				$$.ui.showAlert({title: 'Error', content: e.message})				
 			}
 
+		}
+
+		this.startRecord = function() {
+
+			if (mediaRecorder == null) {
+				mediaRecorder = new MediaRecorder(stream, {mimeType})
+				mediaRecorder.ondataavailable = function (e) {
+					chunks.push(e.data)
+				}	
+
+				mediaRecorder.onstop = function(e) {
+					const blob = new Blob(chunks, { type: mimeType })
+					chunks = []
+					elt.trigger('videorecord', blob)
+				}
+			}
+
+			mediaRecorder.start()
+
+
+		}
+
+		this.stopRecord = function() {
+			if (mediaRecorder != null) {
+				mediaRecorder.stop()
+			}
 		}
 
 		this.startBarcodeDetection = function() {
@@ -153,10 +184,12 @@ $$.control.registerControl('brainjs.camera', {
 		setZoom(value: number);
 		takePicture(): Promise<Blob>;
 		start();
-		stop()
+		stop();
+		startRecord();
+		stopRecord()
 	`,
 
-	$events: 'cameraready;barcode'
+	$events: 'cameraready;barcode;videorecord'
 
 
 
