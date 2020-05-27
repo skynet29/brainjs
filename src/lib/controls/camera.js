@@ -1,7 +1,7 @@
 $$.control.registerControl('brainjs.camera', {
 	props: {
 		constraints: { video: true },
-		mimeType: 'video/webm;codecs=vp9'
+		mimeType: 'video/webm'
 	},
 
 	init: function (elt) {
