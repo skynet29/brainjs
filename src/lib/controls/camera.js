@@ -169,6 +169,7 @@ $$.control.registerControl('brainjs.camera', {
 		this.setData = function (data) {
 			console.log('[camera] update', data)
 			if (data.constraints != undefined) {
+				mediaRecorder = null
 				iface.stop()
 				constraints = data.constraints
 				iface.start()
