@@ -23,15 +23,47 @@ $$.control.registerControl('brainjs.camera', {
 			.appendTo(elt)
 
 		let stream = null
+		let barcodeDetector = null
+		let imageCapture = null
 
-		this.getImageCapture = function () {
-			const track = stream.getVideoTracks()[0];
-			return new ImageCapture(track)
+		async function detectBarcode() {
+			const bitmap = await imageCapture.grabFrame()
+
+			try {
+				const barcodes = await barcodeDetector.detect(bitmap)
+				if (barcodes.length == 0) {
+					setTimeout(detectBarcode, 1000)
+				}
+				else {
+					elt.trigger('barcode', barcodes[0])				
+				}
+			}			
+			catch(e) {
+				console.error('BarcodeDetection failed: ', e)
+				$$.ui.showAlert({title: 'Error', content: e.message})				
+			}
+
 		}
+
+		this.startBarcodeDetection = function() {
+			if (barcodeDetector == null) {
+				barcodeDetector = new BarcodeDetector()
+			}
+			if (imageCapture == null) {
+				const track = stream.getVideoTracks()[0];
+				imageCapture = new ImageCapture(track)
+			}
+			detectBarcode()
+		}
+
 
 		this.getCapabilities = function () {
 			const track = stream.getVideoTracks()[0]
-			return track.getCapabilities()
+			return new Promise((resolve) => {
+				setTimeout(() => {
+					resolve(track.getCapabilities())					
+				}, 500)
+			})
 		}
 
 		this.getSettings = function () {
@@ -115,14 +147,16 @@ $$.control.registerControl('brainjs.camera', {
 	},
 
 	$iface: `
-		getCapabilities(): MediaTrackCapabilities;
+		getCapabilities(): Promise<MediaTrackCapabilities>;
 		getSettings(): MediaTrackSettings;
-		getImageCapture(): ImageCapture;
+		startBarcodeDetection();
 		setZoom(value: number);
 		takePicture(): Promise<Blob>;
 		start();
 		stop()
-	`
+	`,
+
+	$events: 'cameraready;barcode'
 
 
 
