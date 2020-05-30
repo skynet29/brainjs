@@ -3,7 +3,7 @@ var gulp = require('gulp')
 const task = require('./task')('./dist')
 
 
-task('brainjs.js', 
+const brainjsJs = task('brainjs.js', 
 	[
 		'./externals/jquery.min.js',
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.js',
@@ -18,7 +18,7 @@ task('brainjs.js',
 
 )
 
-task('brainjs.css',
+const brainjsCss = task('brainjs.css',
 	[
 		'./externals/jquery-ui-1.12.1.custom/jquery-ui.min.css',
 		'./externals/jquery-contextMenu/jquery.contextMenu.css',
@@ -30,7 +30,7 @@ task('brainjs.css',
 	{concat: 'brainjs.css', dest: 'css'}
 )
 
-task('brainjs.images', 
+const brainjsImages = task('brainjs.images', 
 	[
 		'./externals/jquery-ui-1.12.1.custom/images/*',
 	], 
@@ -38,27 +38,27 @@ task('brainjs.images',
 )
 
 
-task('brainjs.fonts', 
+const brainjsFonts = task('brainjs.fonts', 
 	[
 		'./externals/fontawesome-free-5.13.0-web/webfonts/*'
 	], 
 	{dest: 'webfonts'}
 )
 
-task('demo.js', 
+const demoJs = task('demo.js', 
 	[
 		'./demo/src/*.js',
 	], 
 	{concat: 'demo.js', isCode: true}
 )
 
-task('demo.html', 
+const demoHtml = task('demo.html', 
 	[
 		'./demo/index.html',
 	]
 )
 
-task('tree.js', 
+const treeJs = task('tree.js', 
 	[
 		'./externals/fancytree/dist/jquery.fancytree-all.min.js',
 		'./externals/fancytree/3rd-party/extensions/contextmenu/js/jquery.fancytree.contextMenu.js',		
@@ -67,28 +67,28 @@ task('tree.js',
 	{concat: 'brainjs-tree.js', isCode: true}
 )
 
-task('tree.css',
+const treeCss = task('tree.css',
 	[
 		'./externals/fancytree/dist/skin-lion/ui.fancytree.min.css'
 	],
 	{concat: 'brainjs-tree.css', dest: 'tree'}
 )
 
-task('tree.images',
+const treeImages = task('tree.images',
 	[
 		'./externals/fancytree/dist/skin-lion/*.gif'
 	],
 	{dest: 'tree'}
 )
 
-task('tree.fonts',
+const treeFonts = task('tree.fonts',
 	[
 		'./externals/jquery-contextMenu/font/*'
 	],
 	{dest: 'css/font'}
 )
 
-task('map.js',
+const mapJs = task('map.js',
 	[
 		'./externals/leaflet-1.0.3/leaflet.js',
 		'./externals/leaflet-plugins/leaflet.rotatedMarker.js',
@@ -104,7 +104,7 @@ task('map.js',
 	{concat: 'brainjs-map.js', isCode: true}
 )
 
-task('map.css',
+const mapCss = task('map.css',
 	[
 		'./externals/leaflet-1.0.3/leaflet.css',
 		'./externals/leaflet-plugins/Leaflet.Coordinates.css',
@@ -114,7 +114,7 @@ task('map.css',
 	{concat: 'brainjs-map.css', dest: 'map'}
 )
 
-task('map.images',
+const mapImages = task('map.images',
 	[
 		'./externals/leaflet-1.0.3/images/*'
 
@@ -122,7 +122,7 @@ task('map.images',
 	{dest: 'map/images'}
 )
 
-task('map.editor.js',
+const mapEditorJs = task('map.editor.js',
 	[
 		'./externals/leaflet-plugins/leaflet-draw/dist/leaflet.draw.js',
 		'./src/ext/map/plugins/editor.js',
@@ -130,14 +130,14 @@ task('map.editor.js',
 	{concat: 'brainjs-map-editor.js', isCode:true}
 )
 
-task('map.editor.css',
+const mapEditorCss = task('map.editor.css',
 	[
 		'./externals/leaflet-plugins/leaflet-draw/dist/leaflet.draw.css'
 	],
 	{concat: 'brainjs-map-editor.css', dest: 'map'}
 )
 
-task('map.editor.images',
+const mapEditorImages = task('map.editor.images',
 	[
 		'./externals/leaflet-plugins/leaflet-draw/dist/images/*'
 
@@ -145,7 +145,7 @@ task('map.editor.images',
 	{dest: 'map/images'}
 )
 
-task('milsymbol.js',
+const milSymbolJs = task('milsymbol.js',
 	[
 		'./externals/milsymbol.js',
 		'./src/ext/milsymbol.js',
@@ -153,7 +153,7 @@ task('milsymbol.js',
 	{concat: 'brainjs-milsymbol.js', isCode:true}
 )
 
-task('circularmenu.js',
+const circularMenuJs = task('circularmenu.js',
 	[
 		'./externals/TweenMax.min.js',
 		'./src/ext/circularmenu/*.js',
@@ -162,35 +162,35 @@ task('circularmenu.js',
 )
 
 
-task('circularmenu.css',
+const circularMenuCss = task('circularmenu.css',
 	[
 		'./src/ext/circularmenu/*.css',
 	],
 	{concat: 'brainjs-circularmenu.css', dest: 'css'}
 )
 
-task('flightpanel.js',
+const flightPanelJs = task('flightpanel.js',
 	[
 		'./src/ext/flightpanel.js',
 	],
 	{concat: 'brainjs-flightpanel.js', isCode:true}
 )
 
-task('doc.js',
+const docJs = task('doc.js',
 	[
 		'./doc/*.js',
 	],
 	{concat: 'doc.js', isCode:true}
 )
 
-task('doc.html',
+const docHtml = task('doc.html',
 	[
 		'./doc/index.html',
 	],
 	{concat: 'doc.html'}
 )
 
-task('pdf.js', 
+const pdfJs = task('pdf.js', 
 	[
 		'./externals/pdf/pdf.min.js',
 		'./src/ext/pdf.js',
@@ -198,55 +198,58 @@ task('pdf.js',
 	{concat: 'brainjs-pdf.js', isCode: true}
 )
 
-task('pdf.worker.js', 
+const pdfWorkerJs = task('pdf.worker.js', 
 	[
 		'./externals/pdf/pdf.worker.min.js',
 	], 
 	{concat: 'worker.js', dest: 'pdf'}
 )
 
-gulp.task('tree', ['tree.js', 'tree.css', 'tree.images', 'tree.fonts'])
-gulp.task('map', ['map.js', 'map.css', 'map.images'])
-gulp.task('milsymbol', ['milsymbol.js'])
-gulp.task('circularmenu', ['circularmenu.js', 'circularmenu.css'])
-gulp.task('map.editor', ['map.editor.js', 'map.editor.css', 'map.editor.images'])
-gulp.task('flightpanel', ['flightpanel.js'])
+const tree = gulp.series(treeJs, treeCss, treeImages, treeFonts)
+const map = gulp.series(mapJs, mapCss, mapImages)
+const milsymbol = gulp.series(milSymbolJs)
+const circularmenu = gulp.series(circularMenuJs, circularMenuCss)
+const mapEditor = gulp.series(mapEditorJs, mapEditorCss, mapEditorImages)
+const flightpanel = gulp.series(flightPanelJs)
 
 
-gulp.task('brainjs', ['brainjs.js', 'brainjs.css', 'brainjs.images', 'brainjs.fonts'])
+const brainjs = gulp.series(brainjsJs, brainjsCss, brainjsFonts, brainjsImages)
 
-gulp.task('demo', ['demo.js', 'demo.html'])
-gulp.task('doc', ['doc.js', 'doc.html'])
+const demo = gulp.series(demoJs, demoHtml)
+const doc = gulp.series(docJs, docHtml)
 
 
-gulp.task('all', [
-	'brainjs',
-	'demo',
-	'tree',
-	'map',
-	'map.editor',
-	'milsymbol',
-	'circularmenu',
-	'flightpanel',
-	'doc',
-	'pdf.js',
-	'pdf.worker.js'
-])
+
+const all = gulp.series(
+	brainjs,
+	demo,
+	tree,
+	map,
+	mapEditor,
+	milsymbol,
+	circularmenu,
+	flightpanel,
+	doc,
+	pdfJs,
+	pdfWorkerJs
+)
+
+exports.default = all
 
 		
-gulp.task('watch', ['all'], function() {
-	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], ['brainjs.js'])
-	gulp.watch(['./src/lib/core/core.css', './src/lib/controls/**/*.css'], ['brainjs.css'])
-	gulp.watch(['./src/ext/tree.js'], ['tree.js'])
-	gulp.watch(['./src/ext/map/**/*.js', './src/ext/map/**/*.html'], ['map.js', 'map.editor.js'])
-	gulp.watch(['./src/ext/map/**/*.css'], ['map.css'])
-	gulp.watch(['./src/ext/milsymbol.js'], ['milsymbol.js'])
-	gulp.watch(['./src/ext/circularmenu/*.js', './src/ext/circularmenu/*.html'], ['circularmenu.js'])
-	gulp.watch(['./src/ext/circularmenu/*.css'], ['circularmenu.css'])
-	gulp.watch(['./src/ext/flightpanel.js'], ['flightpanel.js'])
-	gulp.watch(['./src/ext/pdf.js'], ['pdf.js'])
+exports.watch = function() {
+	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], brainjsJs)
+	gulp.watch(['./src/lib/core/core.css', './src/lib/controls/**/*.css'], brainjsCss)
+	gulp.watch(['./src/ext/tree.js'], treeJs)
+	gulp.watch(['./src/ext/map/**/*.js', './src/ext/map/**/*.html'], gulp.series(mapJs, mapEditorJs))
+	gulp.watch(['./src/ext/map/**/*.css'], mapCss)
+	gulp.watch(['./src/ext/milsymbol.js'], milSymbolJs)
+	gulp.watch(['./src/ext/circularmenu/*.js', './src/ext/circularmenu/*.html'], circularMenuJs)
+	gulp.watch(['./src/ext/circularmenu/*.css'], circularMenuCss)
+	gulp.watch(['./src/ext/flightpanel.js'], flightPanelJs)
+	gulp.watch(['./src/ext/pdf.js'], pdfJs)
 
-	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], ['demo'])
-	gulp.watch(['./doc/*.html', './doc/*.js'], ['doc'])
+	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], demo)
+	gulp.watch(['./doc/*.html', './doc/*.js'], doc)
 
-})
+}

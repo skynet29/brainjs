@@ -53,8 +53,9 @@ function source(dest, srcs, options) {
 
 module.exports = function(dest) {
 	return function task(taskName, srcs, options) {
-		gulp.task(taskName, function() {
+		return function() {
+			console.log('task', taskName)
 			return source(dest, srcs, options)
-		})
+		}
 	}
 }
