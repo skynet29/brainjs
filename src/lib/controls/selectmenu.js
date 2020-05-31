@@ -33,7 +33,7 @@ $$.control.registerControl('brainjs.combobox', {
 
 		//console.log('value', elt.val())
 		//console.log('disabled', elt.prop('disabled'))*
-		elt.addClass('ui-front')
+		//elt.addClass('ui-front')
 
 		const select = $('<select>').appendTo(elt)
 
