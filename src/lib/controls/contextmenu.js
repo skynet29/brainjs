@@ -17,7 +17,12 @@ $$.control.registerControl('brainjs.contextmenu', {
 			trigger,
 			selector: '#' + id,
 			build: function($trigger, ev) {
-				if (Object.keys(items).length == 0) {
+				let itemData = items
+
+				if (typeof itemData == 'function') {
+					itemData = itemData()					
+				}
+				if (Object.keys(itemData).length == 0) {
 					return false
 				}
 				let className = id
@@ -44,7 +49,7 @@ $$.control.registerControl('brainjs.contextmenu', {
 					callback: function(cmd) {
 						elt.trigger('contextmenuchange', {cmd})
 					},
-					items					
+					items: itemData					
 				}
 			}
 
