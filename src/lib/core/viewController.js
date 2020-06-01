@@ -12,9 +12,9 @@
             // }
 
             this.elt = elt
-            options = $.extend({}, options)
+            options = $.extend(true, {}, options)
 
-            this.model = $.extend({}, options.data)
+            this.model = $.extend(true, {}, options.data)
 
             const { ctx, scope, events, ctrls } = $$.binding.parse(elt.get(0),
                 (name, value, excludeElt) => {
