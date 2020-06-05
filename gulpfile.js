@@ -237,7 +237,7 @@ const all = gulp.series(
 exports.default = all
 
 		
-exports.watch = function() {
+exports.watch = gulp.series(all, function() {
 	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], brainjsJs)
 	gulp.watch(['./src/lib/core/core.css', './src/lib/controls/**/*.css'], brainjsCss)
 	gulp.watch(['./src/ext/tree.js'], treeJs)
@@ -252,4 +252,4 @@ exports.watch = function() {
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], demo)
 	gulp.watch(['./doc/*.html', './doc/*.js'], doc)
 
-}
+})

@@ -65,7 +65,7 @@
             if (arrayNode != undefined) {
                 $$.binding.removeArrayItem(this.ctx, arrayNode.get(0), idx)
                 if (typeof varName == 'string') {
-                    this.model[varName].splice(idx, 1)
+                    return this.model[varName].splice(idx, 1)[0]
                 }
             }
         }
