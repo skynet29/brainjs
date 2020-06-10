@@ -14,8 +14,8 @@ $$.control.registerControl('brainjs.tree', {
 		options.extensions = ['glyph']
 
 		options.activate = function(ev, data) {
-			console.log('activate', data.node.title)
-			elt.trigger('treeactivate')
+			//console.log('activate', data.node.title)
+			elt.trigger('treeactivate', data.node)
 		}
 	
 
