@@ -13,7 +13,11 @@ $$.control.registerControl('brainjs.tree', {
 		options.source = this.props.source
 		options.extensions = ['glyph']
 
-		options.activate = function(ev, data) {
+		if (options.dnd) {
+			options.extensions.push('dnd')
+		}
+
+		options.click = function(ev, data) {
 			//console.log('activate', data.node.title)
 			elt.trigger('treeactivate', data.node)
 		}
