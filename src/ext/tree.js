@@ -8,7 +8,7 @@ $$.control.registerControl('brainjs.tree', {
 	init: function(elt) {
 
 		let options = $.extend({}, this.props.options)
-		console.log('options', options)
+		//console.log('options', options)
 
 		options.source = this.props.source
 		options.extensions = ['glyph']
