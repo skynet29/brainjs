@@ -17,7 +17,7 @@ $$.control.registerControl('brainjs.tree', {
 			options.extensions.push('dnd')
 		}
 
-		options.click = function(ev, data) {
+		options.activate = function(ev, data) {
 			//console.log('activate', data.node.title)
 			elt.trigger('treeactivate', data.node)
 		}
