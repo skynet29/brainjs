@@ -22,6 +22,10 @@ $$.control.registerControl('brainjs.tree', {
 			elt.trigger('treeactivate', data.node)
 		}
 	
+		options.click = function(ev, data) {
+			//console.log('activate', data.node.title)
+			elt.trigger('treeclick', data.node)
+		}
 
 		if (this.props.contextMenu != null) {
 			options.extensions.push('contextMenu')
@@ -72,8 +76,9 @@ $$.control.registerControl('brainjs.tree', {
 	},
 
 	$iface: `
-		getActiveNode():Node
-		getRootNode():Node
+		getActiveNode():Node;
+		getRootNode():Node;
+		getNodePath(node):string
 	`,
-	$events: 'treeactivate;treecontextmenu'
+	$events: 'treeactivate;treeclick;treecontextmenu'
 });
