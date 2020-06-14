@@ -295,6 +295,10 @@
 		return window.matchMedia("(max-width: 767px)").matches;
 	}
 
+	function isTouchDevice() {
+		return 'ontouchstart' in window
+	}
+
 	function knuthShuffle(length) {
 		//console.log('knuthShuffle', length)
 		let arr = []
@@ -349,6 +353,7 @@
 		evaluate,
 		objToArray,
 		isMobileDevice,
+		isTouchDevice,
 		buildDataURL,
 		knuthShuffle,
 		concatTypedArray,
