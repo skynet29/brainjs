@@ -22,11 +22,6 @@ $$.control.registerControl('brainjs.tree', {
 			elt.trigger('treeactivate', data.node)
 		}
 	
-		options.click = function(ev, data) {
-			//console.log('activate', data.node.title)
-			elt.trigger('treeclick', data.node)
-		}
-
 		if (this.props.contextMenu != null) {
 			options.extensions.push('contextMenu')
 
@@ -65,7 +60,7 @@ $$.control.registerControl('brainjs.tree', {
 		this.getRootNode = getRootNode
 
 		this.setData = function(data) {
-			console.log('[TreeCtrl] setData', data)
+			//console.log('[TreeCtrl] setData', data)
 			if (Array.isArray(data.source)) {
 				getRootNode().removeChildren()
 				getRootNode().addChildren(data.source)
@@ -80,5 +75,5 @@ $$.control.registerControl('brainjs.tree', {
 		getRootNode():Node;
 		getNodePath(node):string
 	`,
-	$events: 'treeactivate;treeclick;treecontextmenu'
+	$events: 'treeactivate;treecontextmenu'
 });
