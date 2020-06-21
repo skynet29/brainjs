@@ -185,7 +185,7 @@
 
   function processEach(startIdx, observer) {
     let { lazzy, iter, index, value, node, template, data } = observer.info
-    //console.log('processEach', startIdx, data)
+    //console.log('processEach', startIdx, value)
 
     if (startIdx == 0) {
       $(node).safeEmpty()
@@ -230,9 +230,7 @@
         arrayNode.removeChild(node)
       }
     }
-    else {
-      info.observer.info.value.splice(idx, 1)
-    }
+    info.observer.info.value.splice(idx, 1)
   }
 
   function updateArrayItem(ctx, arrayNode, idx, value) {
@@ -256,9 +254,7 @@
         arrayNode.replaceChild(clone, node)
 
       }
-      else {
-        info.observer.info.value[idx] = value
-      }
+      info.observer.info.value[idx] = value
 
     }
   }
@@ -283,9 +279,7 @@
 
         arrayNode.insertBefore(clone, (idx < 0) ? node : node.nextSibling)
       }
-      else {
-        info.observer.info.value.splice(idx + 1, 0, value)
-      }
+      info.observer.info.value.splice(idx + 1, 0, value)
     }
   }
 
