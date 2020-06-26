@@ -26,7 +26,10 @@ $$.dialogController = function(options) {
 
 	div.dialog(dlgOptions)
 
-	ctrl.show = function() {
+	ctrl.show = function(title) {
+		if (title) {
+			div.dialog('option', 'title', title)
+		}
 		div.dialog('open')
 	}
 
