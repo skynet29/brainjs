@@ -80,6 +80,14 @@
             }
         }
 
+        updateArrayValue(arrayBindingName, varName) {
+            const arrayNode = this.scope[arrayBindingName]
+            if (arrayNode != undefined) {
+                const value = this.model[varName]
+                $$.binding.updateArrayValue(this.ctx, arrayNode.get(0), value)
+            }
+        }
+
         insertArrayItemAfter(arrayBindingName, idx, value, varName) {
             const arrayNode = this.scope[arrayBindingName]
             if (arrayNode != undefined) {

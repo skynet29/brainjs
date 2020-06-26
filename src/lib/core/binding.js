@@ -197,6 +197,8 @@
       value = value.slice(startIdx, startIdx + lazzy)
     }
 
+    //console.log('processEach', startIdx, value)
+
     value.forEach((item, idx) => {
       const clone = document.importNode(template.content, true)
       const { ctx, ctrls } = parse(clone)
@@ -256,6 +258,13 @@
       }
       info.observer.info.value[idx] = value
 
+    }
+  }
+
+  function updateArrayValue(ctx, arrayNode, value) {
+    const info = ctx.find((i) => i.node == arrayNode)
+    if (info != undefined && info.attrName == 'bn-each') {
+      info.observer.info.value = value
     }
   }
 
@@ -372,7 +381,8 @@
     processCtrls,
     updateArrayItem,
     removeArrayItem,
-    insertArrayItemAfter
+    insertArrayItemAfter,
+    updateArrayValue
   }
 
 })();
