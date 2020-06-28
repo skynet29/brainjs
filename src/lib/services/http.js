@@ -64,7 +64,7 @@ $$.service.registerService('brainjs.http', {
 		}
 	},
 
-	$iface: `get(url):Promise;
+	$iface: `get(url, params):Promise;
 		post(url, data):Promise;
 		put(url, data):Promise;
 		delete(url):Promise;

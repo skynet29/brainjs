@@ -123,7 +123,7 @@
             let observer = {}
             if (lazzy != null) {
               node.removeAttribute('bn-lazzy')
-              lazzy = parseInt(lazzy)
+              //lazzy = parseInt(lazzy)
               const options = {
                 root: node.parentNode,
                 rootMargin: '0px',
@@ -183,39 +183,86 @@
     }
   }
 
-  function processEach(startIdx, observer) {
+  async function processEach(startIdx, observer) {
     let { lazzy, iter, index, value, node, template, data } = observer.info
-    //console.log('processEach', startIdx, value)
+    const length = value.length
+    //console.log('processEach', startIdx, length)
 
     if (startIdx == 0) {
       $(node).safeEmpty()
     }
 
-    const length = value.length
+    let nbChilds = 0
+
+
+    function process() {
+      value.forEach((item, idx) => {
+        const clone = document.importNode(template.content, true)
+        const { ctx, ctrls } = parse(clone)
+        const itemData = $.extend({ $scope: {} }, data)
+        itemData.$scope[iter] = item
+        if (index != null) {
+          itemData.$scope[index] = idx
+        }
+        render(ctx, itemData)
+        processCtrls(ctrls)
+        node.appendChild(clone)
+      })
+      nbChilds = node.childNodes.length
+      //console.log('nbChilds', nbChilds)
+
+    }
+
+    function observe() {
+      if (nbChilds > 0) {
+        observer.observe(node.childNodes[nbChilds - 1])
+
+      }
+    }
 
     if (lazzy != null) {
-      value = value.slice(startIdx, startIdx + lazzy)
+      const nb = parseInt(lazzy)
+      if (isNaN(nb)) {
+        const fn = data[lazzy]
+        if (typeof fn == 'function' && fn.constructor.name == 'AsyncFunction') {
+          if (startIdx != 0) {
+            const newValue = await fn(startIdx)
+            //console.log('value', value)
+            if (newValue == null) {
+              return
+            }
+            else {
+              observer.info.value = value.concat(newValue)
+              value = newValue
+              process()
+              observe()
+            }
+          }
+          else {
+            process()
+            observe()
+          }
+        }
+        else {
+          console.warn('lazzy parameter must be a number or an async function')
+          return
+        }
+
+      }
+      else {
+        value = value.slice(startIdx, startIdx + nb)
+        process()
+        if (nbChilds < length) {
+          observe()
+        }
+
+      }
+    }
+    else {
+      process()
     }
 
     //console.log('processEach', startIdx, value)
-
-    value.forEach((item, idx) => {
-      const clone = document.importNode(template.content, true)
-      const { ctx, ctrls } = parse(clone)
-      const itemData = $.extend({ $scope: {} }, data)
-      itemData.$scope[iter] = item
-      if (index != null) {
-        itemData.$scope[index] = idx
-      }
-      render(ctx, itemData)
-      processCtrls(ctrls)
-      node.appendChild(clone)
-    })
-
-    const nbChilds = node.childNodes.length
-    if (lazzy != null && length != 0 && nbChilds < length) {
-      observer.observe(node.childNodes[nbChilds - 1])
-    }
 
     if (startIdx == 0) {
       $(node.parentNode).scrollTop(0)
@@ -316,7 +363,7 @@
       // }
       const strValue = JSON.stringify(value)
 
-      if (oldValue != undefined && oldValue == strValue && attrName != 'bn-if') {
+      if (oldValue != undefined && oldValue == strValue) {
         continue
       }
 
