@@ -7,6 +7,10 @@ $$.service.registerService('brainjs.http', {
 				return $.getJSON($$.util.getUrlParams(url, params))
 			},
 
+			fetch(url, params) {
+				return fetch($$.util.getUrlParams(url, params))
+			},
+
 
 			post(url, data) {
 				//console.log('[HTTP] post', url, data)

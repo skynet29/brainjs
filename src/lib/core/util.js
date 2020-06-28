@@ -333,32 +333,6 @@
 		})
 	}
 
-	function imageUrlToBlob(url) {
-		return new Promise((resolve, reject) => {
-			const img = new Image
-			const canvas = document.createElement("canvas")
-			const ctx = canvas.getContext("2d")
-
-			img.onload = function () {
-				canvas.width = this.naturalWidth
-				canvas.height = this.naturalHeight
-				ctx.drawImage(this, 0, 0)
-				canvas.toBlob(function (blob) {
-					resolve(blob)
-				})
-
-			}
-
-			img.onerror = function () {
-				reject('Acces failed')
-			}
-
-			img.crossOrigin = 'anonymous'
-			img.src = url
-
-		})
-	}
-
 	$$.util = {
 		readTextFile,
 		readFileAsDataURL,
@@ -383,8 +357,7 @@
 		buildDataURL,
 		knuthShuffle,
 		concatTypedArray,
-		wait,
-		imageUrlToBlob
+		wait
 	}
 
 

@@ -10,6 +10,9 @@ $$.service.registerService('brainjs.resource', {
 					return http.get(`${prefix}${url}`, params)
 				},
 
+				fetch(url, params) {
+					return http.fetch(`${prefix}${url}`, params)
+				},
 
 				post(url, data) {
 					return http.post(`${prefix}${url}`, data)
