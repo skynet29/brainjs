@@ -123,9 +123,13 @@
             let observer = {}
             if (lazzy != null) {
               node.removeAttribute('bn-lazzy')
+              let scrollNode = node.parentNode
+              if (scrollNode.tagName == 'TABLE') {
+                scrollNode = scrollNode.parentNode
+              }
               //lazzy = parseInt(lazzy)
               const options = {
-                root: node.parentNode,
+                root: scrollNode,
                 rootMargin: '0px',
                 threshold: 1.0
               }
@@ -351,7 +355,7 @@
     //console.log('render', ctx, data)
 
     for (let info of ctx) {
-      const { attrName, attrValue, node, oldValue } = info
+      const { attrName, attrValue, node, oldValue, enabled } = info
 
       const value = $$.eval.evaluate(data, attrValue)
       // console.log('evaluate', attrValue)
@@ -363,7 +367,7 @@
       // }
       const strValue = JSON.stringify(value)
 
-      if (oldValue != undefined && oldValue == strValue) {
+      if (enabled === false || (oldValue != undefined && oldValue == strValue)) {
         continue
       }
 

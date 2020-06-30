@@ -98,6 +98,19 @@
             }
         }
 
+        enableNode(bindingName, isEnabled) {
+            let node = this.scope[bindingName]
+            if (node != undefined) {
+                node = node.get(0)
+                const info = this.ctx.find((i) => node == i.node)
+                info.enabled = isEnabled
+            }
+            else {
+                console.warn(`enableNode: "${bindingName}" not found!`)
+            }
+
+        }
+
         updateNode(bindingNames) {
             bindingNames.split(',').forEach((bindingName) => {
                 //console.log('bindingName', bindingName)
