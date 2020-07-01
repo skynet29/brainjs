@@ -9,6 +9,7 @@
     'bn-data': 'setData',
     'bn-val': 'setValue',
     'bn-show': 'setVisible',
+    'bn-visible': 'setVisibility',
     'bn-style': 'css',
     'bn-attr': 'attr',
     'bn-prop': 'setProp',

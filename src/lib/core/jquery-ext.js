@@ -42,6 +42,10 @@
     return this
   }
 
+  $.fn.setVisibility = function(isVisible) {
+    return this.css('visibility', (isVisible) ? 'visible' : 'hidden')
+  }
+
   $.fn.iface = function () {
     return this.get(0) && this.get(0).ctrl
   }
