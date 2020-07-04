@@ -5139,6 +5139,7 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
     margin-top: 30px;
 }
 
+
 .context-menu-icon--fa5 i {
     top: 0.4em !important;
 }
@@ -5207,22 +5208,4 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 	top: 4px;
 	font-weight: bold;
 	text-shadow: 1px 1px 0 #fff;
-}
-.brainjs-htmleditor {
-	display: flex;
-	flex-direction: column;
-}
-
-.brainjs-htmleditor  .scrollPanel {
-	flex: 1;
-	overflow-y: auto;
-}
-
-.brainjs-htmleditor .editor {
-	height: 100%;
-	padding: 10px;
-}
-
-.brainjs-htmleditor .toolbar {
-	margin-left: 10px;
 }

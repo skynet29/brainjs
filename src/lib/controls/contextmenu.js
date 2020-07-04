@@ -35,13 +35,16 @@ $$.control.registerControl('brainjs.contextmenu', {
 							//console.log('show', options)
 							if (title != '') {
 								$('.' + id).attr('data-menutitle', title)
-							}							
+							}	
+							$('.' + id).css('width', 'auto')
 						},
 						activated: function(options) {
 							if ($$.util.isMobileDevice()) {
 								options.$menu.find('.context-menu-item')
 									.css('font-size', fontSize)
 							}
+							options.$menu.css('width', 'auto')
+							options.$menu.css('min-width', 'auto')
 						}
 					},
 					zIndex: 1000,
