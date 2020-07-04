@@ -333,6 +333,28 @@
 		})
 	}
 
+	function imageUrlToDataUrl(url) {
+		return new Promise((resolve, reject) => {
+			const img = new Image
+			const canvas = document.createElement("canvas")
+			const ctx = canvas.getContext("2d")
+
+			img.onload = function () {
+				canvas.width = this.naturalWidth
+				canvas.height = this.naturalHeight
+				ctx.drawImage(this, 0, 0)
+				const dataUrl = canvas.toDataURL()
+				resolve(dataUrl)
+			}
+
+			img.onerror = function () {
+				reject('Acces failed')
+			}
+			img.src = url
+
+		})
+	}	
+
 	$$.util = {
 		readTextFile,
 		readFileAsDataURL,
@@ -357,7 +379,8 @@
 		buildDataURL,
 		knuthShuffle,
 		concatTypedArray,
-		wait
+		wait,
+		imageUrlToDataUrl
 	}
 
 
