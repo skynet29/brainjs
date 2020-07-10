@@ -6,6 +6,7 @@
     'bn-form': 'setFormData',
     'bn-text': 'text',
     'bn-html': 'html',
+    'bn-load': 'load',
     'bn-data': 'setData',
     'bn-val': 'setValue',
     'bn-show': 'setVisible',
