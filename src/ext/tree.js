@@ -5,7 +5,7 @@ $$.control.registerControl('brainjs.tree', {
 		contextMenu: null,
 		options: {}
 	},
-	init: function(elt) {
+	init: function (elt) {
 
 		let options = $.extend({}, this.props.options)
 		//console.log('options', options)
@@ -17,11 +17,11 @@ $$.control.registerControl('brainjs.tree', {
 			options.extensions.push('dnd')
 		}
 
-		options.activate = function(ev, data) {
+		options.activate = function (ev, data) {
 			//console.log('activate', data.node.title)
 			elt.trigger('treeactivate', data.node)
 		}
-	
+
 		if (this.props.contextMenu != null) {
 			options.extensions.push('contextMenu')
 
@@ -29,7 +29,7 @@ $$.control.registerControl('brainjs.tree', {
 				actions: (node, action) => {
 					//console.log('contextMenuAction', node, action)
 					node = this.getActiveNode()
-					elt.trigger('treecontextmenu', {action, node})
+					elt.trigger('treecontextmenu', { action, node })
 				},
 				menu: this.props.contextMenu
 			}
@@ -50,16 +50,25 @@ $$.control.registerControl('brainjs.tree', {
 			return elt.fancytree('getRootNode')
 		}
 
-		function getNodePath(node) {
-			const path = node.getParentList(false, true).map((node) => node.key == 'root' ? '/' : node.title)
-			return path.join('/')			
+		function getNodePath(node, callback) {
+			const path = node.getParentList(false, true).map((node) => {
+				if (node.key == 'root') { return '/' }
+
+				let title = node.title
+
+				if (typeof callback == 'function') {
+					title = callback(node)
+				}
+				return title
+			})
+			return path.join('/')
 		}
 
 		this.getActiveNode = getActiveNode
 		this.getNodePath = getNodePath
 		this.getRootNode = getRootNode
 
-		this.setData = function(data) {
+		this.setData = function (data) {
 			//console.log('[TreeCtrl] setData', data)
 			if (Array.isArray(data.source)) {
 				getRootNode().removeChildren()
