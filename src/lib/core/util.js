@@ -59,7 +59,7 @@
 			return 'audio'
 		}
 
-		if ((/\.(mp4|webm)$/i).test(fileName)) {
+		if ((/\.(mp4|webm|3gp)$/i).test(fileName)) {
 			return 'video'
 		}
 
