@@ -160,13 +160,26 @@ function progressDialog(title) {
 	return ctrl;
 }
 
+const waitDialog = function(title) {
+	title = title || 'Waiting...'
+
+	return $$.dialogController({
+		title,
+		template: `<div class="w3-center w3-padding-16"><i class="fa fa-redo-alt fa-2x fa-pulse w3-text-blue"></i></div>`,
+		width: 100,
+		canClose: false
+	})
+	
+}
+
 
 $$.ui = {
 	showAlert,
 	showConfirm,
 	showPrompt,
 	showForm,
-	progressDialog
+	progressDialog,
+	waitDialog
 }
 
 })();
