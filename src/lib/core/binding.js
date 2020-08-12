@@ -133,7 +133,7 @@
               const options = {
                 root: scrollNode,
                 rootMargin: '0px',
-                threshold: 0.75
+                threshold: 0.25
               }
               observer = new IntersectionObserver(intersectionObserverCallback, options)
 
