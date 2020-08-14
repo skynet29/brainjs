@@ -60,12 +60,22 @@
 
         }
 
-        removeArrayItem(arrayBindingName, idx, varName) {
+        removeArrayItem(arrayBindingName, indexes, varName) {
             const arrayNode = this.scope[arrayBindingName]
             if (arrayNode != undefined) {
-                $$.binding.removeArrayItem(this.ctx, arrayNode.get(0), idx)
+
+                if (!Array.isArray(indexes)) {
+                    indexes = [indexes]
+                }
+                indexes = indexes.sort((a, b) => b - a)
+
+                $$.binding.removeArrayItem(this.ctx, arrayNode.get(0), indexes)
                 if (typeof varName == 'string') {
-                    return this.model[varName].splice(idx, 1)[0]
+                    const ret = []
+                    indexes.forEach((idx) => {
+                        ret.push(this.model[varName].splice(idx, 1)[0])
+                    })
+                    return ret
                 }
             }
         }

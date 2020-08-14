@@ -192,7 +192,7 @@
   async function processEach(startIdx, observer) {
     let { lazzy, iter, index, value, node, template, data } = observer.info
     const length = value.length
-    //console.log('processEach', startIdx, length)
+    //console.log('processEach', startIdx, value)
 
     if (startIdx == 0) {
       $(node).safeEmpty()
@@ -222,7 +222,11 @@
     function observe() {
       if (nbChilds > 0) {
         observer.observe(node.childNodes[nbChilds - 1])
-
+        observer.info.observedIdx = nbChilds - 1
+        //console.log('observedIdx', nbChilds - 1)
+      }
+      else {
+        observer.info.observedIdx = -1
       }
     }
 
@@ -276,16 +280,39 @@
 
   }
 
-  function removeArrayItem(ctx, arrayNode, idx) {
-    const node = arrayNode.childNodes[idx]
+  function removeArrayItem(ctx, arrayNode, indexes) {
+
+    //console.log('removeArrayItem', indexes)
 
     const info = ctx.find((i) => i.node == arrayNode)
-    if (node != undefined) {
-      if (info != undefined && info.attrName == 'bn-each') {
-        arrayNode.removeChild(node)
+
+    if (info != undefined && info.attrName == 'bn-each') {
+
+      const { observer } = info
+      const { observedIdx } = observer.info
+
+      //console.log('observedIdx', observedIdx)
+
+      indexes.forEach((idx) => {
+        //console.log('removeArrayItem', idx)
+        const node = arrayNode.childNodes[idx]
+        if (node != undefined) {
+          arrayNode.removeChild(node)
+        }
+        observer.info.value.splice(idx, 1)
+      })
+
+      //console.log('values', observer.info.value)
+      const length = observer.info.value.length
+      if (length > 0 && indexes.includes(observedIdx)) {
+        observer.observe(arrayNode.childNodes[length - 1])
+        observer.info.observedIdx = length - 1
       }
+
     }
-    info.observer.info.value.splice(idx, 1)
+
+
+
   }
 
   function updateArrayItem(ctx, arrayNode, idx, value) {
