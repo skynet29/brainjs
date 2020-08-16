@@ -1,11 +1,15 @@
 $$.control.registerControl('brainjs.datepicker', {
 	props: {
-		showButtonPanel: true
+		showButtonPanel: true,
+		changeYear: false,
+		changeMonth: false,
+		yearRange: 'c-10:c+10'
 	},
 
 	init: function(elt) {
 
 		let options = $.extend({}, this.props)
+		//console.log('options', options)
 
 		options.onSelect = function() {
 			console.log('[datepicker] onSelect')
