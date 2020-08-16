@@ -59,6 +59,9 @@ $$.control.registerControl('brainjs.combobox', {
 			//console.log('selectmenu setData', data)
 			if (Array.isArray(data.items)) {
 				select.setItems(data.items)
+				if (data.items.length > 0) {
+					select.val(data.items[0])
+				}
 				select.combobox('refresh')
 			}
 		}
