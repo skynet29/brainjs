@@ -144,7 +144,7 @@
 
     for (var name in data) {
       var value = data[name]
-      var elt = this.find(`[name=${name}]`)
+      var elt = this.find(`[name="${name}"]`)
       if (elt.length) {
         elt.setValue(value)
       }
