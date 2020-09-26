@@ -89,6 +89,9 @@
 
   $.fn.setValue = function (value) {
     if (this.get(0).tagName == 'INPUT' && this.attr('type') == 'checkbox') {
+      if (typeof value == 'string') {
+        value = (value === 'false') ? false : true
+      }
       this.prop('checked', value)
       return
     }
