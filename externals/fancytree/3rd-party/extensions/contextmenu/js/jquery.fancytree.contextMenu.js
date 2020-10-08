@@ -33,6 +33,9 @@
 						} else if($.isPlainObject(menu)) {
 							menuItems = menu;
 						}
+						if (Object.keys(menuItems).length == 0) {
+							return false;
+						}
 
 						return {
 							callback: function(action, options) {
