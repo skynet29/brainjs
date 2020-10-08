@@ -3,6 +3,7 @@
 
 
   const map = {
+    'bn-icon': true,
     'bn-form': 'setFormData',
     'bn-text': 'text',
     'bn-html': 'html',
@@ -93,6 +94,11 @@
             scope.push({ node, attrValue, attrName })
           }
 
+          else if (attrName == 'bn-icon') {
+            const i = document.createElement('i')
+            i.className = attrValue
+            node.appendChild(i)
+          }
 
           else if (attrName == 'bn-event') {
             events.push({ node, attrValue })
