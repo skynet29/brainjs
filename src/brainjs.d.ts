@@ -18,7 +18,7 @@ declare namespace $$ {
 
         }
 
-        function registerControl(ctrlName: string, options: RegisterControlOptions): void
+        function registerControl(ctrlName: string, options: RegisterControlOptions): void;
     }
 
     declare namespace service {
@@ -29,8 +29,20 @@ declare namespace $$ {
 
         }
 
-        function registerService(ctrlName: string, options: RegisterServiceOptions): void
+        function registerService(ctrlName: string, options: RegisterServiceOptions): void;
     }    
+
+    declare namespace ui {
+
+        interface ShowConfirmOptions {
+            title: string;
+            content: string;
+            okText?: string;
+            cancelText?: string;
+        }        
+        function showConfirm(options: ShowConfirmOptions, callback: function): void;
+ 
+    }
 
     declare namespace util {
         function getUrlParams(url: string, params: Object): string;

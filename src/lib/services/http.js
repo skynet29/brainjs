@@ -16,7 +16,7 @@ $$.service.registerService('brainjs.http', {
 				//console.log('[HTTP] post', url, data)
 				return $.ajax({
 					method: 'POST',
-					url: url,
+					url,
 					contentType: 'application/json',
 					data: JSON.stringify(data)
 				})
@@ -25,16 +25,18 @@ $$.service.registerService('brainjs.http', {
 			put(url, data) {
 				return $.ajax({
 					method: 'PUT',
-					url: url,
+					url,
 					contentType: 'application/json',
 					data: JSON.stringify(data)
 				})
 			},
 
-			delete(url) {
+			delete(url, data) {
 				return $.ajax({
 					method: 'DELETE',
-					url: url,
+					url,
+					contentType: 'application/json',
+					data: JSON.stringify(data)
 				})
 			},
 
@@ -55,7 +57,7 @@ $$.service.registerService('brainjs.http', {
 						}
 						return xhr;
 					},
-					url: url,
+					url,
 					method: "POST",
 					data: fd,
 					processData: false,  // indique à jQuery de ne pas traiter les données
