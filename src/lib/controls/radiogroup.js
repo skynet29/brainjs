@@ -2,11 +2,12 @@
 $$.control.registerControl('brainjs.radiogroup', {
 	init: function(elt) {
 
-		elt.on('click', 'input[type=radio]', function() {
+		elt.on('click', 'input[type=radio]', function(ev) {
+			ev.stopPropagation()
 			//console.log('radiogroup click')
 			elt.find('input[type=radio]:checked').prop('checked', false)
 			$(this).prop('checked', true)
-			elt.trigger('input')
+			elt.trigger('radiogroupchange')
 		})
 		
 
@@ -26,7 +27,7 @@ $$.control.registerControl('brainjs.radiogroup', {
 		setValue(value)
 		getValue()
 	`,
-	$events: 'input'
+	$events: 'radiogroupchange'
 });
 
 

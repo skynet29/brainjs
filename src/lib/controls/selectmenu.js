@@ -55,12 +55,26 @@ $$.control.registerControl('brainjs.combobox', {
 			return select.val()
 		}
 
+		this.getSelItem = function() {
+			const elt = select.get(0)
+			const value = select.val()
+			//console.log('value', value)
+			const label = elt.options[elt.selectedIndex].text
+			return {label, value}
+			
+		}
+
 		this.setData = function(data) {
 			//console.log('selectmenu setData', data)
 			if (Array.isArray(data.items)) {
 				select.setItems(data.items)
 				if (data.items.length > 0) {
-					select.val(data.items[0])
+					if (typeof data.items[0] == 'string') {
+						select.val(data.items[0])
+					}
+					else {
+						select.val(data.items[0].value)
+					}
 				}
 				select.combobox('refresh')
 			}
