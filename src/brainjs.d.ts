@@ -49,6 +49,12 @@ declare namespace $$ {
  
     }
 
+    declare namespace crypto {
+        function encrypt(password: string, text: string): string;
+        function decrypt(password: string, data: string): string;
+ 
+    }
+
     interface ViewController {
         update(): void;
         setData(data: object): void;
