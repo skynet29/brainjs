@@ -291,6 +291,14 @@
 		return ret
 	}
 
+	function objToArray2(obj) {
+		const ret = []
+		for (let key in obj) {
+			ret.push({name: key, value: obj[key]})
+		}
+		return ret
+	}
+
 	function isMobileDevice() {
 		return window.matchMedia("(max-width: 767px)").matches;
 	}
@@ -374,6 +382,7 @@
 		toSourceString,
 		evaluate,
 		objToArray,
+		objToArray2,
 		isMobileDevice,
 		isTouchDevice,
 		buildDataURL,
