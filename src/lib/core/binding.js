@@ -207,8 +207,11 @@
     let nbChilds = 0
 
 
-    function process() {
+    function process(offset) {
+      offset = offset || 0
+
       value.forEach((item, idx) => {
+        idx += offset
         const clone = document.importNode(template.content, true)
         const { ctx, ctrls } = parse(clone)
         const itemData = $.extend({ $scope: {} }, data)
@@ -248,9 +251,10 @@
               return
             }
             else {
+              const offset =  observer.info.value.length
               observer.info.value = value.concat(newValue)
               value = newValue
-              process()
+              process(offset)
               observe()
             }
           }
