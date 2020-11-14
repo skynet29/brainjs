@@ -108,6 +108,16 @@
             }
         }
 
+        insertArrayItemBefore(arrayBindingName, idx, value, varName) {
+            const arrayNode = this.scope[arrayBindingName]
+            if (arrayNode != undefined) {
+                $$.binding.insertArrayItemBefore(this.ctx, arrayNode.get(0), idx, value)
+                if (typeof varName == 'string') {
+                    this.model[varName].splice(idx, 0, value)
+                }
+            }
+        }
+
         enableNode(bindingName, isEnabled) {
             let node = this.scope[bindingName]
             if (node != undefined) {

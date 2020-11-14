@@ -358,7 +358,8 @@
     }
   }
 
-  function insertArrayItemAfter(ctx, arrayNode, idx, value) {
+  function insertArrayItemAt(ctx, arrayNode, idx, value, mode) {
+    //console.log('insertArrayItemAt', idx, mode)
     const node = arrayNode.childNodes[Math.max(idx, 0)]
 
     const info = ctx.find((i) => i.node == arrayNode)
@@ -376,11 +377,21 @@
         render(ctx, itemData)
         processCtrls(ctrls)
 
-        arrayNode.insertBefore(clone, (idx < 0) ? node : node.nextSibling)
+        arrayNode.insertBefore(clone, (idx < 0 || mode == 'before') ? node : node.nextSibling)
       }
-      info.observer.info.value.splice(idx + 1, 0, value)
+
+      info.observer.info.value.splice((mode == 'before') ? idx : idx + 1, 0, value)
     }
   }
+
+  function insertArrayItemAfter(ctx, arrayNode, idx, value) {
+    insertArrayItemAt(ctx, arrayNode, idx, value, 'after')
+  }
+
+  function insertArrayItemBefore(ctx, arrayNode, idx, value) {
+    insertArrayItemAt(ctx, arrayNode, idx, value, 'before')
+  }
+
 
   function processCtrls(ctrls) {
     ctrls.forEach((info) => {
@@ -472,6 +483,7 @@
     updateArrayItem,
     removeArrayItem,
     insertArrayItemAfter,
+    insertArrayItemBefore,
     updateArrayValue
   }
 
