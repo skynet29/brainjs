@@ -68,19 +68,19 @@ $$.control.registerControl('brainjs.pdf', {
 
 
 		this.nextPage = function () {
-			if (currentPage < pdfDoc.numPages) {
-				currentPage++
+			return this.setPage(currentPage + 1)
+		}
+
+		this.setPage = function (pageNo) {
+			if (pageNo > 0 && pageNo <= pdfDoc.numPages) {
+				currentPage = pageNo
 				return renderPage(currentPage)
 			}
 			return Promise.resolve(currentPage)
 		}
 
 		this.prevPage = function () {
-			if (currentPage > 1) {
-				currentPage--
-				return renderPage(currentPage)
-			}
-			return Promise.resolve(currentPage)
+			return this.setPage(currentPage - 1)
 		}
 
 		this.openFile = async function (url) {
@@ -96,14 +96,14 @@ $$.control.registerControl('brainjs.pdf', {
 			}
 		}
 
-		this.print = async function(options) {
+		this.print = async function (options) {
 
 			options = options || {}
 			const title = options.title || ''
 			const canvas = document.createElement('canvas')
 			const canvasContext = canvas.getContext('2d')
 
-			
+
 			const ifr = document.createElement('iframe')
 			ifr.src = 'about:blank'
 			ifr.style = 'height: 0px; width: 0px; position: absolute'
@@ -121,45 +121,46 @@ $$.control.registerControl('brainjs.pdf', {
 					}
 				</style>
 			`)
-		
-			for(let i = 1; i <= pdfDoc.numPages; i++) {
+
+			for (let i = 1; i <= pdfDoc.numPages; i++) {
 				const page = await pdfDoc.getPage(i)
 				const viewport = page.getViewport(scale)
 				//console.log('viewport', viewport)
 				canvas.width = viewport.width
 				canvas.height = viewport.height
-	
-	
+
+
 				await page.render({
 					canvasContext,
 					viewport
 				})
-	
+
 				html.push(`<img src=${canvas.toDataURL('image/png')}>`)
 			}
-			
+
 			html.push('<body>')
 			const documentToWriteTo = ifr.contentWindow.document
 			documentToWriteTo.open()
 			documentToWriteTo.write(html.join(''))
 			documentToWriteTo.close()
-	
-		
+
+
 			ifr.focus()
 			setTimeout(() => {
-			  ifr.contentWindow.print()
-			  ifr.parentElement.removeChild(ifr)
+				ifr.contentWindow.print()
+				ifr.parentElement.removeChild(ifr)
 			}, 200)
-			
-		
+
+
 		}
 
 	},
 
 	$iface: `
-		openFile(url):Promise<numPages>;
-		prevPage():Promise<currentPage>;
-		nextPage():Promise<currentPage>;
+		openFile(url):Promise<numPages>
+		prevPage():Promise<currentPage>
+		nextPage():Promise<currentPage>
+		setPage(pageNo):Promise<currentPage>
 		fit()
 	`
 
