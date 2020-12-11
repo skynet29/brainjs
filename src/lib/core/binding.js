@@ -271,7 +271,7 @@
       }
       else {
         value = value.slice(startIdx, startIdx + nb)
-        process()
+        process(startIdx)
         if (nbChilds < length) {
           observe()
         }
