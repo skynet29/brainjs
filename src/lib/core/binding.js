@@ -246,8 +246,8 @@
         if (typeof fn == 'function' && fn.constructor.name == 'AsyncFunction') {
           if (startIdx != 0) {
             const newValue = await fn(startIdx)
-            //console.log('value', value)
-            if (newValue == null) {
+            //console.log('[LAZY] newValue', newValue)
+            if (newValue == null || (Array.isArray(newValue) && newValue.length == 0)) {
               return
             }
             else {
