@@ -91,10 +91,11 @@ declare namespace $$ {
         }        
         function showConfirm(options: ShowConfirmOptions, callback: () => void): void;
  
-        function showAlert(options, callback: () => void): void;
+        function showAlert(options, callback?: () => void): void;
 
         interface ShowPromptOptions {
             label: string;
+            title: string;
             attrs?: {[attr]: any};
 
         };
