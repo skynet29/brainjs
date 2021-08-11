@@ -181,57 +181,67 @@ declare namespace Brainjs {
 
     declare namespace Controls {
 
-        interface Camera {
-            getCapabilities(): Promise<MediaTrackCapabilities>;
-            getSettings(): MediaTrackSettings;
-            startBarcodeDetection();
-            setZoom(value: number);
-            takePicture(): Promise<Blob>;
-            start();
-            stop();
-            startRecord();
-            stopRecord()            
+        declare namespace Camera {
+            interface Interface {
+                getCapabilities(): Promise<MediaTrackCapabilities>;
+                getSettings(): MediaTrackSettings;
+                startBarcodeDetection();
+                setZoom(value: number);
+                takePicture(): Promise<Blob>;
+                start();
+                stop();
+                startRecord();
+                stopRecord()            
+            }
         }
 
-        interface TabsOption {
-            control?: string;
-            props?:{};
-            template?: string;
-            removable?: boolean;
+        declare namespace Tabs {
+            interface TabsOption {
+                control?: string;
+                props?:{};
+                template?: string;
+                removable?: boolean;
+            }
+    
+            interface TabInfo {
+    
+            }
+    
+            interface Interface {
+                getTabsCount(): number;
+                addTab(title: string, options: TabsOption): number;
+                removeTab(tabIndex: number): void;
+                getSelectedTabIndex(): number
+                getTabInfo(tabIndex: number): TabInfo;
+                setSelectedTabIndex(tabIndex: number): void;
+                getTabIndexFromTitle(title: string): number;
+            }
         }
 
-        interface TabInfo {
-
+        declare namespace Tree {
+            interface TreeNode {
+                data: object;
+            };
+    
+            interface Interface {
+                getActiveNode():TreeNode;
+                getRootNode():TreeNode;
+                getNodePath(node: TreeNode, callback?: (node: TreeNode) => string):string            
+            }
         }
 
-        interface Tabs {
-            getTabsCount(): number;
-            addTab(title: string, options: TabsOption): number;
-            removeTab(tabIndex: number): void;
-            getSelectedTabIndex(): number
-            getTabInfo(tabIndex: number): TabInfo;
-            setSelectedTabIndex(tabIndex: number): void;
-            getTabIndexFromTitle(title: string): number;
+        declare namespace Pdf {
+            interface Interface {
+                openFile(url: string):Promise<number>;
+                prevPage():Promise<number>;
+                nextPage():Promise<number>;
+                setPage(pageNo: number):Promise<number>;
+                fit(): void;      
+                print(): Promise;      
+            }
         }
 
-        interface TreeNode {
-            data: object;
-        };
 
-        interface Tree {
-            getActiveNode():TreeNode;
-            getRootNode():TreeNode;
-            getNodePath(node: TreeNode, callback?: (node: TreeNode) => string):string            
-        }
-
-        interface Pdf {
-            openFile(url: string):Promise<number>;
-            prevPage():Promise<number>;
-            nextPage():Promise<number>;
-            setPage(pageNo: number):Promise<number>;
-            fit(): void;      
-            print(): Promise;      
-        }
     }
 }
 
