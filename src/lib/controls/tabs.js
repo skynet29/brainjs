@@ -135,15 +135,6 @@ $$.control.registerControl('brainjs.tabs', {
 		}	
 	},
 
-	$iface: `
-		getTabsCount():Number
-		addTab(tite, options: {control?: string, props?:{}, template?: string, removable?: boolean})
-		removeTab(tabIndex)
-		getSelectedTabIndex(): Number
-		getTabInfo(tabIndex): TabInfo
-		setSelectedTabIndex(tabIndex)
-		getTabIndexFromTitle(title):Index
-	`
 	,$events: 'tabsremove, tabsactivate'
 
 });

@@ -154,16 +154,6 @@ $$.control.registerControl('brainjs.pdf', {
 
 		}
 
-	},
-
-	$iface: `
-		openFile(url):Promise<numPages>
-		prevPage():Promise<currentPage>
-		nextPage():Promise<currentPage>
-		setPage(pageNo):Promise<currentPage>
-		fit()
-	`
-
-
+	}
 
 });

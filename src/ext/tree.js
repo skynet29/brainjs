@@ -91,10 +91,5 @@ $$.control.registerControl('brainjs.tree', {
 
 	},
 
-	$iface: `
-		getActiveNode():Node;
-		getRootNode():Node;
-		getNodePath(node):string
-	`,
 	$events: 'treeactivate;treecontextmenu'
 });

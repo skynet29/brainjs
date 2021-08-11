@@ -15,6 +15,7 @@ declare namespace $$ {
             template?: string | GulpInject;
             init(elt: JQuery, ...params): void;
             $iface?: string;
+            $events?: string;
 
         }
 
@@ -58,7 +59,7 @@ declare namespace $$ {
         
     
     
-        function getVideoDevices(): [VideoDevice];
+        function getVideoDevices(): Promise<[VideoDevice]>;
 
         function decodeAudioData(blob: Blob): Promise<AudioBuffer>;
         
@@ -135,16 +136,19 @@ declare namespace $$ {
 
     interface ViewController {
         update(): void;
+        updateNode(bindingName: string): void;
         setData(data: object): void;
-        removeArrayItem(arrayBindingName: string, idx: number): void;
-        updateArrayItem(arrayBindingName: string, idx: number, value: any): void;
+        removeArrayItem(arrayBindingName: string, idx: number, varName?: string): void;
+        updateArrayItem(arrayBindingName: string, idx: number, value: any, varName?: string): void;
+        insertArrayItemAfter(arrayBindingName: string, idx: number, value: any, varName?: string): void;
+        updateArrayValue(arrayBindingName: string, varName: string): void;
     
         scope: Object;
         model: Object;
     }
 
     interface DialogController extends ViewController {
-        show(title: string): void;
+        show(title?: string): void;
 
         hide(): void;
         setOption(optionName: string, value: any): void;
@@ -173,8 +177,68 @@ declare namespace $$ {
 }
 
 
-declare global {
-    interface JQuery {
-        getFormData(): {[fieldName]: string};
+declare namespace Brainjs {
+
+    declare namespace Controls {
+
+        interface Camera {
+            getCapabilities(): Promise<MediaTrackCapabilities>;
+            getSettings(): MediaTrackSettings;
+            startBarcodeDetection();
+            setZoom(value: number);
+            takePicture(): Promise<Blob>;
+            start();
+            stop();
+            startRecord();
+            stopRecord()            
+        }
+
+        interface TabsOption {
+            control?: string;
+            props?:{};
+            template?: string;
+            removable?: boolean;
+        }
+
+        interface TabInfo {
+
+        }
+
+        interface Tabs {
+            getTabsCount(): number;
+            addTab(title: string, options: TabsOption): number;
+            removeTab(tabIndex: number): void;
+            getSelectedTabIndex(): number
+            getTabInfo(tabIndex: number): TabInfo;
+            setSelectedTabIndex(tabIndex: number): void;
+            getTabIndexFromTitle(title: string): number;
+        }
+
+        interface TreeNode {
+            data: object;
+        };
+
+        interface Tree {
+            getActiveNode():TreeNode;
+            getRootNode():TreeNode;
+            getNodePath(node: TreeNode, callback?: (node: TreeNode) => string):string            
+        }
+
+        interface Pdf {
+            openFile(url: string):Promise<number>;
+            prevPage():Promise<number>;
+            nextPage():Promise<number>;
+            setPage(pageNo: number):Promise<number>;
+            fit(): void;      
+            print(): Promise;      
+        }
     }
+}
+
+interface JQuery {
+    getFormData(): {[fieldName]: string};
+    getValue(): any;
+    setValue(val: any): void;
+    iface():any;
+    resetForm(): void;
 }
