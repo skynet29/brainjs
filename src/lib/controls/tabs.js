@@ -133,9 +133,7 @@ $$.control.registerControl('brainjs.tabs', {
 		this.setSelectedTabIndex = function(idx)	{
 			elt.tabs({active: idx})
 		}	
-	},
-
-	,$events: 'tabsremove, tabsactivate'
+	}
 
 });
 

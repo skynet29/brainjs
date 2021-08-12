@@ -1,0 +1,350 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>brainjs</title>
+	<meta name="description" content="Documentation for brainjs">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">brainjs</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>brainjs</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#brainjs" id="brainjs" style="color: inherit; text-decoration: none;">
+					<h1>BrainJS</h1>
+				</a>
+				<p>BrainJS is a library to bind a data model (methods and attributs of an object) to HTML elements. </p>
+				<p>I started writting this library after my experience with other popular binding libraries like angularjs, reactjs and vuejs. At the begining, it was just like a challenge for me.
+					I love working with Angularjs directive but writting your own directive to make component was a real pain.
+				React is really cool but there is no more separation between HTML, CSS and javascript code</p>
+				<p>Like angularjs (i.e angular 1), brainjs use proprietary HTML attributs starting with bn- prefix:</p>
+				<ul>
+					<li>bn-text</li>
+					<li>bn-html</li>
+					<li>bn-attr</li>
+					<li>bn-style</li>
+					<li>bn-class</li>
+					<li>bn-val</li>
+					<li>bn-event</li>
+					<li>bn-show</li>
+					<li>bn-each</li>
+					<li>bn-control</li>
+				</ul>
+				<p>To attach an HTML fragment to a view model, you must create a ViewController object by specifying a CSS selector to identify the fragment and a object with a data field to initialize your model attributs.</p>
+				<p>HTML code</p>
+				<pre><code class="language-html"><span style="color: #800000">&lt;div</span><span style="color: #000000"> </span><span style="color: #FF0000">id</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;main&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;p&gt;</span><span style="color: #000000">Welcome  </span><span style="color: #800000">&lt;span</span><span style="color: #000000"> </span><span style="color: #FF0000">bn-text</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;name&quot;</span><span style="color: #CD3131">/</span><span style="color: #800000">&gt;&lt;/p&gt;</span>
+<span style="color: #800000">&lt;/div&gt;</span>
+</code></pre>
+				<p>Javascript code</p>
+				<pre><code class="language-javascript"><span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">ctrl</span><span style="color: #000000"> = </span><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #795E26">viewController</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#main&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">data:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">name:</span><span style="color: #A31515">&#039;Marc&#039;</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<p>To update your data model, you can either modify your attributs and call the update method, or call directly the setData method with the new value.</p>
+				<p>HTML code</p>
+				<pre><code class="language-html"><span style="color: #800000">&lt;div</span><span style="color: #000000"> </span><span style="color: #FF0000">id</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;main&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;p</span><span style="color: #000000"> </span><span style="color: #FF0000">bn-style</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;{color: color}&quot;</span><span style="color: #800000">&gt;</span><span style="color: #000000">Welcome  </span><span style="color: #800000">&lt;span</span><span style="color: #000000"> </span><span style="color: #FF0000">bn-text</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;name&quot;</span><span style="color: #CD3131">/</span><span style="color: #800000">&gt;&lt;/p&gt;&lt;br/&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;button</span><span style="color: #000000"> </span><span style="color: #FF0000">bn-event</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;click: onClick&quot;</span><span style="color: #800000">&gt;</span><span style="color: #000000">Update</span><span style="color: #800000">&lt;/button&gt;</span>
+<span style="color: #800000">&lt;/div&gt;</span>
+</code></pre>
+				<p>Javascript code</p>
+				<pre><code class="language-javascript"><span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">ctrl</span><span style="color: #000000"> = </span><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #795E26">viewController</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#main&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">data:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">name:</span><span style="color: #A31515">&#039;Marc&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">color:</span><span style="color: #A31515">&#039;black&#039;</span>
+<span style="color: #000000">  },</span>
+<span style="color: #000000">  </span><span style="color: #001080">events:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #795E26">onClick</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">ev</span><span style="color: #000000">) {</span>
+<span style="color: #000000">      </span><span style="color: #001080">ctrl</span><span style="color: #000000">.</span><span style="color: #795E26">setData</span><span style="color: #000000">({</span><span style="color: #001080">name:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Quentin&#039;</span><span style="color: #000000">, </span><span style="color: #001080">color:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;green&#039;</span><span style="color: #000000">})</span>
+<span style="color: #000000">      </span><span style="color: #008000">/* another solution, useful when modifying array attributs</span>
+<span style="color: #008000">        ctrl.model.name = &#039;Quentin&#039;</span>
+<span style="color: #008000">        ctrl.model.color = &#039;green&#039;</span>
+<span style="color: #008000">        ctrl.update()</span>
+<span style="color: #008000">      */</span>
+<span style="color: #000000">    }</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<p>As you can see, the event handler must be defined in the <strong>events</strong> attribut of your model.</p>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting started</h2>
+				</a>
+				<p>To get started, see the examples on the <a href="https://skynet29.github.io/brainjs/dist/index.html" target="_blank">demo app</a>  or try yourself on my <a href="https://jsfiddle.net/user/skynet39/fiddles/" target="_blank">jsfiddles</a>.</p>
+				<p>ViewController is based on the jQuery and jQuery UI library which are bundled in the file brainjs.js in the dist folder.</p>
+				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+					<h2>Documentation</h2>
+				</a>
+				<p>The documentation is available <a href="https://skynet29.github.io/brainjs/dist/doc.html" target="_blank">here</a></p>
+				<a href="#controls" id="controls" style="color: inherit; text-decoration: none;">
+					<h1>Controls</h1>
+				</a>
+				<a href="#using-controls" id="using-controls" style="color: inherit; text-decoration: none;">
+					<h2>Using controls</h2>
+				</a>
+				<p>To use a control in your HTML, add a <strong>bn-control</strong> parameter to an HTML tag depending of the control type (most of the time a <strong>div</strong> tag) with the name of the control to create.</p>
+				<p>``
+				A way to parameter your control is to use custom HTML parameters</p>
+				<p>Example with static custom parameter</p>
+				<p>HTML code</p>
+				<pre><code class="language-html"><span style="color: #800000">&lt;div</span><span style="color: #000000"> </span><span style="color: #FF0000">id</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;main&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;div</span><span style="color: #000000"> </span><span style="color: #FF0000">bn-control</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;MyControl&quot;</span><span style="color: #000000"> </span><span style="color: #FF0000">data-title</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;Hello World&quot;</span><span style="color: #800000">&gt;&lt;/div&gt;</span><span style="color: #000000">  </span>
+<span style="color: #800000">&lt;/div&gt;</span><span style="color: #000000">  </span>
+</code></pre>
+				<p>Note: custom parameter must use the <strong>data-</strong> prefix.</p>
+				<p>If you want tu use a binding to your view control, use the <strong>bn-data</strong> directive:</p>
+				<p>Example with dynamic custom parameter</p>
+				<p>HTML code</p>
+				<pre><code class="language-html"><span style="color: #800000">&lt;div</span><span style="color: #000000"> </span><span style="color: #FF0000">id</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;main&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;div</span><span style="color: #000000"> </span><span style="color: #FF0000">bn-control</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;MyControl&quot;</span><span style="color: #000000"> </span><span style="color: #FF0000">bn-data</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;{title: myTitle}&quot;</span><span style="color: #800000">&gt;&lt;/div&gt;</span><span style="color: #000000">  </span>
+<span style="color: #800000">&lt;/div&gt;</span><span style="color: #000000">  </span>
+</code></pre>
+				<p>Javascript code</p>
+				<pre><code class="language-javascript"><span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">ctrl</span><span style="color: #000000"> = </span><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #795E26">viewController</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#main&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">data:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">myTitle:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;Hello World&#039;</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<a href="#create-a-new-control" id="create-a-new-control" style="color: inherit; text-decoration: none;">
+					<h2>Create a new control</h2>
+				</a>
+				<p>To create a new control, use the framework <strong>registerControl</strong> function:</p>
+				<p>Javascript code</p>
+				<pre><code class="language-javascript"><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #001080">control</span><span style="color: #000000">.</span><span style="color: #795E26">registerControl</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;MyControl&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">props:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">title:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;No title&#039;</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">  </span><span style="color: #001080">init</span><span style="color: #000000">: </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">elt</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">title</span><span style="color: #000000"> = </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">props</span><span style="color: #000000">.</span><span style="color: #001080">title</span>
+<span style="color: #000000">  </span>
+<span style="color: #000000">    </span><span style="color: #001080">elt</span><span style="color: #000000">.</span><span style="color: #795E26">append</span><span style="color: #000000">(</span><span style="color: #A31515">`&lt;h1&gt;</span><span style="color: #0000FF">${</span><span style="color: #001080">title</span><span style="color: #0000FF">}</span><span style="color: #A31515">&lt;/h1&gt;`</span><span style="color: #000000">)</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<p><strong>elt</strong> is a jQuery object of the HTML tag with bn-control directive.</p>
+				<p>As you can see, you do not have to use viewController. Here we use ES6 template string.</p>
+				<a href="#create-a-control-using-services" id="create-a-control-using-services" style="color: inherit; text-decoration: none;">
+					<h2>Create a control using services</h2>
+				</a>
+				<p>Here you are creating a control which use the HTTP service to retrieve data from the server.</p>
+				<p>Javascript code</p>
+				<pre><code class="language-javascript"><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #001080">control</span><span style="color: #000000">.</span><span style="color: #795E26">registerControl</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;MyControl&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">deps:</span><span style="color: #000000"> [</span><span style="color: #A31515">&#039;HttpService&#039;</span><span style="color: #000000">],</span>
+<span style="color: #000000">  </span><span style="color: #795E26">init</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">elt</span><span style="color: #000000">, </span><span style="color: #001080">http</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">ctrl</span><span style="color: #000000"> = </span><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #795E26">viewControler</span><span style="color: #000000">(</span><span style="color: #001080">elt</span><span style="color: #000000">, {</span>
+<span style="color: #000000">      </span><span style="color: #001080">data:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">        </span><span style="color: #001080">users:</span><span style="color: #000000"> []</span>
+<span style="color: #000000">      }</span>
+<span style="color: #000000">    })</span>
+<span style="color: #000000">      </span>
+<span style="color: #000000">     </span><span style="color: #001080">http</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;/api/users&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">users</span><span style="color: #000000">) {</span>
+<span style="color: #000000">        </span><span style="color: #001080">ctrl</span><span style="color: #000000">.</span><span style="color: #795E26">setData</span><span style="color: #000000">({</span><span style="color: #001080">users</span><span style="color: #000000">})</span>
+<span style="color: #000000">      })            </span>
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">  }</span>
+<span style="color: #000000">  </span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<p>The <strong>deps</strong> field is an string array of service name. Services are automatically injected by the framework in the control constructor (init function).</p>
+				<p>HTML file</p>
+				<pre><code class="language-html"><span style="color: #800000">&lt;div&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;h2&gt;</span><span style="color: #000000">Users</span><span style="color: #800000">&lt;h2&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;ul</span><span style="color: #000000"> </span><span style="color: #FF0000">bn-each</span><span style="color: #000000">=</span><span style="color: #0000FF">“user</span><span style="color: #000000"> </span><span style="color: #FF0000">of</span><span style="color: #000000"> </span><span style="color: #FF0000">users</span><span style="color: #CD3131">&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">    </span><span style="color: #800000">&lt;li</span><span style="color: #000000"> </span><span style="color: #FF0000">bn-text</span><span style="color: #000000">=</span><span style="color: #0000FF">“user”</span><span style="color: #800000">&gt;&lt;/li&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;/ul&gt;</span>
+<span style="color: #800000">&lt;/div&gt;</span>
+</code></pre>
+				<a href="#control-with-an-external-interface" id="control-with-an-external-interface" style="color: inherit; text-decoration: none;">
+					<h2>control with an external interface</h2>
+				</a>
+				<p>Javascript code</p>
+				<pre><code class="language-javascript"><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #001080">control</span><span style="color: #000000">.</span><span style="color: #795E26">registerControl</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;MyControl3&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #795E26">init</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">elt</span><span style="color: #000000">) {</span>
+<span style="color: #000000">        </span>
+<span style="color: #000000">    </span><span style="color: #001080">elt</span><span style="color: #000000">.</span><span style="color: #795E26">append</span><span style="color: #000000">(</span><span style="color: #A31515">`&lt;label&gt;Name&lt;/label&gt;&lt;input type=&quot;text&quot;&gt;`</span><span style="color: #000000">)</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #795E26">getName</span><span style="color: #000000"> = </span><span style="color: #0000FF">function</span><span style="color: #000000">() {</span>
+<span style="color: #000000">      </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">elt</span><span style="color: #000000">.</span><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;input&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">val</span><span style="color: #000000">()</span>
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #795E26">setName</span><span style="color: #000000"> = </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">) {</span>
+<span style="color: #000000">      </span><span style="color: #001080">elt</span><span style="color: #000000">.</span><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;input&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">val</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">)</span>
+<span style="color: #000000">    }   </span>
+<span style="color: #000000">  }    </span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<p>Exported function has to be added to the <strong>this</strong> object.</p>
+				<p>To access an interface control use the jQuery <strong>iface</strong> function or use the <strong>bn-iface</strong> directive to bind the interface to your controler scope object.</p>
+				<pre><code class="language-html"><span style="color: #800000">&lt;div</span><span style="color: #000000"> </span><span style="color: #FF0000">id</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;main&quot;</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #800000">&lt;div</span><span style="color: #000000"> </span><span style="color: #FF0000">bn-control</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;MyControl3&quot;</span><span style="color: #000000"> </span><span style="color: #FF0000">bn-iface</span><span style="color: #000000">=</span><span style="color: #0000FF">&quot;myCtrl&quot;</span><span style="color: #800000">&gt;&lt;/div&gt;</span>
+<span style="color: #800000">&lt;/div&gt;</span>
+</code></pre>
+				<pre><code class="language-javascript"><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #0000FF">function</span><span style="color: #000000">() {</span>
+
+<span style="color: #000000">  </span><span style="color: #0000FF">var</span><span style="color: #000000"> </span><span style="color: #001080">ctrl</span><span style="color: #000000"> = </span><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #795E26">viewControler</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;#main&#039;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  </span>
+<span style="color: #000000">  </span><span style="color: #001080">ctrl</span><span style="color: #000000">.</span><span style="color: #001080">scope</span><span style="color: #000000">.</span><span style="color: #001080">myCtrl</span><span style="color: #000000">.</span><span style="color: #795E26">setName</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Hello&#039;</span><span style="color: #000000">)    </span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<a href="#control-with-custom-parameters" id="control-with-custom-parameters" style="color: inherit; text-decoration: none;">
+					<h2>control with custom parameters</h2>
+				</a>
+				<p>Javascript code</p>
+				<pre><code class="language-javascript"><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #001080">control</span><span style="color: #000000">.</span><span style="color: #795E26">registerControl</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;MyControl4&#039;</span><span style="color: #000000">, {</span>
+
+<span style="color: #000000">    </span><span style="color: #001080">props:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">        </span><span style="color: #001080">roll:</span><span style="color: #000000"> </span><span style="color: #098658">0</span><span style="color: #000000">,</span>
+<span style="color: #000000">        </span><span style="color: #001080">pitch:</span><span style="color: #000000"> </span><span style="color: #098658">0</span>
+<span style="color: #000000">    },</span>
+<span style="color: #000000">    </span><span style="color: #795E26">init</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">elt</span><span style="color: #000000">, </span><span style="color: #001080">options</span><span style="color: #000000">) {</span>
+<span style="color: #000000">        </span>
+<span style="color: #000000">        </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">ctrl</span><span style="color: #000000"> = </span><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #795E26">viewControler</span><span style="color: #000000">(</span><span style="color: #001080">elt</span><span style="color: #000000">, {</span>
+<span style="color: #000000">            </span><span style="color: #001080">data:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">                </span><span style="color: #001080">roll:</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">props</span><span style="color: #000000">.</span><span style="color: #001080">roll</span><span style="color: #000000">,</span>
+<span style="color: #000000">                </span><span style="color: #001080">pitch:</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">props</span><span style="color: #000000">.</span><span style="color: #001080">pitch</span>
+<span style="color: #000000">            }</span>
+<span style="color: #000000">            </span>
+<span style="color: #000000">        })</span>
+<span style="color: #000000">    </span>
+<span style="color: #000000">        </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #795E26">update</span><span style="color: #000000"> = </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">data</span><span style="color: #000000">) {</span>
+<span style="color: #000000">            </span><span style="color: #001080">ctrl</span><span style="color: #000000">.</span><span style="color: #795E26">setData</span><span style="color: #000000">(</span><span style="color: #001080">data</span><span style="color: #000000">)</span>
+<span style="color: #000000">        }        </span>
+<span style="color: #000000">    }</span>
+<span style="color: #000000">             </span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<p>To add custom parameter, add the name to the <strong>props</strong> object and export the setter function in the <strong>this</strong> object in the constructor function.</p>
+				<a href="#control-specific-interface-function" id="control-specific-interface-function" style="color: inherit; text-decoration: none;">
+					<h2>control specific interface function</h2>
+				</a>
+				<p>Certain interface name have a specific meaning.</p>
+				<p>The <strong>dipose</strong> function name is called when present by the framework when the HTML tag associated to the control is destroyed.
+				It is the opportunity for your control to clean up its data (stop running timers, unregister websocket topic, etc...)</p>
+				<p>Example of code:</p>
+				<pre><code class="language-javascript"><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #001080">control</span><span style="color: #000000">.</span><span style="color: #795E26">registerControl</span><span style="color: #000000">(‘</span><span style="color: #001080">MyControl5</span><span style="color: #000000">’, {</span>
+<span style="color: #000000">    </span><span style="color: #001080">deps:</span><span style="color: #000000"> [</span><span style="color: #A31515">&#039;WebSocketService&#039;</span><span style="color: #000000">],</span>
+<span style="color: #000000">    </span><span style="color: #795E26">init</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">elt</span><span style="color: #000000">, </span><span style="color: #001080">options</span><span style="color: #000000">, </span><span style="color: #001080">client</span><span style="color: #000000">)     {</span>
+
+<span style="color: #000000">        </span><span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">onLauncherStatus</span><span style="color: #000000">(</span><span style="color: #001080">msg</span><span style="color: #000000">) {</span>
+<span style="color: #000000">            ...</span>
+<span style="color: #000000">        }</span>
+<span style="color: #000000">        </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">register</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;launcherStatus&#039;</span><span style="color: #000000">, </span><span style="color: #0000FF">true</span><span style="color: #000000">, </span><span style="color: #001080">onLauncherStatus</span><span style="color: #000000">)</span>
+
+<span style="color: #000000">        </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #795E26">dispose</span><span style="color: #000000"> = </span><span style="color: #0000FF">function</span><span style="color: #000000">() {</span>
+<span style="color: #000000">            </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">unregister</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;launcherStatus&#039;</span><span style="color: #000000">, </span><span style="color: #001080">onLauncherStatus</span><span style="color: #000000">)</span>
+<span style="color: #000000">        }</span>
+<span style="color: #000000">    }</span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<p>If you want to create a control which has the same behavior as HTML input tag (input, select, etc..), your control has to export a <strong>setValue</strong> and <strong>getValue</strong> function.</p>
+				<a href="#services" id="services" style="color: inherit; text-decoration: none;">
+					<h1>Services</h1>
+				</a>
+				<a href="#create-a-new-service" id="create-a-new-service" style="color: inherit; text-decoration: none;">
+					<h2>Create a new service</h2>
+				</a>
+				<p>To create a new service, the framework porvides the <strong>registerService</strong> function.</p>
+				<pre><code class="language-javascript"><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #001080">service</span><span style="color: #000000">.</span><span style="color: #795E26">registerService</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;UsersService&#039;</span><span style="color: #000000">, [</span><span style="color: #A31515">&#039;HttpService&#039;</span><span style="color: #000000">], </span><span style="color: #0000FF">function</span><span style="color: #000000">(</span><span style="color: #001080">http</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> {</span>
+<span style="color: #000000">        </span><span style="color: #795E26">getUsers</span><span style="color: #001080">:</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000">() {</span>
+<span style="color: #000000">            </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">http</span><span style="color: #000000">.</span><span style="color: #795E26">get</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;/api/users&#039;</span><span style="color: #000000">)</span>
+<span style="color: #000000">        }</span>
+<span style="color: #000000">    }</span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<p>the first argument id the service name, the second a string array of service dependancies and the last is a function which must return an object which provides the service.</p>
+				<p>Like controls, services use dependancies injection mechanism.</p>
+				<a href="#configure-a-service" id="configure-a-service" style="color: inherit; text-decoration: none;">
+					<h2>Configure a service</h2>
+				</a>
+				<p>To configure a service, use the framework <strong>configureService</strong> function.</p>
+				<pre><code class="language-javascript"><span style="color: #795E26">$</span><span style="color: #000000">(</span><span style="color: #0000FF">function</span><span style="color: #000000">() {</span>
+
+<span style="color: #000000">    </span><span style="color: #001080">$$</span><span style="color: #000000">.</span><span style="color: #001080">service</span><span style="color: #000000">.</span><span style="color: #795E26">configureService</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;WebSocketService&#039;</span><span style="color: #000000">, {</span><span style="color: #001080">id:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;ClientsMonitoring&#039;</span><span style="color: #000000">})</span>
+
+<span style="color: #000000">    ...</span>
+<span style="color: #000000">})</span>
+</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

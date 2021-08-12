@@ -245,21 +245,6 @@ $$.control.registerControl('brainjs.map', {
 			this.addShape(shapeId, this.props.shapes[shapeId])
 		}
 
-	},
-
-	$iface: `
-		getShapes():[shapeId];
-		updateShape(shapeId, options);
-		addShape(shapeId, options);
-		removeShape(shapeId);
-		getShapeInfo(shapeId): ShapeInfo;
-		enableHandlers(enabled);
-		getZoom():ZoomLevel;
-		getCenter(): LatLng;
-		panTo(latlng);
-		flyTo(latlng, zoom)
-		`,
-
-	$events: `mapcontextmenu;mapclick;mapshapecontextmenu`
+	}
 
 });

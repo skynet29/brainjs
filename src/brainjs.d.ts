@@ -1,3 +1,4 @@
+import { BooleanNullable } from "aws-sdk/clients/glue";
 
 declare namespace $$ {
 
@@ -181,7 +182,61 @@ declare namespace Brainjs {
 
     declare namespace Controls {
 
+        declare namespace FlightPanel {
+            interface Props {
+                roll: number;
+                pitch: number;
+                altitude: number;
+                speed: number;
+            }
+        }
+
+        declare namespace CircularMenu {
+
+            interface Position {
+                left: number;
+                top: number;
+            }
+
+            interface ItemInfo {
+                text: string;
+                className: string;
+                color: string;
+                action: string;
+
+            }
+
+            interface Props {
+                triggerRadius: number;
+                hasTrigger: boolean;
+                triggerPos: Position;
+                innerRadius: number;
+                radius: number;
+                iconPos: number;
+                iconSize: number;
+                gap: number;
+                items: Array<ItemInfo>;
+                minSectors: number;                
+            }
+
+            type Events = 'menuClosed' | 'menuSelected'
+
+            interface Interface {
+                select(idx: number):this;
+                closeMenu(callback: () => void);
+                showMenu(x: number, y: number): void;
+            }
+        }
+
         declare namespace Camera {
+
+            type Events = 'cameraready' | 'barcode' | 'videorecord';
+
+            interface Props {
+                constraints?: MediaStreamConstraints;
+                mimeType?: string;
+            }
+
             interface Interface {
                 getCapabilities(): Promise<MediaTrackCapabilities>;
                 getSettings(): MediaTrackSettings;
@@ -204,7 +259,7 @@ declare namespace Brainjs {
             }
     
             interface TabInfo {
-    
+                title: string;
             }
     
             interface Interface {
@@ -219,9 +274,25 @@ declare namespace Brainjs {
         }
 
         declare namespace Tree {
-            interface TreeNode {
+            interface NodeInfo {
                 data: object;
+                title: string;
+                folder?: boolean;
+                children?: Array<NodeInfo>;
+            }
+
+            interface Props {
+                contextMenu?: {[key]: ContextMenu.Item};
+                source: Array<NodeInfo>;
+            }
+
+            interface TreeNode extends NodeInfo {
+                setExpanded(isExpanded: boolean): void;
+                addNode(node: NodeInfo): TreeNode;
+                remove(): void;
             };
+
+            type Events = 'treeactivate' | 'treecontextmenu'
     
             interface Interface {
                 getActiveNode():TreeNode;
@@ -242,6 +313,108 @@ declare namespace Brainjs {
         }
 
 
+        declare namespace ContextMenu {
+
+            type Events = 'contextmenuchange'
+
+            interface Item {
+                name: string;
+                icon: string;
+            }
+
+            interface Props {
+                trigger: 'right' | 'left';
+                title: string;
+                fontSize: string;
+                items: {[key]: Item};
+            }
+        }
+
+        declare namespace ComboBox {
+
+            type Events = 'comboboxchange'
+
+            interface Item {
+                label: string;
+                value: string;
+            }
+
+            interface Props {
+                width: string | boolean;
+                maxHeight: number;
+                items: Array<string | Item>;
+            }
+
+            interface Interface {
+                setValue(val: string):void;
+                getValue(): string;
+                getSelItem(): Item;
+            }
+        }
+
+        declare namespace Map {
+
+            type Events = 'mapcontextmenu' | 'mapclick' | 'mapshapecontextmenu';
+
+            interface LatLng {
+                lat: number;
+                lng: number
+            }
+
+            interface LayerInfo {
+                label?: string;
+                visible?: boolean;
+            }
+
+            interface Props {
+                tileUrl : string;
+                center: LatLng;
+                zoom: number;
+                scale: boolean;
+                coordinates: boolean;
+                contextMenu: {[key]: ContextMenu.Item};
+                layers: {[key]: LayerInfo};
+                plugins: {[key]: object};
+            }
+
+            type ShapeType = 'marker' | 'circle';
+
+            interface IconInfo {
+                type: string;
+                color?: string;
+            }
+
+            interface ShapeInfo {
+                latlng: LatLng;
+                type: ShapeType;
+                layer?: string;
+                rotationAngle?: number;
+                icon?: IconInfo;
+                popupContent?: string;
+                radius: number;
+            }
+
+            interface Interface {
+                getShapes():[string];
+                updateShape(shapeId: string, options: ShapeInfo): void;
+                addShape(shapeId: string, options: ShapeInfo): void;
+                removeShape(shapeId: string): void;
+                getShapeInfo(shapeId: string): ShapeInfo;
+                enableHandlers(enabled: boolean): void;
+                getZoom():ZoomLevel;
+                getCenter(): LatLng;
+                panTo(latlng: LatLng);
+                flyTo(latlng: LatLng, zoom: number): void;                
+            }
+        }
+
+        declare namespace MilSymbol {
+            interface Props {
+                size: number;
+                name: string;
+                sidc: string;
+            }
+        }
     }
 }
 
