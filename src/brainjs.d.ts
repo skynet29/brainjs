@@ -1,5 +1,3 @@
-import { BooleanNullable } from "aws-sdk/clients/glue";
-
 declare namespace $$ {
 
     interface Object {
