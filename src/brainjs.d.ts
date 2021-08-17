@@ -2,7 +2,7 @@ declare namespace $$ {
 
     interface Object {
         [key: string]: any
-    }    
+    }
 
     interface GulpInject {
         gulp_inject: string;
@@ -12,7 +12,7 @@ declare namespace $$ {
             deps?: Array<string>;
             props?: Object;
             template?: string | GulpInject;
-            init(elt: JQuery, ...params): void;
+            init(elt: JQuery, ...services): void;
             $iface?: string;
             $events?: string;
 
@@ -24,61 +24,61 @@ declare namespace $$ {
     declare namespace service {
         interface RegisterServiceOptions {
             deps?: Array<string>;
-            init(elt: JQuery): void;
+            init(config: any, ...services): void;
             $iface?: string;
 
         }
 
         function registerService(ctrlName: string, options: RegisterServiceOptions): void;
-    }    
+    }
 
 
     declare namespace util {
         function getUrlParams(url: string, params: Object): string;
-        function readTextFile(fileName: string, onRead: (result: string) => void ): void;
-        function readFileAsDataURL(fileName: string, onRead: (result: string) => void ): void;  
+        function readTextFile(fileName: string, onRead: (result: string) => void): void;
+        function readFileAsDataURL(fileName: string, onRead: (result: string) => void): void;
         function readFile(fileName: string): Promise<Blob>;
-    
-        function openFileDialog(callback: (result: File) => void, multiple: boolean = false): void;
-    
+
+        function openFileDialog(callback: (result: File | FileList) => void, multiple: boolean = false): void;
+
         function isImage(fileName: string): boolean;
-    
+
         function getFileType(fileName: string): string;
-    
+
         function buildDataURL(type: string, subtype: string, data: string): string;
-    
+
         function dataURLtoBlob(dataURL: string): Blob;
-        
+
         function isObject(a: any): boolean;
-    
-        interface VideoDevice  {
+
+        interface VideoDevice {
             id: string;
             label: string;
         };
-        
-    
-    
+
+
+
         function getVideoDevices(): Promise<[VideoDevice]>;
 
         function decodeAudioData(blob: Blob): Promise<AudioBuffer>;
-        
+
         function arrayBufferToString(buffer: ArrayBuffer): String;
-    
-        function parseUrlParams(url: string):  {[param]: any};
-    
+
+        function parseUrlParams(url: string): { [param]: any };
+
         function downloadUrl(url: string, fileName: string): void;
-    
+
         function isMobileDevice(): boolean;
-    
+
         function isTouchDevice(): boolean;
 
         function knuthShuffle(length: number): [number];
-    
+
         function concatTypedArray(a, b);
-   
-        function wait(delayMs: number): Promise;    
+
+        function wait(delayMs: number): Promise;
         function imageUrlToDataUrl(url: string): string;
- 
+
     };
 
     declare namespace ui {
@@ -88,15 +88,16 @@ declare namespace $$ {
             content: string;
             okText?: string;
             cancelText?: string;
-        }        
+        }
         function showConfirm(options: ShowConfirmOptions, callback: () => void): void;
- 
+
         function showAlert(options, callback?: () => void): void;
 
         interface ShowPromptOptions {
             label: string;
             title: string;
-            attrs?: {[attr]: any};
+            attrs?: { [attr]: any };
+            value?: string | number;
 
         };
 
@@ -106,22 +107,22 @@ declare namespace $$ {
             label: string;
             input: string;
             value: string;
-            attrs: {[attrName]: any}
+            attrs: { [attrName]: any }
         };
 
         interface FormOptions {
             title: string;
-            fields: {[fieldName]: FieldDescriptor};
-            data: {[fieldName]: any};
+            fields: { [fieldName]: FieldDescriptor };
+            data: { [fieldName]: any };
         };
 
-        function showForm(formDesc: FormOptions, onApply: ( data: {[fieldName]: any}) => void): void;
+        function showForm(formDesc: FormOptions, onApply: (data: { [fieldName]: any }) => void): void;
 
         interface ProgressDialogInterface extends DialogController {
             setPercentage(percentage: number): void;
         }
 
-        function progressDialog(title: string): ProgressDialogInterface;
+        function progressDialog(title?: string): ProgressDialogInterface;
 
         function waitDialog(title: string): DialogController;
     }
@@ -130,18 +131,20 @@ declare namespace $$ {
     declare namespace crypto {
         function encrypt(password: string, text: string): string;
         function decrypt(password: string, data: string): string;
- 
+
     }
 
     interface ViewController {
         update(): void;
         updateNode(bindingName: string): void;
+        updateNodeTree(bindingName: string): void;
         setData(data: object): void;
         removeArrayItem(arrayBindingName: string, idx: number, varName?: string): void;
         updateArrayItem(arrayBindingName: string, idx: number, value: any, varName?: string): void;
         insertArrayItemAfter(arrayBindingName: string, idx: number, value: any, varName?: string): void;
+        insertArrayItemBefore(arrayBindingName: string, idx: number, value: any, varName?: string): void;
         updateArrayValue(arrayBindingName: string, varName: string): void;
-    
+
         scope: Object;
         model: Object;
     }
@@ -151,7 +154,7 @@ declare namespace $$ {
 
         hide(): void;
         setOption(optionName: string, value: any): void;
-        destroy() :void;
+        destroy(): void;
     };
 
     interface ViewControllerOptions {
@@ -164,12 +167,12 @@ declare namespace $$ {
     interface DialogControllerOptions extends ViewControllerOptions {
         title: string;
         canClose: boolean;
-		template: string;
-		width: number;
-		resizable: boolean;
+        template: string;
+        width: number;
+        resizable: boolean;
     };
 
-    function viewController(elt: JQuery, options: ViewControllerOptions):ViewController;
+    function viewController(elt: JQuery, options: ViewControllerOptions): ViewController;
 
     function dialogController(options: DialogControllerOptions): DialogController;
 
@@ -214,13 +217,13 @@ declare namespace Brainjs {
                 iconSize: number;
                 gap: number;
                 items: Array<ItemInfo>;
-                minSectors: number;                
+                minSectors: number;
             }
 
             type Events = 'menuClosed' | 'menuSelected'
 
             interface Interface {
-                select(idx: number):this;
+                select(idx: number): this;
                 closeMenu(callback: () => void);
                 showMenu(x: number, y: number): void;
             }
@@ -244,22 +247,23 @@ declare namespace Brainjs {
                 start();
                 stop();
                 startRecord();
-                stopRecord()            
+                stopRecord()
             }
         }
 
         declare namespace Tabs {
             interface TabsOption {
                 control?: string;
-                props?:{};
+                props?: {};
                 template?: string;
                 removable?: boolean;
             }
-    
+
             interface TabInfo {
                 title: string;
+                ctrlIface: any;
             }
-    
+
             interface Interface {
                 getTabsCount(): number;
                 addTab(title: string, options: TabsOption): number;
@@ -280,7 +284,7 @@ declare namespace Brainjs {
             }
 
             interface Props {
-                contextMenu?: {[key]: ContextMenu.Item};
+                contextMenu?: { [key]: ContextMenu.Item };
                 source: Array<NodeInfo>;
             }
 
@@ -291,22 +295,22 @@ declare namespace Brainjs {
             };
 
             type Events = 'treeactivate' | 'treecontextmenu'
-    
+
             interface Interface {
-                getActiveNode():TreeNode;
-                getRootNode():TreeNode;
-                getNodePath(node: TreeNode, callback?: (node: TreeNode) => string):string            
+                getActiveNode(): TreeNode;
+                getRootNode(): TreeNode;
+                getNodePath(node: TreeNode, callback?: (node: TreeNode) => string): string
             }
         }
 
         declare namespace Pdf {
             interface Interface {
-                openFile(url: string):Promise<number>;
-                prevPage():Promise<number>;
-                nextPage():Promise<number>;
-                setPage(pageNo: number):Promise<number>;
-                fit(): void;      
-                print(): Promise;      
+                openFile(url: string): Promise<number>;
+                prevPage(): Promise<number>;
+                nextPage(): Promise<number>;
+                setPage(pageNo: number): Promise<number>;
+                fit(): void;
+                print(): Promise;
             }
         }
 
@@ -324,7 +328,7 @@ declare namespace Brainjs {
                 trigger: 'right' | 'left';
                 title: string;
                 fontSize: string;
-                items: {[key]: Item};
+                items: { [key]: Item };
             }
         }
 
@@ -344,7 +348,7 @@ declare namespace Brainjs {
             }
 
             interface Interface {
-                setValue(val: string):void;
+                setValue(val: string): void;
                 getValue(): string;
                 getSelItem(): Item;
             }
@@ -365,14 +369,14 @@ declare namespace Brainjs {
             }
 
             interface Props {
-                tileUrl : string;
+                tileUrl: string;
                 center: LatLng;
                 zoom: number;
                 scale: boolean;
                 coordinates: boolean;
-                contextMenu: {[key]: ContextMenu.Item};
-                layers: {[key]: LayerInfo};
-                plugins: {[key]: object};
+                contextMenu: { [key]: ContextMenu.Item };
+                layers: { [key]: LayerInfo };
+                plugins: { [key]: object };
             }
 
             type ShapeType = 'marker' | 'circle';
@@ -380,29 +384,45 @@ declare namespace Brainjs {
             interface IconInfo {
                 type: string;
                 color?: string;
+                className?: string;
+                fontSize?: number;
+
+            }
+
+            interface PopupOptions {
+                content?: string;
+                className?: string;
+                closeButton?: boolean;
+            }
+
+            interface ContextMenuOption {
+                name: string;
+                iconCls: string;
             }
 
             interface ShapeInfo {
-                latlng: LatLng;
-                type: ShapeType;
+                latlng?: LatLng;
+                type?: ShapeType;
                 layer?: string;
                 rotationAngle?: number;
                 icon?: IconInfo;
                 popupContent?: string;
-                radius: number;
+                radius?: number;
+                popup?: PopupOptions;
+                contextMenu?: {[key]: ContextMenuOption};
             }
 
             interface Interface {
-                getShapes():[string];
+                getShapes(): [string];
                 updateShape(shapeId: string, options: ShapeInfo): void;
                 addShape(shapeId: string, options: ShapeInfo): void;
                 removeShape(shapeId: string): void;
                 getShapeInfo(shapeId: string): ShapeInfo;
                 enableHandlers(enabled: boolean): void;
-                getZoom():ZoomLevel;
+                getZoom(): ZoomLevel;
                 getCenter(): LatLng;
                 panTo(latlng: LatLng);
-                flyTo(latlng: LatLng, zoom: number): void;                
+                flyTo(latlng: LatLng, zoom: number): void;
             }
         }
 
@@ -417,9 +437,9 @@ declare namespace Brainjs {
 }
 
 interface JQuery {
-    getFormData(): {[fieldName]: string};
+    getFormData(): { [fieldName]: string };
     getValue(): any;
     setValue(val: any): void;
-    iface():any;
+    iface(): any;
     resetForm(): void;
 }
