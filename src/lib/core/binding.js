@@ -251,7 +251,7 @@
               return
             }
             else {
-              const offset =  observer.info.value.length
+              const offset = observer.info.value.length
               observer.info.value = value.concat(newValue)
               value = newValue
               process(offset)
@@ -365,19 +365,22 @@
     const info = ctx.find((i) => i.node == arrayNode)
 
     if (info != undefined && info.attrName == 'bn-each') {
+      const { iter, index, template, data } = info.observer.info
+      const clone = document.importNode(template.content, true)
+      const { ctx, ctrls } = parse(clone)
+      const itemData = $.extend({ $scope: {} }, data)
+      itemData.$scope[iter] = value
+      if (index != null) {
+        itemData.$scope[index] = idx
+      }
+      render(ctx, itemData)
+      processCtrls(ctrls)
       if (node != undefined) {
-        const { iter, index, template, data } = info.observer.info
-        const clone = document.importNode(template.content, true)
-        const { ctx, ctrls } = parse(clone)
-        const itemData = $.extend({ $scope: {} }, data)
-        itemData.$scope[iter] = value
-        if (index != null) {
-          itemData.$scope[index] = idx
-        }
-        render(ctx, itemData)
-        processCtrls(ctrls)
 
         arrayNode.insertBefore(clone, (idx < 0 || mode == 'before') ? node : node.nextSibling)
+      }
+      else {
+        arrayNode.appendChild(clone)
       }
 
       info.observer.info.value.splice((mode == 'before') ? idx : idx + 1, 0, value)
