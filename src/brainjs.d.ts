@@ -9,7 +9,7 @@ declare namespace $$ {
     }
     declare namespace control {
         interface RegisterControlOptions {
-            deps?: Array<string>;
+            deps?: string[];
             props?: Object;
             template?: string | GulpInject;
             init(elt: JQuery, ...services): void;
@@ -23,7 +23,7 @@ declare namespace $$ {
 
     declare namespace service {
         interface RegisterServiceOptions {
-            deps?: Array<string>;
+            deps?: string[];
             init(config: any, ...services): void;
             $iface?: string;
 
@@ -58,7 +58,7 @@ declare namespace $$ {
 
 
 
-        function getVideoDevices(): Promise<[VideoDevice]>;
+        function getVideoDevices(): Promise<VideoDevice[]>;
 
         function decodeAudioData(blob: Blob): Promise<AudioBuffer>;
 
@@ -72,7 +72,7 @@ declare namespace $$ {
 
         function isTouchDevice(): boolean;
 
-        function knuthShuffle(length: number): [number];
+        function knuthShuffle(length: number): number[];
 
         function concatTypedArray(a, b);
 
@@ -216,7 +216,7 @@ declare namespace Brainjs {
                 iconPos: number;
                 iconSize: number;
                 gap: number;
-                items: Array<ItemInfo>;
+                items: ItemInfo[];
                 minSectors: number;
             }
 
@@ -280,12 +280,12 @@ declare namespace Brainjs {
                 data: object;
                 title: string;
                 folder?: boolean;
-                children?: Array<NodeInfo>;
+                children?: NodeInfo[];
             }
 
             interface Props {
                 contextMenu?: { [key]: ContextMenu.Item };
-                source: Array<NodeInfo>;
+                source: NodeInfo[];
             }
 
             interface TreeNode extends NodeInfo {
@@ -413,7 +413,7 @@ declare namespace Brainjs {
             }
 
             interface Interface {
-                getShapes(): [string];
+                getShapes(): string[];
                 updateShape(shapeId: string, options: ShapeInfo): void;
                 addShape(shapeId: string, options: ShapeInfo): void;
                 removeShape(shapeId: string): void;
