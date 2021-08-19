@@ -1,3 +1,4 @@
+//@ts-check
 $$.control.registerControl('brainjs.camera', {
 	props: {
 		constraints: { video: true },
@@ -6,6 +7,7 @@ $$.control.registerControl('brainjs.camera', {
 
 	init: function (elt) {
 
+		/**@type {Brainjs.Controls.Camera.Props} */
 		let { constraints, mimeType } = this.props
 		const iface = this
 
@@ -25,6 +27,7 @@ $$.control.registerControl('brainjs.camera', {
 			})
 			.appendTo(elt)
 
+		/**@type {MediaStream} */
 		let stream = null
 		let barcodeDetector = null
 		let imageCapture = null
@@ -40,7 +43,7 @@ $$.control.registerControl('brainjs.camera', {
 					setTimeout(detectBarcode, 1000)
 				}
 				else {
-					elt.trigger('barcode', barcodes[0])				
+					elt.trigger('barcode', {barcode: barcodes[0]})				
 				}
 			}			
 			catch(e) {
@@ -61,7 +64,7 @@ $$.control.registerControl('brainjs.camera', {
 				mediaRecorder.onstop = function(e) {
 					const blob = new Blob(chunks, { type: mimeType })
 					chunks = []
-					elt.trigger('videorecord', blob)
+					elt.trigger('videorecord', {blob})
 				}
 			}
 
@@ -176,25 +179,7 @@ $$.control.registerControl('brainjs.camera', {
 			}
 
 		}
-	},
-
-	$iface: `
-		getCapabilities(): Promise<MediaTrackCapabilities>;
-		getSettings(): MediaTrackSettings;
-		startBarcodeDetection();
-		setZoom(value: number);
-		takePicture(): Promise<Blob>;
-		start();
-		stop();
-		startRecord();
-		stopRecord()
-	`,
-
-	$events: 'cameraready;barcode;videorecord'
-
-
-
-
+	}
 });
 
 

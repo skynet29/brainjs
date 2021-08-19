@@ -238,6 +238,21 @@ declare namespace Brainjs {
                 mimeType?: string;
             }
 
+            interface BarcodeInfo {
+                format: string;
+                rawValue: string;
+            }
+
+            declare namespace EventData {
+                interface VideoRcord {
+                    blob: Blob;
+                }
+
+                interface BarCode {
+                    barcode: BarcodeInfo;
+                }
+            }
+
             interface Interface {
                 getCapabilities(): Promise<MediaTrackCapabilities>;
                 getSettings(): MediaTrackSettings;
@@ -318,6 +333,12 @@ declare namespace Brainjs {
         declare namespace ContextMenu {
 
             type Events = 'contextmenuchange'
+
+            declare namespace EventData {
+                interface ContextMenuChange {
+                    cmd: string;
+                }
+            }
 
             interface Item {
                 name: string;
