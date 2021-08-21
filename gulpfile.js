@@ -178,20 +178,6 @@ const flightPanelJs = task('flightpanel.js',
 	{concat: 'brainjs-flightpanel.js', isCode:true}
 )
 
-const docJs = task('doc.js',
-	[
-		'./doc/*.js',
-	],
-	{concat: 'doc.js', isCode:true}
-)
-
-const docHtml = task('doc.html',
-	[
-		'./doc/index.html',
-	],
-	{concat: 'doc.html'}
-)
-
 const pdfJs = task('pdf.js', 
 	[
 		'./externals/pdf/pdf.min.js',
@@ -218,7 +204,6 @@ const flightpanel = gulp.series(flightPanelJs)
 const brainjs = gulp.series(brainjsJs, brainjsCss, brainjsFonts, brainjsImages)
 
 const demo = gulp.series(demoJs, demoHtml)
-const doc = gulp.series(docJs, docHtml)
 
 
 
@@ -231,7 +216,6 @@ const all = gulp.series(
 	milsymbol,
 	circularmenu,
 	flightpanel,
-	doc,
 	pdfJs,
 	pdfWorkerJs
 )
@@ -252,6 +236,5 @@ exports.watch = gulp.series(all, function() {
 	gulp.watch(['./src/ext/pdf.js'], pdfJs)
 
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], demo)
-	gulp.watch(['./doc/*.html', './doc/*.js'], doc)
 
 })
