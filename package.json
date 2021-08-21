@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/dom-mediacapture-record": "^1.0.10",
+    "@types/w3c-image-capture": "^1.0.5",
     "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-eslint": "^5.0.0",

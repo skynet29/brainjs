@@ -89,7 +89,5 @@ $$.control.registerControl('brainjs.tree', {
 			}
 		}
 
-	},
-
-	$events: 'treeactivate;treecontextmenu'
+	}
 });

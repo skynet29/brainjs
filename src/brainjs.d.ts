@@ -238,18 +238,14 @@ declare namespace Brainjs {
                 mimeType?: string;
             }
 
-            interface BarcodeInfo {
-                format: string;
-                rawValue: string;
-            }
-
             declare namespace EventData {
                 interface VideoRcord {
                     blob: Blob;
                 }
 
                 interface BarCode {
-                    barcode: BarcodeInfo;
+                    format: string;
+                    rawValue: string;
                 }
             }
 
@@ -309,7 +305,14 @@ declare namespace Brainjs {
                 remove(): void;
             };
 
-            type Events = 'treeactivate' | 'treecontextmenu'
+            type Events = 'treeactivate' | 'treecontextmenu | treeclick'
+
+            declare namespace EventData {
+                interface TreeContextMenu {
+                    action: string;
+                    node: TreeNode;
+                }
+            }
 
             interface Interface {
                 getActiveNode(): TreeNode;
@@ -430,7 +433,7 @@ declare namespace Brainjs {
                 popupContent?: string;
                 radius?: number;
                 popup?: PopupOptions;
-                contextMenu?: {[key]: ContextMenuOption};
+                contextMenu?: { [key]: ContextMenuOption };
             }
 
             interface Interface {

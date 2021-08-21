@@ -30,6 +30,7 @@ $$.control.registerControl('brainjs.camera', {
 		/**@type {MediaStream} */
 		let stream = null
 		let barcodeDetector = null
+		/**@type {ImageCapture} */
 		let imageCapture = null
 		let mediaRecorder = null
 		let chunks = []
@@ -43,28 +44,28 @@ $$.control.registerControl('brainjs.camera', {
 					setTimeout(detectBarcode, 1000)
 				}
 				else {
-					elt.trigger('barcode', {barcode: barcodes[0]})				
+					elt.trigger('barcode', barcodes[0])
 				}
-			}			
-			catch(e) {
+			}
+			catch (e) {
 				console.error('BarcodeDetection failed: ', e)
-				$$.ui.showAlert({title: 'Error', content: e.message})				
+				$$.ui.showAlert({ title: 'Error', content: e.message })
 			}
 
 		}
 
-		this.startRecord = function() {
+		this.startRecord = function () {
 
 			if (mediaRecorder == null) {
-				mediaRecorder = new MediaRecorder(stream, {mimeType})
+				mediaRecorder = new MediaRecorder(stream, { mimeType })
 				mediaRecorder.ondataavailable = function (e) {
 					chunks.push(e.data)
-				}	
+				}
 
-				mediaRecorder.onstop = function(e) {
+				mediaRecorder.onstop = function (e) {
 					const blob = new Blob(chunks, { type: mimeType })
 					chunks = []
-					elt.trigger('videorecord', {blob})
+					elt.trigger('videorecord', { blob })
 				}
 			}
 
@@ -73,13 +74,13 @@ $$.control.registerControl('brainjs.camera', {
 
 		}
 
-		this.stopRecord = function() {
+		this.stopRecord = function () {
 			if (mediaRecorder != null) {
 				mediaRecorder.stop()
 			}
 		}
 
-		this.startBarcodeDetection = function() {
+		this.startBarcodeDetection = function () {
 			if (barcodeDetector == null) {
 				barcodeDetector = new BarcodeDetector()
 			}
@@ -95,7 +96,7 @@ $$.control.registerControl('brainjs.camera', {
 			const track = stream.getVideoTracks()[0]
 			return new Promise((resolve) => {
 				setTimeout(() => {
-					resolve(track.getCapabilities())					
+					resolve(track.getCapabilities())
 				}, 500)
 			})
 		}
@@ -113,23 +114,21 @@ $$.control.registerControl('brainjs.camera', {
 			})
 		}
 
-		this.start = function () {
+		this.start = async function () {
 
 			//console.log('[camera] start', constraints)
 
-			navigator.mediaDevices.getUserMedia(constraints).then(function (mediaStream) {
-				stream = mediaStream
+			stream = await navigator.mediaDevices.getUserMedia(constraints)
 
 
-				try {
-					video.srcObject = stream
-				}
-				catch (error) {
-					video.src = URL.createObjectURL(stream)
-				}
-				video.load()
+			try {
+				video.srcObject = stream
+			}
+			catch (error) {
+				video.src = URL.createObjectURL(stream)
+			}
+			video.load()
 
-			})
 		}
 
 		this.takePicture = function () {
