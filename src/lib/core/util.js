@@ -1,101 +1,5 @@
 (function () {
 
-
-	function readTextFile(fileName, onRead) {
-		var fileReader = new FileReader()
-
-		fileReader.onload = function () {
-			if (typeof onRead == 'function') {
-				onRead(fileReader.result)
-			}
-		}
-		fileReader.readAsText(fileName)
-	}
-
-
-	function readFileAsDataURL(fileName, onRead) {
-		var fileReader = new FileReader()
-
-		fileReader.onload = function () {
-			if (typeof onRead == 'function') {
-				onRead(fileReader.result)
-			}
-		}
-		fileReader.readAsDataURL(fileName)
-	}
-
-	function readFile(fileName) {
-		return new Promise((resolve, reject) => {
-			var fileReader = new FileReader()
-
-			fileReader.onload = function () {
-				resolve(dataURLtoBlob(fileReader.result))
-			}
-			fileReader.readAsDataURL(fileName)
-		})
-
-	}
-
-	function openFileDialog(callback, multiple = false) {
-		const input = document.createElement('input')
-		input.type = 'file'
-		input.multiple = multiple
-		input.onchange = function () {
-			callback((multiple) ? input.files : input.files[0])
-		}
-		input.click()
-	}
-
-	function isImage(fileName) {
-		return (/\.(gif|jpg|jpeg|png)$/i).test(fileName)
-	}
-
-	function getFileType(fileName) {
-		if (isImage(fileName)) {
-			return 'image'
-		}
-
-		if ((/\.(ogg|mp3)$/i).test(fileName)) {
-			return 'audio'
-		}
-
-		if ((/\.(mp4|webm|3gp)$/i).test(fileName)) {
-			return 'video'
-		}
-
-		if ((/\.(pdf)$/i).test(fileName)) {
-			return 'pdf'
-		}
-
-	}
-
-	function buildDataURL(type, subtype, data) {
-		return `data:${type}/${subtype};base64,` + data
-	}
-
-	function dataURLtoBlob(dataURL) {
-		// Decode the dataURL
-		const [, mimeType, encodage, data] = dataURL.split(/[:,;]/)
-		if (encodage != 'base64') {
-			return
-		}
-
-		//console.log('mimeType', mimeType)
-		//console.log('encodage', encodage)
-		//console.log('data', data)
-
-		var binary = atob(data)
-		// Create 8-bit unsigned array
-		var array = []
-		for (var i = 0; i < binary.length; i++) {
-			array.push(binary.charCodeAt(i))
-		}
-
-		// Return our Blob object
-		return new Blob([new Uint8Array(array)], { mimeType })
-	}
-
-
 	function isObject(a) {
 		return (typeof a == 'object') && !Array.isArray(a)
 	}
@@ -212,74 +116,14 @@
 
 	}
 
-	function getUrlParams(url, params) {
-		if (typeof params == 'object') {
-			const keys = []
-			for (let i in params) {
-				if (params[i] != undefined) {
-					keys.push(i + '=' + encodeURIComponent(params[i]))
-				}
-			}
 
-			url += `?` + keys.join('&')
-		}
-		return url
 
-	}
 
-	function getVideoDevices() {
-		return navigator.mediaDevices.enumerateDevices().then((mediaDevices) => {
-			const ret = []
-			let count = 1
-			mediaDevices.forEach((mediaDevice) => {
-				if (mediaDevice.kind == 'videoinput') {
-					ret.push({
-						id: mediaDevice.deviceId,
-						label: mediaDevice.label || `Camera ${count++}`
-					})
-				}
-			})
-			return ret
-
-		})
-	}
-
-	function decodeAudioData(blob) {
-
-		return new Promise((resolve, reject) => {
-			const audioCtx = new AudioContext()
-
-			const reader = new FileReader()
-			reader.onload = function () {
-				audioCtx.decodeAudioData(reader.result).then((buffer) => {
-					resolve(buffer)
-				})
-			}
-			reader.readAsArrayBuffer(blob)
-		})
-	}
 
 	function arrayBufferToString(buffer) {
 		return String.fromCharCode.apply(null, new Uint16Array(buffer));
 	}
 
-	function parseUrlParams(url) {
-		const params = new URLSearchParams(url)
-		//console.log('params', params)
-		const ret = {}
-		for (let p of params) {
-			//console.log('p', p)
-			ret[p[0]] = p[1]
-		}
-		return ret
-	}
-
-	function downloadUrl(url, fileName) {
-		const link = document.createElement('a')
-		link.href = url
-		link.download = fileName
-		link.click()
-	}
 
 	function objToArray(obj, keyName) {
 		const ret = []
@@ -340,56 +184,21 @@
 			setTimeout(resolve, delayMs)
 		})
 	}
-
-	function imageUrlToDataUrl(url) {
-		return new Promise((resolve, reject) => {
-			const img = new Image
-			const canvas = document.createElement("canvas")
-			const ctx = canvas.getContext("2d")
-
-			img.onload = function () {
-				canvas.width = this.naturalWidth
-				canvas.height = this.naturalHeight
-				ctx.drawImage(this, 0, 0)
-				const dataUrl = canvas.toDataURL()
-				resolve(dataUrl)
-			}
-
-			img.onerror = function () {
-				reject('Acces failed')
-			}
-			img.src = url
-
-		})
-	}	
+	
 
 	$$.util = {
-		readTextFile,
-		readFileAsDataURL,
-		readFile,
-		openFileDialog,
-		isImage,
-		dataURLtoBlob,
 		checkType,
 		safeEval,
-		getFileType,
-		getUrlParams,
-		getVideoDevices,
-		decodeAudioData,
 		arrayBufferToString,
-		parseUrlParams,
-		downloadUrl,
 		toSourceString,
 		evaluate,
 		objToArray,
 		objToArray2,
 		isMobileDevice,
 		isTouchDevice,
-		buildDataURL,
 		knuthShuffle,
 		concatTypedArray,
-		wait,
-		imageUrlToDataUrl
+		wait
 	}
 
 

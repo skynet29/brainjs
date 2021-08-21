@@ -4,11 +4,11 @@ $$.service.registerService('brainjs.http', {
 	init: function () {
 		return {
 			get(url, params) {
-				return $.getJSON($$.util.getUrlParams(url, params))
+				return $.getJSON($$.url.getUrlParams(url, params))
 			},
 
 			fetch(url, params) {
-				return fetch($$.util.getUrlParams(url, params))
+				return fetch($$.url.getUrlParams(url, params))
 			},
 
 
@@ -68,14 +68,7 @@ $$.service.registerService('brainjs.http', {
 
 
 		}
-	},
-
-	$iface: `get(url, params):Promise;
-		post(url, data):Promise;
-		put(url, data):Promise;
-		delete(url):Promise;
-		postFormData(url, formData, onUploadProgress):Promise`
-
+	}
 });
 
 

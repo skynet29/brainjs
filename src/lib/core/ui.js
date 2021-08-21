@@ -1,5 +1,15 @@
 (function(){
 
+function openFileDialog(callback, multiple = false) {
+	const input = document.createElement('input')
+	input.type = 'file'
+	input.multiple = multiple
+	input.onchange = function () {
+		callback((multiple) ? input.files : input.files[0])
+	}
+	input.click()
+}
+
 function showAlert(options, callback) {
 
 	options = $.extend({
@@ -179,7 +189,8 @@ $$.ui = {
 	showPrompt,
 	showForm,
 	progressDialog,
-	waitDialog
+	waitDialog,
+	openFileDialog
 }
 
 })();

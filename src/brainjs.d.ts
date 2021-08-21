@@ -33,55 +33,47 @@ declare namespace $$ {
     }
 
 
-    declare namespace util {
-        function getUrlParams(url: string, params: Object): string;
-        function readTextFile(fileName: string, onRead: (result: string) => void): void;
-        function readFileAsDataURL(fileName: string, onRead: (result: string) => void): void;
+    declare namespace file {
+        function readTextFile(fileName: string): Pormise<string>;
+        function readFileAsDataURL(fileName: string): Promise<string>;
         function readFile(fileName: string): Promise<Blob>;
-
-        function openFileDialog(callback: (result: File | FileList) => void, multiple: boolean = false): void;
-
         function isImage(fileName: string): boolean;
-
         function getFileType(fileName: string): string;
+    }
 
+    declare namespace url {
         function buildDataURL(type: string, subtype: string, data: string): string;
-
         function dataURLtoBlob(dataURL: string): Blob;
+        function getUrlParams(url: string, params: Object): string;
+        function parseUrlParams(url: string): { [param]: any };
+        function downloadUrl(url: string, fileName: string): void;
+        function imageUrlToDataUrl(url: string): string;
+    }
 
-        function isObject(a: any): boolean;
-
+    declare namespace media {
         interface VideoDevice {
             id: string;
             label: string;
         };
 
-
-
         function getVideoDevices(): Promise<VideoDevice[]>;
-
         function decodeAudioData(blob: Blob): Promise<AudioBuffer>;
+    }
 
-        function arrayBufferToString(buffer: ArrayBuffer): String;
-
-        function parseUrlParams(url: string): { [param]: any };
-
-        function downloadUrl(url: string, fileName: string): void;
-
+    declare namespace util {
+        function isObject(a: any): boolean;
+        function arrayBufferToString(buffer: ArrayBuffer): string;
         function isMobileDevice(): boolean;
-
         function isTouchDevice(): boolean;
-
         function knuthShuffle(length: number): number[];
-
         function concatTypedArray(a, b);
-
         function wait(delayMs: number): Promise;
-        function imageUrlToDataUrl(url: string): string;
-
+        function objToArray2(obj: Object):{name: string, value:any}[];
     };
 
     declare namespace ui {
+
+        function openFileDialog(callback: (result: File | FileList) => void, multiple: boolean = false): void;
 
         interface ShowConfirmOptions {
             title: string;
@@ -138,6 +130,7 @@ declare namespace $$ {
         update(): void;
         updateNode(bindingName: string): void;
         updateNodeTree(bindingName: string): void;
+        enableNode(bindingName: string, isEnabled:boolean): void;
         setData(data: object): void;
         removeArrayItem(arrayBindingName: string, idx: number, varName?: string): void;
         updateArrayItem(arrayBindingName: string, idx: number, value: any, varName?: string): void;
