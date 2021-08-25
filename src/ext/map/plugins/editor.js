@@ -1,9 +1,3 @@
-(function(){
-
-$(function() {
-	$$.util.loadStyle('map/brainjs-map-editor.css')
-})
-
 $$.module.registerModule('brainjs.map.plugin.editor', function() {
 
 	return function(data, config) {
@@ -65,7 +59,5 @@ $$.module.registerModule('brainjs.map.plugin.editor', function() {
 
 	}
 });
-
-})();
 
 

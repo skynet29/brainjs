@@ -373,8 +373,6 @@ declare namespace Brainjs {
 
         declare namespace Map {
 
-            type Events = 'mapcontextmenu' | 'mapclick' | 'mapshapecontextmenu';
-
             interface LatLng {
                 lat: number;
                 lng: number
@@ -385,21 +383,13 @@ declare namespace Brainjs {
                 visible?: boolean;
             }
 
-            interface Props {
-                tileUrl: string;
-                center: LatLng;
-                zoom: number;
-                scale: boolean;
-                coordinates: boolean;
-                contextMenu: { [key]: ContextMenu.Item };
-                layers: { [key]: LayerInfo };
-                plugins: { [key]: object };
-            }
 
-            type ShapeType = 'marker' | 'circle';
+            type ShapeType = 'marker' | 'circleMarker' | 'circle' | 'sector' | 'rectangle' | 'polyline' | 'polygon';
 
-            interface IconInfo {
-                type: string;
+            type MarkerType = 'ais' | 'font'
+
+            interface MarkerIconInfo {
+                type: MarkerType;
                 color?: string;
                 className?: string;
                 fontSize?: number;
@@ -417,16 +407,108 @@ declare namespace Brainjs {
                 iconCls: string;
             }
 
-            interface ShapeInfo {
-                latlng?: LatLng;
+            interface ShapeBaseTYpe {
                 type?: ShapeType;
                 layer?: string;
-                rotationAngle?: number;
-                icon?: IconInfo;
-                popupContent?: string;
-                radius?: number;
-                popup?: PopupOptions;
-                contextMenu?: { [key]: ContextMenuOption };
+            }
+
+            declare namespace Shape {
+
+                interface PolyLine extends ShapeBaseTYpe { 
+                    latlngs: LatLng[];
+                }
+
+                interface Polygon extends ShapeBaseTYpe { 
+                    latlngs: LatLng[];
+                }
+
+                interface Rectangle extends ShapeBaseTYpe {
+                    southEast: LatLng;
+                    northWest: LatLng;
+                }
+
+                interface Marker extends ShapeBaseTYpe {
+                    latlng: LatLng;
+                    rotationAngle?: number;
+                    icon?: MarkerIconInfo;
+                    popupContent?: string;
+                    popup?: PopupOptions;
+                    contextMenu?: { [key]: ContextMenuOption };    
+                }
+
+                interface Circle extends ShapeBaseTYpe {
+                    latlng: LatLng;
+                    radius?: number;
+                }
+
+                interface Sector extends Circle {
+                    size: number;
+                    direction: number;
+                }
+    
+            }
+
+            type ShapeInfo = Shape.Marker | Shape.Rectangle | Shape.Circle | Shape.PolyLine | Shape.Sector | Shape.Polygon;
+
+            interface Position {
+                x: number;
+                y: number;
+            }
+
+            declare namespace Plugins {
+                declare namespace Editor {
+
+                    type Events = 'mapshapecreated' | 'mapshapeedited' | 'mapshapedeleted'
+
+                    declare namespace EventData {
+                        interface MapShapeCreated extends ShapeInfo {
+
+                        }
+
+                        interface MapShapeEdited {
+                            editedShapes: string[];
+                        }
+
+                        interface MapShapeDeleted {
+                            deletedShapes: string[];
+                        }
+
+                    }
+
+                    interface Config {
+                        editLayer: string;
+                    }
+                }
+            }
+
+            type Events = 'mapcontextmenu' | 'mapclick' | 'mapshapecontextmenu';
+
+            declare namespace EventData {
+                interface MapClick {
+                    latlng: LatLng;
+                }
+
+                interface MapContextMenu {
+                    latlng: LatLng;
+                    cmd: string;
+                }
+
+                interface MapShapeContextMenu extends MapContextMenu {
+                    id: string;
+                    pos: Position;
+                }
+            }
+
+            interface Props {
+                tileUrl: string;
+                center?: LatLng;
+                zoom?: number;
+                scale?: boolean;
+                coordinates?: boolean;
+                contextMenu?: { [key]: ContextMenu.Item };
+                layers?: { [layerId: string]: LayerInfo };
+                plugins?: { [key]: object };
+                shapes?: {[shapeId: string]: ShapeInfo};
             }
 
             interface Interface {
@@ -436,7 +518,7 @@ declare namespace Brainjs {
                 removeShape(shapeId: string): void;
                 getShapeInfo(shapeId: string): ShapeInfo;
                 enableHandlers(enabled: boolean): void;
-                getZoom(): ZoomLevel;
+                getZoom(): number;
                 getCenter(): LatLng;
                 panTo(latlng: LatLng);
                 flyTo(latlng: LatLng, zoom: number): void;
