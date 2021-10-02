@@ -17,9 +17,9 @@
             this.model = $.extend(true, {}, options.data)
 
             const { ctx, scope, events, ctrls } = $$.binding.parse(elt.get(0),
-                (name, value, excludeElt) => {
+                (name, value) => {
                     //console.log('[ViewController] updateCbk', name, value, excludeElt)
-                    this.setData(name, value, excludeElt)
+                    this.setData(name, value)
                 })
 
             this.ctx = ctx
@@ -41,22 +41,16 @@
 
         }
 
-        setData(arg1, arg2, excludeElt) {
-            //console.log('[ViewController] setData', arg1, arg2, excludeElt)
-            var data = arg1
-            if (typeof arg1 == 'string') {
-                data = {}
-                data[arg1] = arg2
-            }
+        setData(data, forceUpdate) {
             //console.log('[ViewController] setData', data)
             $.extend(this.model, data)
             //console.log('model', this.model)
-            this.update(excludeElt)
+            this.update(forceUpdate)
         }
 
-        update(excludeElt) {
+        update(forceUpdate) {
             //console.log('[ViewController] update', fieldsName, excludeElt)
-            $$.binding.render(this.ctx, this.model, excludeElt)
+            $$.binding.render(this.ctx, this.model, forceUpdate)
 
         }
 

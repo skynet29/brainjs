@@ -404,23 +404,16 @@
   }
 
 
-  function render(ctx, data) {
-    //console.log('render', ctx, data)
+  function render(ctx, data, forceUpdate = false) {
+    //console.log('render', ctx, data, forceUpdate)
 
     for (let info of ctx) {
       const { attrName, attrValue, node, oldValue, enabled } = info
 
       const value = $$.eval.evaluate(data, attrValue)
-      // console.log('evaluate', attrValue)
-      // if (value == undefined) {
-      //   console.warn('return', value)
-      // }
-      // else {
-      //   console.log('return', value)
-      // }
       const strValue = JSON.stringify(value)
 
-      if (enabled === false || (oldValue != undefined && oldValue == strValue)) {
+      if (enabled === false || (forceUpdate == false && oldValue != undefined && oldValue == strValue)) {
         continue
       }
 

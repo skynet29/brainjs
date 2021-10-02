@@ -7,6 +7,7 @@ declare namespace $$ {
     interface GulpInject {
         gulp_inject: string;
     }
+
     declare namespace control {
         interface RegisterControlOptions {
             deps?: string[];
@@ -173,6 +174,26 @@ declare namespace $$ {
 
 
 declare namespace Brainjs {
+
+    declare namespace Services {
+
+        declare namespace Http {
+            interface Interface {
+                get(url: string, params?: { [param]: any }): Promise;
+    
+                fetch(url: string, params?: { [param]: any }): Promise;
+    
+                post(url: string, params?: { [param]: any }): Promise;
+                put(url: string, params?: { [param]: any }): Promise;
+                postFormData(url: string, fd: FormData, onUploadProgress: () => void): Promise;
+
+            }
+        }
+
+        declare namespace Resource {
+            type Interface = (prefix: string) => Http.Interface;
+        }
+    }
 
     declare namespace Controls {
 
@@ -383,18 +404,19 @@ declare namespace Brainjs {
                 visible?: boolean;
             }
 
-
-            type ShapeType = 'marker' | 'circleMarker' | 'circle' | 'sector' | 'rectangle' | 'polyline' | 'polygon';
-
-            type MarkerType = 'ais' | 'font'
-
-            interface MarkerIconInfo {
-                type: MarkerType;
-                color?: string;
-                className?: string;
-                fontSize?: number;
-
+            interface AisMarkerInfo {
+                type: 'ais',
+                color?: string; // default 'green'
             }
+
+            interface FontMarkerInfo {
+                type: 'font';
+                color?: string;     // default 'green'
+                className?: string; // default 'fa fa-home'
+                fontSize?: number;  // default 10
+            }
+
+            type MarkerIconInfo = AisMarkerInfo | FontMarkerInfo
 
             interface PopupOptions {
                 content?: string;
@@ -407,41 +429,65 @@ declare namespace Brainjs {
                 iconCls: string;
             }
 
-            interface ShapeBaseTYpe {
-                type?: ShapeType;
+            interface ShapeBase {
                 layer?: string;
+            }
+
+            interface VectorShapeStyle {
+                stroke?: boolean;
+                color?: string;          // stroke color, default "#3388ff"
+                weight?: number;        // stroke width
+                opcity?: number;        // stroke opacity, default 1.0
+                lineCap?: string;       // default 'round'
+                lineJoin?: string;      // default 'round'
+                dashArray?: string;
+                fill?: boolean;
+                fillColor?: string;
+                fillOpacity?: number;   // default 0.2
+                fillRule?: string;      // default 'evenodd'
+
+            }
+
+            interface VectorShape extends ShapeBase {
+                style?: VectorShapeStyle;
             }
 
             declare namespace Shape {
 
-                interface PolyLine extends ShapeBaseTYpe { 
+                interface PolyLine extends VectorShape { 
+                    type: 'polyline';
                     latlngs: LatLng[];
                 }
 
-                interface Polygon extends ShapeBaseTYpe { 
+                interface Polygon extends VectorShape { 
+                    type: 'polygon';
                     latlngs: LatLng[];
                 }
 
-                interface Rectangle extends ShapeBaseTYpe {
+                interface Rectangle extends VectorShape {
+                    type: 'rectangle';
                     southEast: LatLng;
                     northWest: LatLng;
                 }
 
-                interface Marker extends ShapeBaseTYpe {
+                interface Marker extends ShapeBase {
+                    type: 'marker';
                     latlng: LatLng;
                     rotationAngle?: number;
                     icon?: MarkerIconInfo;
                     popupContent?: string;
                     popup?: PopupOptions;
-                    contextMenu?: { [key]: ContextMenuOption };    
+                    contextMenu?: { [key: string]: ContextMenuOption };    
                 }
 
-                interface Circle extends ShapeBaseTYpe {
+                interface Circle extends VectorShape {
+                    type: 'circle';
                     latlng: LatLng;
-                    radius?: number;
+                    radius: number;
                 }
 
                 interface Sector extends Circle {
+                    type: 'sector'
                     size: number;
                     direction: number;
                 }
@@ -513,7 +559,7 @@ declare namespace Brainjs {
 
             interface Interface {
                 getShapes(): string[];
-                updateShape(shapeId: string, options: ShapeInfo): void;
+                updateShape(shapeId: string, options: {[shapeProp: string]: any}): void;
                 addShape(shapeId: string, options: ShapeInfo): void;
                 removeShape(shapeId: string): void;
                 getShapeInfo(shapeId: string): ShapeInfo;
@@ -525,6 +571,20 @@ declare namespace Brainjs {
             }
         }
 
+        declare namespace Image {
+            interface Props {
+                src: string;
+            }
+
+            interface Interface {
+                invalidateSize(): void;
+                enableHandlers(isEnabled: boolean): void;
+                enableContextMenu(isEnabled: boolean); void;
+                fitImage(): void;
+                rotate(angleDeg: number): void;
+                setData(data: Props): void;
+            }
+        }
         declare namespace MilSymbol {
             interface Props {
                 size: number;
