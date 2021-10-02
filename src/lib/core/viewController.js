@@ -19,7 +19,9 @@
             const { ctx, scope, events, ctrls } = $$.binding.parse(elt.get(0),
                 (name, value) => {
                     //console.log('[ViewController] updateCbk', name, value, excludeElt)
-                    this.setData(name, value)
+                    const data = {}
+                    data[name] = value
+                    this.setData(data)
                 })
 
             this.ctx = ctx

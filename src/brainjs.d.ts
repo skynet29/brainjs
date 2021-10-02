@@ -132,7 +132,7 @@ declare namespace $$ {
         updateNode(bindingName: string): void;
         updateNodeTree(bindingName: string): void;
         enableNode(bindingName: string, isEnabled:boolean): void;
-        setData(data: object): void;
+        setData(data: object, forceUpdate: boolean = false): void;
         removeArrayItem(arrayBindingName: string, idx: number, varName?: string): void;
         updateArrayItem(arrayBindingName: string, idx: number, value: any, varName?: string): void;
         insertArrayItemAfter(arrayBindingName: string, idx: number, value: any, varName?: string): void;
