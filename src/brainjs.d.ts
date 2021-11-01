@@ -70,6 +70,8 @@ declare namespace $$ {
         function concatTypedArray(a, b);
         function wait(delayMs: number): Promise;
         function objToArray2(obj: Object):{name: string, value:any}[];
+        function mergeArray(a: Array<T>, b: Array<T>): Array<T>;
+
     };
 
     declare namespace ui {
@@ -596,9 +598,17 @@ declare namespace Brainjs {
 }
 
 interface JQuery {
-    getFormData(): { [fieldName]: string };
+    getFormData(): object;
     getValue(): any;
     setValue(val: any): void;
+    setProp(props: object): void;
+    setData(data: object): void;
+    setClass(data: { [fieldName: string]: boolean })
+    setVisible(isVisble: boolean): void;
+    setFormData(data: object): void;
+    safeEmpty(): void;
+    setItems(items: string[] | ({label: string, value: string})[])
     iface(): any;
     resetForm(): void;
+    scrollToBottom(): void;
 }
