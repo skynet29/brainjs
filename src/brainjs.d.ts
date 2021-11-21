@@ -52,12 +52,14 @@ declare namespace $$ {
     }
 
     declare namespace media {
-        interface VideoDevice {
+        interface InputDevice {
             id: string;
             label: string;
         };
 
-        function getVideoDevices(): Promise<VideoDevice[]>;
+        function getAudioInputDevices(): Promise<InputDevice[]>;
+        function getVideoDevices(): Promise<InputDevice[]>;
+        
         function decodeAudioData(blob: Blob): Promise<AudioBuffer>;
     }
 
@@ -242,6 +244,19 @@ declare namespace Brainjs {
                 select(idx: number): this;
                 closeMenu(callback: () => void);
                 showMenu(x: number, y: number): void;
+            }
+        }
+
+        declare namespace Slider {
+
+            type Events = 'sliderchange' | 'input'
+
+            interface Props {
+                max: number;    // default 100
+                min: number;    // default 0
+                step: number    // default 1
+                orientation: 'horizontal' | 'vertical'; // default horizontal     
+                range: boolean; // default false           
             }
         }
 
@@ -439,7 +454,7 @@ declare namespace Brainjs {
                 stroke?: boolean;
                 color?: string;          // stroke color, default "#3388ff"
                 weight?: number;        // stroke width
-                opcity?: number;        // stroke opacity, default 1.0
+                opacity?: number;        // stroke opacity, default 1.0
                 lineCap?: string;       // default 'round'
                 lineJoin?: string;      // default 'round'
                 dashArray?: string;

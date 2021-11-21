@@ -184,6 +184,10 @@
 			setTimeout(resolve, delayMs)
 		})
 	}
+
+	function mergeArray(a, b) {
+		return [...new Set([...a, ...b])] 
+	}
 	
 
 	$$.util = {
@@ -198,7 +202,8 @@
 		isTouchDevice,
 		knuthShuffle,
 		concatTypedArray,
-		wait
+		wait,
+		mergeArray
 	}
 
 

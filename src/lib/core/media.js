@@ -1,20 +1,33 @@
 (function() {
 
-	function getVideoDevices() {
-		return navigator.mediaDevices.enumerateDevices().then((mediaDevices) => {
-			const ret = []
-			let count = 1
-			mediaDevices.forEach((mediaDevice) => {
-				if (mediaDevice.kind == 'videoinput') {
-					ret.push({
-						id: mediaDevice.deviceId,
-						label: mediaDevice.label || `Camera ${count++}`
-					})
-				}
-			})
-			return ret
-
+	async function getVideoDevices() {
+		const mediaDevices = await navigator.mediaDevices.enumerateDevices()
+		const ret = []
+		let count = 1
+		mediaDevices.forEach((mediaDevice) => {
+			if (mediaDevice.kind == 'videoinput') {
+				ret.push({
+					id: mediaDevice.deviceId,
+					label: mediaDevice.label || `Camera ${count++}`
+				})
+			}
 		})
+		return ret
+	}
+
+	async function getAudioInputDevices() {
+		const mediaDevices = await navigator.mediaDevices.enumerateDevices()
+		const ret = []
+		let count = 1
+		mediaDevices.forEach((mediaDevice) => {
+			if (mediaDevice.kind == 'audioinput') {
+				ret.push({
+					id: mediaDevice.deviceId,
+					label: mediaDevice.label || `Audio ${count++}`
+				})
+			}
+		})
+		return ret
 	}
 
 	function decodeAudioData(blob) {
@@ -34,6 +47,7 @@
 
     $$.media = {
         getVideoDevices,
+		getAudioInputDevices,
         decodeAudioData
     }
 })();
