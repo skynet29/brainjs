@@ -61,6 +61,8 @@ declare namespace $$ {
         function getVideoDevices(): Promise<InputDevice[]>;
         
         function decodeAudioData(blob: Blob): Promise<AudioBuffer>;
+        function getAudioBuffer(url: string): Promise<AudioBuffer>;
+        
     }
 
     declare namespace util {
@@ -258,6 +260,10 @@ declare namespace Brainjs {
                 orientation: 'horizontal' | 'vertical'; // default horizontal     
                 range: boolean; // default false           
             }
+        }
+
+        declare namespace Flipswitch {
+            type Events = 'flipswitchchange'
         }
 
         declare namespace Camera {

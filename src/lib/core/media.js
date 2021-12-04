@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
 	async function getVideoDevices() {
 		const mediaDevices = await navigator.mediaDevices.enumerateDevices()
@@ -45,9 +45,31 @@
 		})
 	}
 
-    $$.media = {
-        getVideoDevices,
+	function getAudioBuffer(url) {
+		return new Promise((resolve, reject) => {
+			const audioCtx = new AudioContext()
+
+			const requete = new XMLHttpRequest();
+
+			requete.open('GET', url, true);
+
+			requete.responseType = 'arraybuffer';
+
+			requete.onload = function () {
+				audioCtx.decodeAudioData(requete.response).then((buffer) => {
+					resolve(buffer)
+				})
+			}
+
+			requete.send()
+		})
+
+	}
+
+	$$.media = {
+		getVideoDevices,
 		getAudioInputDevices,
-        decodeAudioData
-    }
+		decodeAudioData,
+		getAudioBuffer
+	}
 })();

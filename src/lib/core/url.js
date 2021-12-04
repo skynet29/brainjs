@@ -65,7 +65,9 @@
 	}    
 
     function parseUrlParams(url) {
-		const params = new URLSearchParams(url)
+		//console.log('parseUrlParams', url)
+		const urlObject = new URL(url)
+		const params = urlObject.searchParams
 		//console.log('params', params)
 		const ret = {}
 		for (let p of params) {
