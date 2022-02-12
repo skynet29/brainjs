@@ -1,3 +1,4 @@
+
 $$.control.registerControl('brainjs.pdf', {
 
 	props: {
@@ -9,39 +10,36 @@ $$.control.registerControl('brainjs.pdf', {
 
 		const { worker } = this.props
 
-		const div = $('<div>').css('height', '100%').appendTo(elt).get(0)
+		const zoomStep = 0.125
 
-		const map = L.map(div, {
-			crs: L.CRS.Simple,
-			attributionControl: false,
-			zoomControl: false,
-			minZoom: -4,
-			zoomSnap: 0.25
-		})
 
-		let bounds
-		let imageOverlay = null
+		const div = $('<div>').css({ height: '100%', width: '100%', overflow: 'scroll', 'text-align': 'center' }).appendTo(elt).get(0)
+
 
 		const pdfjsLib = window['pdfjs-dist/build/pdf']
 
 		pdfjsLib.GlobalWorkerOptions.workerSrc = worker
 
-		elt.css({ 'text-align': 'center', width: '100%' })
+		elt.css({ flex: '1', overflow: 'hidden' })
 
 		const canvas = document.createElement('canvas')
+		div.appendChild(canvas)
 		const canvasContext = canvas.getContext('2d')
 		let pdfDoc = null
-		let scale = 1.5
+		let scale = 1
 		let currentPage = 1
 
-
+		let pageWidth
+		let pageHeight
 
 		async function renderPage(pageNo) {
 			//console.log('renderPage', pageNo)
 
 			const page = await pdfDoc.getPage(pageNo)
+			const { width, height } = page.getViewport(1)
+			pageWidth = width
+			pageHeight = height
 			const viewport = page.getViewport(scale)
-			//console.log('viewport', viewport)
 			canvas.width = viewport.width
 			canvas.height = viewport.height
 
@@ -51,21 +49,19 @@ $$.control.registerControl('brainjs.pdf', {
 				viewport
 			})
 
-			const dataUrl = canvas.toDataURL('image/png')
-
-			//console.log('width: ', width, ' height:', height)
-			bounds = [[0, 0], [canvas.height, canvas.width]]
-			if (imageOverlay == null) {
-				imageOverlay = L.imageOverlay(dataUrl, bounds).addTo(map)
-			}
-			else {
-				imageOverlay.setBounds(L.latLngBounds(bounds))
-				imageOverlay.setUrl(dataUrl)
-			}
-			map.fitBounds(bounds)
 			return pageNo
 		}
 
+
+		this.zoomOut = function () {
+			scale = Math.max(zoomStep, scale - zoomStep)
+			return renderPage(currentPage)
+		}
+
+		this.zoomIn = function () {
+			scale += zoomStep
+			return renderPage(currentPage)
+		}
 
 		this.nextPage = function () {
 			return this.setPage(currentPage + 1)
@@ -91,9 +87,10 @@ $$.control.registerControl('brainjs.pdf', {
 		}
 
 		this.fit = function () {
-			if (bounds != undefined) {
-				map.fitBounds(bounds)
-			}
+			const scaleX = div.clientWidth / pageWidth
+			const scaleY = div.clientHeight / pageHeight
+			scale = Math.min(scaleX, scaleY)
+			return renderPage(currentPage)
 		}
 
 		this.print = async function (options) {

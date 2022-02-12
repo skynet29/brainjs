@@ -112,7 +112,7 @@ declare namespace $$ {
         interface FormOptions {
             title: string;
             fields: { [fieldName]: FieldDescriptor };
-            data: { [fieldName]: any };
+            data?: { [fieldName]: any };
         };
 
         function showForm(formDesc: FormOptions, onApply: (data: { [fieldName]: any }) => void): void;
