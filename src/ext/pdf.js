@@ -49,7 +49,7 @@ $$.control.registerControl('brainjs.pdf', {
 			await page.render({
 				canvasContext,
 				viewport
-			})
+			}).promise
 
 			return pageNo
 		}
