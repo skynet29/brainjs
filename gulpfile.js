@@ -184,7 +184,7 @@ const pdfJs = task('pdf.js',
 	[
 		'./externals/pdf/pdf.min.js'
 	], 
-	{concat: 'brainjs-pdf.js', dest: 'pdf'}
+	{concat: 'brainjs-pdf.js'}
 )
 
 const pdfWorkerJs = task('pdf.worker.js', 
@@ -225,7 +225,7 @@ exports.default = all
 
 		
 exports.watch = gulp.series(all, function() {
-	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html'], brainjsJs)
+	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html', './src/ext/pdf.js'], brainjsJs)
 	gulp.watch(['./src/lib/core/core.css', './src/lib/controls/**/*.css'], brainjsCss)
 	gulp.watch(['./src/ext/tree.js'], treeJs)
 	gulp.watch(['./src/ext/map/**/*.js', './src/ext/map/**/*.html'], gulp.series(mapJs, mapEditorJs))
@@ -234,7 +234,6 @@ exports.watch = gulp.series(all, function() {
 	gulp.watch(['./src/ext/circularmenu/*.js', './src/ext/circularmenu/*.html'], circularMenuJs)
 	gulp.watch(['./src/ext/circularmenu/*.css'], circularMenuCss)
 	gulp.watch(['./src/ext/flightpanel.js'], flightPanelJs)
-	gulp.watch(['./src/ext/pdf.js'], pdfJs)
 
 	gulp.watch(['./demo/src/*.html', './demo/src/*.js', './demo/index.html'], demo)
 
