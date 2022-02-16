@@ -364,7 +364,11 @@ declare namespace Brainjs {
                 prevPage(): Promise<number>;
                 nextPage(): Promise<number>;
                 setPage(pageNo: number): Promise<number>;
-                fit(): void;
+                fit(): Promise;
+                zoomIn(): Promise;
+                zoomOut(): Promise;
+                rotateLeft(): Promise;
+                rotateRight(): Promise;
                 print(): Promise;
             }
         }

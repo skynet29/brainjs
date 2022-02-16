@@ -17,6 +17,7 @@ $$.control.registerControl('brainjs.pdf', {
 
 
 		const pdfjsLib = window['pdfjs-dist/build/pdf']
+		console.log('pdfVersion', pdfjsLib.version)
 
 		pdfjsLib.GlobalWorkerOptions.workerSrc = worker
 
@@ -28,6 +29,7 @@ $$.control.registerControl('brainjs.pdf', {
 		let pdfDoc = null
 		let scale = 1
 		let currentPage = 1
+		let rotation = 0
 
 		let pageWidth
 		let pageHeight
@@ -36,10 +38,10 @@ $$.control.registerControl('brainjs.pdf', {
 			//console.log('renderPage', pageNo)
 
 			const page = await pdfDoc.getPage(pageNo)
-			const { width, height } = page.getViewport(1)
+			const { width, height } = page.getViewport({scale: 1, rotation})
 			pageWidth = width
 			pageHeight = height
-			const viewport = page.getViewport(scale)
+			const viewport = page.getViewport({scale, rotation})
 			canvas.width = viewport.width
 			canvas.height = viewport.height
 
@@ -50,6 +52,18 @@ $$.control.registerControl('brainjs.pdf', {
 			})
 
 			return pageNo
+		}
+
+		this.rotateLeft = function() {
+			rotation = (rotation - 90) % 360
+			//console.log('rotateLeft', rotation)
+			return renderPage(currentPage)
+		}
+
+		this.rotateRight = function() {
+			rotation = (rotation + 90) % 360
+			//console.log('rotateRight', rotation)
+			return renderPage(currentPage)
 		}
 
 
@@ -81,7 +95,7 @@ $$.control.registerControl('brainjs.pdf', {
 
 		this.openFile = async function (url) {
 			//console.log('[pdf] openFile', url)
-			pdfDoc = await pdfjsLib.getDocument(url)
+			pdfDoc = await pdfjsLib.getDocument(url).promise
 			await renderPage(currentPage)
 			return pdfDoc.numPages
 		}

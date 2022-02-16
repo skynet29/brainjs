@@ -14,7 +14,9 @@ const brainjsJs = task('brainjs.js',
 		'./src/lib/index.js',
 		'./src/lib/core/*.js',
 		'./src/lib/controls/**/*.js',
-		'./src/lib/services/*.js'
+		'./src/lib/services/*.js',
+		'./src/ext/pdf.js',
+
 	],
 	{isCode: true, concat: 'brainjs.js'}
 
@@ -180,10 +182,9 @@ const flightPanelJs = task('flightpanel.js',
 
 const pdfJs = task('pdf.js', 
 	[
-		'./externals/pdf/pdf.min.js',
-		'./src/ext/pdf.js',
+		'./externals/pdf/pdf.min.js'
 	], 
-	{concat: 'brainjs-pdf.js', isCode: true}
+	{concat: 'brainjs-pdf.js', dest: 'pdf'}
 )
 
 const pdfWorkerJs = task('pdf.worker.js', 
