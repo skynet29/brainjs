@@ -370,6 +370,7 @@ declare namespace Brainjs {
                 rotateLeft(): Promise;
                 rotateRight(): Promise;
                 print(): Promise;
+                refresh():Promise;
             }
         }
 

@@ -54,27 +54,33 @@ $$.control.registerControl('brainjs.pdf', {
 			return pageNo
 		}
 
+		function refresh() {
+			return renderPage(currentPage)
+		}
+
+		this.refresh = refresh
+		
 		this.rotateLeft = function() {
 			rotation = (rotation - 90) % 360
 			//console.log('rotateLeft', rotation)
-			return renderPage(currentPage)
+			return refresh()
 		}
 
 		this.rotateRight = function() {
 			rotation = (rotation + 90) % 360
 			//console.log('rotateRight', rotation)
-			return renderPage(currentPage)
+			return refresh()
 		}
 
 
 		this.zoomOut = function () {
 			scale = Math.max(zoomStep, scale - zoomStep)
-			return renderPage(currentPage)
+			return refresh()
 		}
 
 		this.zoomIn = function () {
 			scale += zoomStep
-			return renderPage(currentPage)
+			return refresh()
 		}
 
 		this.nextPage = function () {
@@ -84,7 +90,7 @@ $$.control.registerControl('brainjs.pdf', {
 		this.setPage = function (pageNo) {
 			if (pageNo > 0 && pageNo <= pdfDoc.numPages) {
 				currentPage = pageNo
-				return renderPage(currentPage)
+				return refresh()
 			}
 			return Promise.resolve(currentPage)
 		}
@@ -96,7 +102,7 @@ $$.control.registerControl('brainjs.pdf', {
 		this.openFile = async function (url) {
 			//console.log('[pdf] openFile', url)
 			pdfDoc = await pdfjsLib.getDocument(url).promise
-			await renderPage(currentPage)
+			await refresh()
 			return pdfDoc.numPages
 		}
 
@@ -104,7 +110,7 @@ $$.control.registerControl('brainjs.pdf', {
 			const scaleX = div.clientWidth / pageWidth
 			const scaleY = div.clientHeight / pageHeight
 			scale = Math.min(scaleX, scaleY)
-			return renderPage(currentPage)
+			return refresh()
 		}
 
 		this.print = async function (options) {
