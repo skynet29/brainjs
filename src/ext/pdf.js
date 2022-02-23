@@ -59,7 +59,7 @@ $$.control.registerControl('brainjs.pdf', {
 		}
 
 		this.refresh = refresh
-		
+
 		this.rotateLeft = function() {
 			rotation = (rotation - 90) % 360
 			//console.log('rotateLeft', rotation)
@@ -150,12 +150,12 @@ $$.control.registerControl('brainjs.pdf', {
 				await page.render({
 					canvasContext,
 					viewport
-				})
+				}).promise
 
 				html.push(`<img src=${canvas.toDataURL('image/png')}>`)
 			}
 
-			html.push('<body>')
+			html.push('</body>')
 			const documentToWriteTo = ifr.contentWindow.document
 			documentToWriteTo.open()
 			documentToWriteTo.write(html.join(''))
