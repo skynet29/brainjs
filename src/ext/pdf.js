@@ -141,7 +141,7 @@ $$.control.registerControl('brainjs.pdf', {
 
 			for (let i = 1; i <= pdfDoc.numPages; i++) {
 				const page = await pdfDoc.getPage(i)
-				const viewport = page.getViewport(scale)
+				const viewport = page.getViewport({scale: 1})
 				//console.log('viewport', viewport)
 				canvas.width = viewport.width
 				canvas.height = viewport.height
@@ -151,6 +151,10 @@ $$.control.registerControl('brainjs.pdf', {
 					canvasContext,
 					viewport
 				}).promise
+
+				if (typeof options.onProgress == 'function') {
+					options.onProgress({page: i})
+				}
 
 				html.push(`<img src=${canvas.toDataURL('image/png')}>`)
 			}

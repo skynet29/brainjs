@@ -369,7 +369,7 @@ declare namespace Brainjs {
                 zoomOut(): Promise;
                 rotateLeft(): Promise;
                 rotateRight(): Promise;
-                print(): Promise;
+                print(options?: {title?: string, onProgress?: (data: {page: number}) => void}): Promise;
                 refresh():Promise;
             }
         }
