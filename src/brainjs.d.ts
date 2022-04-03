@@ -83,14 +83,14 @@ declare namespace $$ {
         function openFileDialog(callback: (result: File | FileList) => void, multiple: boolean = false): void;
 
         interface ShowConfirmOptions {
-            title: string;
+            title?: string;
             content: string;
             okText?: string;
             cancelText?: string;
         }
         function showConfirm(options: ShowConfirmOptions, callback: () => void): void;
 
-        function showAlert(options, callback?: () => void): void;
+        function showAlert(options: ShowConfirmOptions, callback?: () => void): void;
 
         interface ShowPromptOptions {
             label: string;
@@ -165,16 +165,25 @@ declare namespace $$ {
     }
 
     interface DialogControllerOptions extends ViewControllerOptions {
-        title: string;
-        canClose: boolean;
-        template: string;
-        width: number;
-        resizable: boolean;
+        title?: string;
+        canClose?: boolean;
+        template: string | {gulp_inject: string};
+        width?: number;
+        resizable?: boolean;
     };
 
     function viewController(elt: JQuery, options: ViewControllerOptions): ViewController;
-
     function dialogController(options: DialogControllerOptions): DialogController;
+
+    interface FormDialogController {
+        show(formData?: object, isReset?: boolean): Promise<object>;
+        setData(data: object): void;
+        destroy(): void;
+
+    }
+
+
+    function formDialogController(options: DialogControllerOptions): FormDialogController;
 
 }
 

@@ -21,7 +21,7 @@ $$.formDialogController = function(options) {
 		options.template.children().clone().appendTo(form)
 	}
 
-	$$.viewController(form, {
+	const ctrl = $$.viewController(form, {
 		data: options.data,
 		events: options.events
 	})
@@ -53,23 +53,21 @@ $$.formDialogController = function(options) {
 
 
 	return {
-		show: function() {
+		show: function(data, isReset) {
+			if (isReset === true) {
+				form.resetForm()
+			}
+			if (data) {
+				form.setFormData(data)
+			}
 			retValue = null			
 			return new Promise((resolve) => {
 				private.resolve = resolve			
 				div.dialog('open')					
 			})
 		},
-		setData: function(data, isReset) {
-			if (isReset === true) {
-				form.resetForm()
-			}
-			form.setFormData(data)
-			return this
-		},
-
-		getData: function() {
-			return form.getFormData()
+		setData: function(data) {
+			return ctrl.setData(data)
 		},
 
 		destroy: function() {

@@ -1,5 +1,9 @@
+.ui-dialog { 
+	z-index: 1000 !important ;
+}
+
 .ui-front {
-	z-index: 1000;
+	z-index: 1001;
 }
 
 .no-close .ui-dialog-titlebar-close {
