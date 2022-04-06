@@ -178,6 +178,7 @@ declare namespace $$ {
     interface FormDialogController {
         show(formData?: object, isReset?: boolean): Promise<object>;
         setData(data: object): void;
+        getFormData(): object;
         destroy(): void;
 
     }

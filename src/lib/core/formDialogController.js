@@ -66,6 +66,9 @@ $$.formDialogController = function(options) {
 				div.dialog('open')					
 			})
 		},
+		getFormData() {
+			return form.getFormData()
+		},
 		setData: function(data) {
 			return ctrl.setData(data)
 		},
