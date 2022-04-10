@@ -81,7 +81,7 @@ function showPrompt(options) {
 	
 	const formDialog = $$.formDialogController(options)
 	if (options.value != undefined) {
-		formDialog.setData({value: options.value})
+		formDialog.setFormData({value: options.value})
 	}
 
 	return formDialog.show().then((data) => {

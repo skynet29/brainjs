@@ -179,6 +179,7 @@ declare namespace $$ {
         show(formData?: object, isReset?: boolean): Promise<object>;
         setData(data: object): void;
         getFormData(): object;
+        setFormData(data: object):void;
         destroy(): void;
 
     }
