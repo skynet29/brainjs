@@ -18,7 +18,7 @@ $$.control.registerControl('brainjs.camera', {
 		video.muted = true
 		$(video)
 
-			.css('object-fit', 'scale-down')
+			.css('object-fit', 'contain')
 			.css('width', '100%')
 			.css('height', '100%')
 			.on('play', function (ev) {
