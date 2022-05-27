@@ -72,9 +72,10 @@ declare namespace $$ {
         function isTouchDevice(): boolean;
         function knuthShuffle(length: number): number[];
         function concatTypedArray(a, b);
-        function wait(delayMs: number): Promise;
+        function wait(delayMs: number): Promise<void>;
         function objToArray2(obj: Object):{name: string, value:any}[];
         function mergeArray(a: Array<T>, b: Array<T>): Array<T>;
+        function getEnumName(enumVal: {[key:string]: number}): {[key:number]: string};
 
     };
 

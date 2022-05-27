@@ -189,6 +189,11 @@
 		return [...new Set([...a, ...b])] 
 	}
 	
+	function getEnumName(enumVal) {
+		const ret = {}
+		Object.entries(enumVal).forEach(([key, val]) => { ret[val] = key })
+		return ret
+	}	
 
 	$$.util = {
 		checkType,
@@ -203,7 +208,8 @@
 		knuthShuffle,
 		concatTypedArray,
 		wait,
-		mergeArray
+		mergeArray,
+		getEnumName
 	}
 
 
