@@ -16,16 +16,14 @@ $$.control.registerControl('brainjs.camera', {
 		const video = document.createElement('video')
 		video.autoplay = true
 		video.muted = true
-		$(video)
+		video.style.objectFit = 'contain'
+		video.style.width = '100%'
+		video.style.height = '100%'
+		video.onplay = function() {
+			elt.trigger('cameraready', stream)
+		}
 
-			.css('object-fit', 'contain')
-			.css('width', '100%')
-			.css('height', '100%')
-			.on('play', function (ev) {
-				//console.log('onCanPlay')
-				elt.trigger('cameraready', stream)
-			})
-			.appendTo(elt)
+		elt.append(video)
 
 		/**@type {MediaStream} */
 		let stream = null

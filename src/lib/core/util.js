@@ -195,6 +195,13 @@
 		return ret
 	}	
 
+	function mapRange(inMin, inMax, outMin, outMax) {
+		const pente = (outMax - outMin) / (inMax - inMin)
+		return function(val) {
+			return (val - inMin) * pente + outMin
+		}
+	}
+
 	$$.util = {
 		checkType,
 		safeEval,
@@ -209,7 +216,8 @@
 		concatTypedArray,
 		wait,
 		mergeArray,
-		getEnumName
+		getEnumName,
+		mapRange
 	}
 
 

@@ -76,6 +76,8 @@ declare namespace $$ {
         function objToArray2(obj: Object):{name: string, value:any}[];
         function mergeArray(a: Array<T>, b: Array<T>): Array<T>;
         function getEnumName(enumVal: {[key:string]: number}): {[key:number]: string};
+        function mapRange(inMin: number, inMax: number, outMin: number, outMax: number): (val: number) => number;
+
 
     };
 
@@ -197,13 +199,13 @@ declare namespace Brainjs {
 
         declare namespace Http {
             interface Interface {
-                get(url: string, params?: { [param]: any }): Promise;
+                get(url: string, params?: { [param]: any }): Promise<void>;
     
-                fetch(url: string, params?: { [param]: any }): Promise;
+                fetch(url: string, params?: { [param]: any }): Promise<Response>;
     
-                post(url: string, params?: { [param]: any }): Promise;
-                put(url: string, params?: { [param]: any }): Promise;
-                postFormData(url: string, fd: FormData, onUploadProgress: () => void): Promise;
+                post(url: string, params?: { [param]: any }): Promise<void>;
+                put(url: string, params?: { [param]: any }): Promise<void>;
+                postFormData(url: string, fd: FormData, onUploadProgress: () => void): Promise<void>;
 
             }
         }
