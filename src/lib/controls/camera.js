@@ -32,17 +32,22 @@ $$.control.registerControl('brainjs.camera', {
 		let imageCapture = null
 		let mediaRecorder = null
 		let chunks = []
+		let barcodeDetectionStarted = false
 
 		async function detectBarcode() {
+			//console.log('detectBarcode')
 			const bitmap = await imageCapture.grabFrame()
 
 			try {
 				const barcodes = await barcodeDetector.detect(bitmap)
-				if (barcodes.length == 0) {
-					setTimeout(detectBarcode, 1000)
-				}
-				else {
-					elt.trigger('barcode', barcodes[0])
+				//console.log('barcodes', barcodes)
+				if (barcodeDetectionStarted) {
+					if (barcodes.length == 0) {
+						setTimeout(detectBarcode, 1000)
+					}
+					else {
+						elt.trigger('barcode', barcodes[0])
+					}	
 				}
 			}
 			catch (e) {
@@ -78,6 +83,11 @@ $$.control.registerControl('brainjs.camera', {
 			}
 		}
 
+		this.stopBarcodeDetection = function () {
+			barcodeDetectionStarted = false
+		}
+
+
 		this.startBarcodeDetection = function () {
 			if (barcodeDetector == null) {
 				barcodeDetector = new BarcodeDetector()
@@ -86,6 +96,8 @@ $$.control.registerControl('brainjs.camera', {
 				const track = stream.getVideoTracks()[0];
 				imageCapture = new ImageCapture(track)
 			}
+
+			barcodeDetectionStarted = true
 			detectBarcode()
 		}
 
@@ -127,6 +139,10 @@ $$.control.registerControl('brainjs.camera', {
 			}
 			video.load()
 
+		}
+
+		this.isBarcodeDetectionAvailable = function() {
+			return (typeof BarcodeDetector == 'function')
 		}
 
 		this.takePicture = function () {

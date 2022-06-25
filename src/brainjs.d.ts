@@ -87,7 +87,7 @@ declare namespace $$ {
 
         interface ShowConfirmOptions {
             title?: string;
-            content: string;
+            content: string | {[label: string]: string};
             okText?: string;
             cancelText?: string;
         }
@@ -303,13 +303,15 @@ declare namespace Brainjs {
             interface Interface {
                 getCapabilities(): Promise<MediaTrackCapabilities>;
                 getSettings(): MediaTrackSettings;
-                startBarcodeDetection();
-                setZoom(value: number);
+                startBarcodeDetection(): void;
+                stopBarcodeDetection(): void;
+                isBarcodeDetectionAvailable(): boolean;
+                setZoom(value: number): void;
                 takePicture(): Promise<Blob>;
-                start();
-                stop();
-                startRecord();
-                stopRecord()
+                start(): void;
+                stop(): void;
+                startRecord(): void;
+                stopRecord(): void;
             }
         }
 
