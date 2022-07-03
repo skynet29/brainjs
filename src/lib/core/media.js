@@ -66,10 +66,41 @@
 
 	}
 
+	/**
+	 * 
+	 * @param {number} width 
+	 * @param {number} height 
+	 * @param {CanvasRenderingContext2D} context 
+	 * @param {AudioBuffer} buffer 
+	 * @param {string} color 
+	 */
+	function drawAudioBuffer( width, height, context, buffer, color ) {
+		var data = buffer.getChannelData( 0 );
+		var step = Math.floor( data.length / width );
+		var amp = height / 2;
+	
+		context.clearRect(0,0,width,height);
+		if (color)
+			context.fillStyle = color;
+		for(var i=0; i < width; i++){
+			var min = 1.0;
+			var max = -1.0;
+			for (j=0; j<step; j++) {
+				var datum = data[(i*step)+j]; 
+				if (datum < min)
+					min = datum;
+				if (datum > max)
+					max = datum;
+			}
+			context.fillRect(i,(1+min)*amp,1,Math.max(1,(max-min)*amp));
+		}
+	}	
+
 	$$.media = {
 		getVideoDevices,
 		getAudioInputDevices,
 		decodeAudioData,
-		getAudioBuffer
+		getAudioBuffer,
+		drawAudioBuffer
 	}
 })();

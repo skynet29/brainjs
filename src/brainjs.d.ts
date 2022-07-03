@@ -62,6 +62,8 @@ declare namespace $$ {
         
         function decodeAudioData(blob: Blob): Promise<AudioBuffer>;
         function getAudioBuffer(url: string): Promise<AudioBuffer>;
+
+        function drawAudioBuffer( width: number, height: number, context: CanvasRenderingContext2D, buffer: AudioBuffer, color: string ): void;
         
     }
 
