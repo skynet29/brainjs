@@ -194,6 +194,13 @@ const pdfWorkerJs = task('pdf.worker.js',
 	{concat: 'worker.js', dest: 'pdf'}
 )
 
+const beatDetectorJs = task('beatDetectorJs.worker.js', 
+[
+	'./src/ext/beatdetector.js',
+], 
+{concat: 'worker.js', dest: 'beatdetector', isCode:true}
+)
+
 const tree = gulp.series(treeJs, treeCss, treeImages, treeFonts)
 const map = gulp.series(mapJs, mapCss, mapImages)
 const milsymbol = gulp.series(milSymbolJs)
@@ -218,13 +225,15 @@ const all = gulp.series(
 	circularmenu,
 	flightpanel,
 	pdfJs,
-	pdfWorkerJs
+	pdfWorkerJs,
+	beatDetectorJs
 )
 
 exports.default = all
 
 		
 exports.watch = gulp.series(all, function() {
+	gulp.watch(['./src/ext/beatdetector.js'], beatDetectorJs)
 	gulp.watch(['./src/lib/**/*.js', './src/lib/**/*.html', './src/ext/pdf.js'], brainjsJs)
 	gulp.watch(['./src/lib/core/core.css', './src/lib/controls/**/*.css'], brainjsCss)
 	gulp.watch(['./src/ext/tree.js'], treeJs)
