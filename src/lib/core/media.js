@@ -96,12 +96,28 @@
 		}
 	}	
 
-	function getFormatedTime(duration) {
+	function format2(val) {
+		return val.toString().padStart(2, '0')
+	}
+
+	function getFormatedTime(duration, showMilliseconds = false) {
 		const d = new Date(duration * 1000)
-		if (d.getUTCHours() > 0)  {
-			return d.getUTCHours().toString() + ':' + d.getMinutes().toString().padStart(2, '0') + ':' + d.getSeconds().toString().padStart(2, '0')			
+		let sec = format2(d.getSeconds())
+		const ret = []
+
+		if (showMilliseconds) {
+			sec += '.' + format2(Math.trunc(d.getMilliseconds() / 10))
 		}
-		return d.getMinutes().toString() + ':' + d.getSeconds().toString().padStart(2, '0')
+
+		if (d.getUTCHours() > 0)  {
+			ret.push(d.getUTCHours())
+			ret.push(format2(d.getMinutes()))
+		}
+		else {
+			ret.push(d.getMinutes())
+		}
+		ret.push(sec)
+		return ret.join(':')
 	}	
 
 	$$.media = {

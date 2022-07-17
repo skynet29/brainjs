@@ -65,7 +65,7 @@ declare namespace $$ {
 
         function drawAudioBuffer( width: number, height: number, context: CanvasRenderingContext2D, buffer: AudioBuffer, color: string ): void;
 
-        function getFormatedTime(duration: number): string;
+        function getFormatedTime(duration: number, showMilliseconds: boolean = false): string;
         
     }
 
