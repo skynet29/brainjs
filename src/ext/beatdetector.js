@@ -40,7 +40,7 @@ function getPeaksAtThreshold(data, threshold, sampleRate) {
  * @returns {Array<{interval: number, peaks: Array<number>}>}
  */
 function countIntervalsBetweenNearbyPeaks(peaks) {
-    console.log('countIntervalsBetweenNearbyPeaks', peaks)
+    //console.log('countIntervalsBetweenNearbyPeaks', peaks)
     const intervalCounts = [];
     peaks.forEach((peak, index) => {
         const length = Math.min(peaks.length - index, 10)
@@ -81,16 +81,16 @@ function trunc(val) {
  * @returns 
  */
 function groupNeighborsByTempo(intervalBuckets, sampleRate) {
-    console.log('groupNeighborsByTempo', intervalBuckets)
+    //console.log('groupNeighborsByTempo', intervalBuckets)
 
     /**@type {Array<{score: number, tempo: number, peaks: Array<number>}>} */
     const tempoBuckets = []
     
     intervalBuckets.forEach((intervalBucket, i) => {
         // Convert an interval to tempo
-        console.log(i, intervalBucket)
+        //console.log(i, intervalBucket)
         let theoreticalTempo = 60 / (intervalBucket.interval / sampleRate);
-        console.log('theoreticalTempo', theoreticalTempo)
+        //console.log('theoreticalTempo', theoreticalTempo)
 
         // Adjust the tempo to fit within the 90-180 BPM range
         while (theoreticalTempo < 90) theoreticalTempo *= 2;
@@ -98,7 +98,7 @@ function groupNeighborsByTempo(intervalBuckets, sampleRate) {
 
         //theoreticalTempo = trunc(theoreticalTempo)
 
-        console.log('theoreticalTempo', theoreticalTempo)
+        //console.log('theoreticalTempo', theoreticalTempo)
 
         let score = intervalBucket.peaks.length
         let foundTempo = false
