@@ -3,9 +3,9 @@
 self.onmessage = function (ev) {
     console.log('Message received:', ev.data)
     const {channelData, sampleRate} = ev.data
-    const tempos = computeTempo(channelData, sampleRate)
-    console.log('tempos', tempos)
-    self.postMessage(tempos[0])
+    const info = guess(channelData, sampleRate)
+    console.log('tempoInfo', info)
+    self.postMessage(info)
 }
 
 // Function to identify peaks
@@ -150,7 +150,8 @@ function getMaximumValue(channelData) {
 const MINUMUM_NUMBER_OF_PEAKS = 30
 
 
-function computeTempo(channelData, sampleRate) {
+
+function computeTempoBuckets(channelData, sampleRate) {
     const maximumValue = getMaximumValue(channelData);
     console.log('maximumValue', maximumValue)
     const minimumThreshold = maximumValue * 0.3;
@@ -173,4 +174,30 @@ function computeTempo(channelData, sampleRate) {
     tempoBuckets.sort((a, b) => b.score - a.score);
 
     return tempoBuckets;
+}
+
+function guess(channelData, sampleRate) {
+    const tempoBuckets = computeTempoBuckets(channelData, sampleRate);
+
+    if (tempoBuckets.length === 0) {
+        throw new Error('The given channelData does not contain any detectable beats.');
+    }
+
+    const { peaks, tempo } = tempoBuckets[0];
+    const bpm = Math.round(tempo);
+    const secondsPerBeat = 60 / bpm;
+
+    peaks.sort((a, b) => a - b);
+
+    let offset = peaks[0] / sampleRate;
+
+    while (offset > secondsPerBeat) {
+        offset -= secondsPerBeat;
+    }
+
+    return {
+        bpm,
+        offset,
+        tempo
+    };    
 }

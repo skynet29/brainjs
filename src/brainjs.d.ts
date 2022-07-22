@@ -205,8 +205,8 @@ declare namespace Brainjs {
 
             interface BeatInfo {
                 tempo: number;
-                score: number;
-                peaks: Array<number>;
+                bpm: number;
+                offset: number;
             }
             
             interface Interface {
