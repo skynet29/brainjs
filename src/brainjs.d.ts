@@ -201,19 +201,6 @@ declare namespace Brainjs {
 
     declare namespace Services {
 
-        declare namespace BeatDetector {
-
-            interface BeatInfo {
-                tempo: number;
-                bpm: number;
-                offset: number;
-            }
-            
-            interface Interface {
-                computeBeatDetection(audioBuffer: AudioBuffer): Promise<BeatInfo>;
-            }
-        }
-
         declare namespace Http {
             interface Interface {
                 get(url: string, params?: { [param]: any }): Promise<void>;
