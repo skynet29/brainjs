@@ -5,7 +5,8 @@ $$.control.registerControl('brainjs.slider', {
 		min: 0, 
 		step: 1,
 		orientation: 'horizontal',
-		range: 'min'			
+		range: 'min',
+		showRange: true			
 	},
 
 	init: function(elt) {
@@ -36,6 +37,10 @@ $$.control.registerControl('brainjs.slider', {
 		}
 
 		elt.slider(options)
+
+		if (options.showRange === false) {
+			elt.find('.ui-slider-range').remove()
+		}
 
 		this.getValue = function() {
 			//console.log('[SliderControl] getValue')

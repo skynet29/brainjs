@@ -276,7 +276,8 @@ declare namespace Brainjs {
                 min: number;    // default 0
                 step: number    // default 1
                 orientation: 'horizontal' | 'vertical'; // default horizontal     
-                range: boolean; // default false           
+                range: boolean; // default false 
+                showRange: boolean;  // default true          
             }
         }
 
