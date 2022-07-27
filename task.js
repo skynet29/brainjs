@@ -7,6 +7,9 @@ var injectHTML = require('gulp-inject-stringified-html')
 var uglify = require('gulp-uglify-es').default
 var rename = require("gulp-rename")
 const eslint = require('gulp-eslint')
+const browserify = require('gulp-browserify')
+const bro = require('gulp-bro')
+const babelify = require('babelify')
 
 const isDev = process.env.NODE_ENV != 'production'
 console.log('isDev', isDev)
@@ -15,6 +18,14 @@ function source(dest, srcs, options) {
 	options = options || {}
 
 	let stream = gulp.src(srcs)
+
+	if (options.browserify === true) {
+		stream = stream.pipe(bro({
+				  transform: [
+					  babelify.configure({presets: ['@babel/env']})
+					]
+		        }))		
+	}	
 
 	if (options.isCode === true) {
 		stream = stream.pipe(injectHTML())
