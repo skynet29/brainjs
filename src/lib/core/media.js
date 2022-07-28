@@ -120,12 +120,87 @@
 		return ret.join(':')
 	}	
 
+
+	/**
+	 * 
+	 * @param {AudioContext} audioCtx 
+	 * @param {AudioBuffer} audioBuffer 
+	 * @param {AudioNode} node
+	 */
+	 function createPlayer(audioCtx, audioBuffer, node) {
+
+		let startTime = 0
+		let elapsedTime = 0
+		let playing = false
+		const events = new EventEmitter2()
+
+		/**@type {AudioBufferSourceNode} */
+		let sourceNode = null
+
+		function isPlaying() {
+			return playing
+		}
+
+		function play() {
+			sourceNode = audioCtx.createBufferSource()
+			sourceNode.onended = function() {
+				playing = false
+				events.emit('ended')
+			}
+			sourceNode.buffer = audioBuffer
+			startTime = audioCtx.currentTime
+			sourceNode.connect(node)
+			sourceNode.start(0, elapsedTime)
+			playing = true
+			events.emit('playing')
+		}
+
+		function pause() {
+			if (playing) {
+				sourceNode.onended = null
+				playing = false
+				elapsedTime += audioCtx.currentTime - startTime
+				sourceNode.stop()
+				events.emit('pause')	
+			}
+		}
+
+		function seek(time, restart = false) {
+			console.log('seek', {time, restart})
+			pause()
+			elapsedTime = Math.min(audioBuffer.duration, time)
+			if (restart) {
+				play()
+			}
+		}
+
+		function getCurrentTime() {
+			if (playing) {
+				const now = audioCtx.currentTime
+				elapsedTime += now - startTime
+				startTime = now
+			}
+			return elapsedTime
+
+		}
+
+		return {
+			play,
+			pause,
+			getCurrentTime,
+			on: events.on.bind(events),
+			seek,
+			isPlaying
+		}
+	}
+
 	$$.media = {
 		getVideoDevices,
 		getAudioInputDevices,
 		decodeAudioData,
 		getAudioBuffer,
 		drawAudioBuffer,
-		getFormatedTime
+		getFormatedTime,
+		createPlayer
 	}
 })();

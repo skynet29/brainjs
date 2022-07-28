@@ -57,6 +57,17 @@ declare namespace $$ {
             label: string;
         };
 
+        type PlayerEvents = 'playing' | 'pause' | 'ended'
+
+        interface PlayerInterface {
+            play():void;
+            pause():void;
+            getCurrentTime():number;
+            on(evtName: PlayerEvents, callback: () => void);
+            seek(time:number, restart: boolean = false):void;
+            isPlaying():boolean;
+        }
+
         function getAudioInputDevices(): Promise<InputDevice[]>;
         function getVideoDevices(): Promise<InputDevice[]>;
         
@@ -66,6 +77,8 @@ declare namespace $$ {
         function drawAudioBuffer( width: number, height: number, context: CanvasRenderingContext2D, buffer: AudioBuffer, color: string ): void;
 
         function getFormatedTime(duration: number, showMilliseconds: boolean = false): string;
+
+        function createPlayer(audioCtx: AudioContext, audioBuffer: AudioBuffer, node: AudioNode): PlayerInterface;
         
     }
 
@@ -220,6 +233,13 @@ declare namespace Brainjs {
     }
 
     declare namespace Controls {
+
+        declare namespace AudioPeakMeter {
+            interface Props {
+                audioCtx: AudioContext;
+                sourceNode: AudioNode;
+            }
+        }
 
         declare namespace FlightPanel {
             interface Props {
