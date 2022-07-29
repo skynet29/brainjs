@@ -127,7 +127,7 @@
 	 * @param {AudioBuffer} audioBuffer 
 	 * @param {AudioNode} node
 	 */
-	function createPlayer(audioCtx, audioBuffer, node) {
+	function createAudioPlayer(audioCtx, audioBuffer, node) {
 
 		let startTime = 0
 		let elapsedTime = 0
@@ -221,6 +221,6 @@
 		getAudioBuffer,
 		drawAudioBuffer,
 		getFormatedTime,
-		createPlayer
+		createAudioPlayer
 	}
 })();

@@ -59,7 +59,7 @@ declare namespace $$ {
 
         type PlayerEvents = 'playing' | 'pause' | 'ended'
 
-        interface PlayerInterface {
+        interface AudioPlayerInterface {
             play():void;
             pause():void;
             getCurrentTime():number;
@@ -80,7 +80,7 @@ declare namespace $$ {
 
         function getFormatedTime(duration: number, showMilliseconds: boolean = false): string;
 
-        function createPlayer(audioCtx: AudioContext, audioBuffer: AudioBuffer, node: AudioNode): PlayerInterface;
+        function createAudioPlayer(audioCtx: AudioContext, audioBuffer: AudioBuffer, node: AudioNode): AudioPlayerInterface;
         
     }
 
