@@ -74,27 +74,27 @@
 	 * @param {AudioBuffer} buffer 
 	 * @param {string} color 
 	 */
-	function drawAudioBuffer( width, height, context, buffer, color ) {
-		var data = buffer.getChannelData( 0 );
-		var step = Math.floor( data.length / width );
+	function drawAudioBuffer(width, height, context, buffer, color) {
+		var data = buffer.getChannelData(0);
+		var step = Math.floor(data.length / width);
 		var amp = height / 2;
-	
-		context.clearRect(0,0,width,height);
+
+		context.clearRect(0, 0, width, height);
 		if (color)
 			context.fillStyle = color;
-		for(var i=0; i < width; i++){
+		for (var i = 0; i < width; i++) {
 			var min = 1.0;
 			var max = -1.0;
-			for (j=0; j<step; j++) {
-				var datum = data[(i*step)+j]; 
+			for (j = 0; j < step; j++) {
+				var datum = data[(i * step) + j];
 				if (datum < min)
 					min = datum;
 				if (datum > max)
 					max = datum;
 			}
-			context.fillRect(i,(1+min)*amp,1,Math.max(1,(max-min)*amp));
+			context.fillRect(i, (1 + min) * amp, 1, Math.max(1, (max - min) * amp));
 		}
-	}	
+	}
 
 	function format2(val) {
 		return val.toString().padStart(2, '0')
@@ -109,7 +109,7 @@
 			sec += '.' + format2(Math.trunc(d.getMilliseconds() / 10))
 		}
 
-		if (d.getUTCHours() > 0)  {
+		if (d.getUTCHours() > 0) {
 			ret.push(d.getUTCHours())
 			ret.push(format2(d.getMinutes()))
 		}
@@ -118,7 +118,7 @@
 		}
 		ret.push(sec)
 		return ret.join(':')
-	}	
+	}
 
 
 	/**
@@ -127,27 +127,42 @@
 	 * @param {AudioBuffer} audioBuffer 
 	 * @param {AudioNode} node
 	 */
-	 function createPlayer(audioCtx, audioBuffer, node) {
+	function createPlayer(audioCtx, audioBuffer, node) {
 
 		let startTime = 0
 		let elapsedTime = 0
 		let playing = false
+		let playbackRate = 1
 		const events = new EventEmitter2()
 
 		/**@type {AudioBufferSourceNode} */
 		let sourceNode = null
+
+		function updateTime() {
+			if (playing) {
+				const now = audioCtx.currentTime
+				elapsedTime += (now - startTime) * playbackRate
+				startTime = now
+			}
+		}
+
+		function getPlaybackRate() {
+			return playbackRate
+		}
 
 		function isPlaying() {
 			return playing
 		}
 
 		function play() {
+			console.log('play', {playbackRate})
 			sourceNode = audioCtx.createBufferSource()
-			sourceNode.onended = function() {
+			sourceNode.onended = function () {
 				playing = false
 				events.emit('ended')
 			}
 			sourceNode.buffer = audioBuffer
+			sourceNode.playbackRate.value = playbackRate
 			startTime = audioCtx.currentTime
 			sourceNode.connect(node)
 			sourceNode.start(0, elapsedTime)
@@ -158,15 +173,15 @@
 		function pause() {
 			if (playing) {
 				sourceNode.onended = null
+				updateTime()
 				playing = false
-				elapsedTime += audioCtx.currentTime - startTime
 				sourceNode.stop()
-				events.emit('pause')	
+				events.emit('pause')
 			}
 		}
 
 		function seek(time, restart = false) {
-			console.log('seek', {time, restart})
+			//console.log('seek', { time, restart })
 			pause()
 			elapsedTime = Math.min(audioBuffer.duration, time)
 			if (restart) {
@@ -175,13 +190,16 @@
 		}
 
 		function getCurrentTime() {
-			if (playing) {
-				const now = audioCtx.currentTime
-				elapsedTime += now - startTime
-				startTime = now
-			}
+			updateTime()
 			return elapsedTime
+		}
 
+		function setPlaybackRate(rate) {
+			updateTime()
+			playbackRate = rate
+			if (playing) {
+				sourceNode.playbackRate.value = rate
+			}
 		}
 
 		return {
@@ -190,7 +208,9 @@
 			getCurrentTime,
 			on: events.on.bind(events),
 			seek,
-			isPlaying
+			isPlaying,
+			setPlaybackRate,
+			getPlaybackRate
 		}
 	}
 

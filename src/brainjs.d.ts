@@ -66,6 +66,8 @@ declare namespace $$ {
             on(evtName: PlayerEvents, callback: () => void);
             seek(time:number, restart: boolean = false):void;
             isPlaying():boolean;
+            setPlaybackRate(rate: number):void;
+            getPlaybackRate():number;
         }
 
         function getAudioInputDevices(): Promise<InputDevice[]>;
