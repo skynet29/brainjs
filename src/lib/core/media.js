@@ -134,12 +134,13 @@
 		let playing = false
 		let playbackRate = 1
 		const events = new EventEmitter2()
+		let seekPlaying = false
 
 		/**@type {AudioBufferSourceNode} */
 		let sourceNode = null
 
 		function updateTime() {
-			if (playing) {
+			if (playing || seekPlaying) {
 				const now = audioCtx.currentTime
 				elapsedTime += (now - startTime) * playbackRate
 				startTime = now
@@ -155,7 +156,7 @@
 		}
 
 		function play() {
-			console.log('play', {playbackRate})
+			console.log('play', {playbackRate, elapsedTime})
 			sourceNode = audioCtx.createBufferSource()
 			sourceNode.onended = function () {
 				playing = false
@@ -178,6 +179,24 @@
 				sourceNode.stop()
 				events.emit('pause')
 			}
+		}
+
+		function seekEnd() {
+			console.log('seekEnd', {seekPlaying, playing})
+			if (seekPlaying) {
+				seekPlaying = false
+				play()
+			}
+		}
+
+		function seekOffset(offset) {
+			//console.log('seekOffset', {playing})
+			if (playing) {
+				seekPlaying = true
+			}
+			pause()
+			elapsedTime = Math.max(0, getCurrentTime() + offset)			
+
 		}
 
 		function seek(time, restart = false) {
@@ -210,7 +229,9 @@
 			seek,
 			isPlaying,
 			setPlaybackRate,
-			getPlaybackRate
+			getPlaybackRate,
+			seekEnd,
+			seekOffset
 		}
 	}
 

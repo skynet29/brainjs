@@ -68,6 +68,8 @@ declare namespace $$ {
             isPlaying():boolean;
             setPlaybackRate(rate: number):void;
             getPlaybackRate():number;
+            seekEnd():void;
+            seekOffset(offset:number):void;
         }
 
         function getAudioInputDevices(): Promise<InputDevice[]>;
