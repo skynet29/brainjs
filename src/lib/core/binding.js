@@ -86,7 +86,7 @@
       attrs
         .filter((name) => name in map)
         .forEach((attrName) => {
-          const attrValue = node.getAttribute(attrName)
+          let attrValue = node.getAttribute(attrName)
           node.removeAttribute(attrName)
 
 
@@ -116,17 +116,36 @@
           else if (attrName == 'bn-each') {
             const template = document.createElement('template')
             $(template.content).append($(node).children().remove())
-            let iter = node.getAttribute('bn-iter')
-            if (iter == null) {
-              iter = '$i'
+            const token = attrValue.split(',').map(e => e.trim())
+            let iter = '$i'
+            let index = null
+            switch (token.length) {
+              case 1:
+                attrValue = token[0]
+                break
+              case 2:
+                iter = token[0]
+                attrValue = token[1]
+                break
+              case 3:
+                iter = token[0]
+                index = token[1]
+                attrValue = token[3]
+                break
+
             }
-            else {
+            const bnIter = node.getAttribute('bn-iter')
+            if (bnIter != null) {
+              iter = bnIter
               node.removeAttribute('bn-iter')
             }
-            let index = node.getAttribute('bn-index')
-            if (index != null) {
+
+            const bnIndex = node.getAttribute('bn-index')
+            if (bnIndex != null) {
+              index = bnIndex
               node.removeAttribute('bn-index')
             }
+            
             let lazzy = node.getAttribute('bn-lazzy')
             let observer = {}
             if (lazzy != null) {
