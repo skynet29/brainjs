@@ -76,7 +76,7 @@ declare namespace $$ {
         function getVideoDevices(): Promise<InputDevice[]>;
         
         function decodeAudioData(blob: Blob): Promise<AudioBuffer>;
-        function getAudioBuffer(url: string): Promise<AudioBuffer>;
+        function getAudioBuffer(url: string, progressCbk: (data: {percentComplete: number}) => void): Promise<AudioBuffer>;
 
         function drawAudioBuffer( width: number, height: number, context: CanvasRenderingContext2D, buffer: AudioBuffer, color: string ): void;
 

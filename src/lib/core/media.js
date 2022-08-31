@@ -45,7 +45,7 @@
 		})
 	}
 
-	function getAudioBuffer(url) {
+	function getAudioBuffer(url, progressCallback) {
 		return new Promise((resolve, reject) => {
 			const audioCtx = new AudioContext()
 
@@ -59,6 +59,15 @@
 				audioCtx.decodeAudioData(requete.response).then((buffer) => {
 					resolve(buffer)
 				})
+			}
+
+			if (typeof progressCallback == 'function') {
+				requete.onprogress = function(evt) {
+					if (evt.lengthComputable) {
+						const percentComplete = evt.loaded / evt.total
+						progressCallback({percentComplete})
+					}
+				}
 			}
 
 			requete.send()
