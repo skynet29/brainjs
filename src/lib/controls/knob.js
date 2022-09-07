@@ -57,7 +57,7 @@ $$.control.registerControl('brainjs.knob', {
 
         props.value = parseFloat(elt.val()) || 0
 
-        console.log('[knob]props', props)
+        //console.log('[knob]props', props)
 
         elt.knob(props)
 
@@ -66,7 +66,7 @@ $$.control.registerControl('brainjs.knob', {
         }
 
         this.setValue = function(value) {
-            console.log('setValue', value)
+            //console.log('setValue', value)
             elt.knob('value', value)
         }
     }
