@@ -176,7 +176,7 @@
 			return Math.min(Math.max(v,min),max)
 		},
 
-		_setValue: function(v)
+		_setValue: function(v, triggerEvent = true)
 		{
 			var o = this.options
 
@@ -200,7 +200,9 @@
 
 			o.round && (this._value = Math.round(this._value))
 
-			this.element.trigger("turn", [this._value, this._valueNormalized])
+			if (triggerEvent) {
+				this.element.trigger("turn", [this._value, this._valueNormalized])
+			}
 		},
 
 		_grab: function(e)
@@ -295,7 +297,7 @@
 		{
 			if (typeof +v == "number")
 			{
-				this._setValue(this._normalizeValue(v))
+				this._setValue(this._normalizeValue(v), false)
 			}
 			else
 			{
