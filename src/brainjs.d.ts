@@ -630,6 +630,11 @@ declare namespace Brainjs {
                 shapes?: {[shapeId: string]: ShapeInfo};
             }
 
+            interface Feature {
+                type: string;
+                coordinates: Array<number>;
+            }
+
             interface Interface {
                 getShapes(): string[];
                 updateShape(shapeId: string, options: {[shapeProp: string]: any}): void;
@@ -641,6 +646,7 @@ declare namespace Brainjs {
                 getCenter(): LatLng;
                 panTo(latlng: LatLng);
                 flyTo(latlng: LatLng, zoom: number): void;
+                addGeoData(features: Array<Feature>, layerName: string): void;
             }
         }
 

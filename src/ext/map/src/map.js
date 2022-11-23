@@ -1,3 +1,5 @@
+//@ts-check
+
 
 $$.control.registerControl('brainjs.map', {
 	props: {
@@ -20,6 +22,7 @@ $$.control.registerControl('brainjs.map', {
 		const mapOptions = {
 			center,
 			zoom,
+			maxZoom: 20,
 			closePopupOnClick: false,
 			contextmenu: true,
 			//contextmenuWidth: 200,
@@ -47,8 +50,9 @@ $$.control.registerControl('brainjs.map', {
 		const confLayer = {}
 
 		for (let layerName in this.props.layers) {
-			const { label, visible } = this.props.layers[layerName]
-			const layer = new L.FeatureGroup()
+			const { label, visible, cluster } = this.props.layers[layerName]
+			console.log('add layer', {label, visible, cluster})
+			const layer = (cluster === true) ? new L.markerClusterGroup() : new L.FeatureGroup()
 			layers[layerName] = layer
 			if (typeof label == 'string') {
 				confLayer[label] = layer
@@ -57,6 +61,8 @@ $$.control.registerControl('brainjs.map', {
 			if (visible === true) {
 				map.addLayer(layer)
 			}
+
+			
 		}
 
 		if (Object.keys(confLayer).length != 0) {
@@ -239,6 +245,27 @@ $$.control.registerControl('brainjs.map', {
 
 		this.flyTo = function (latlng, zoom) {
 			return map.flyTo(latlng, zoom, { animate: true })
+		}
+
+
+		this.addGeoData = function(features, layerName) {
+			console.log('addGeoData', {layerName})
+			const geoData = {
+				type: 'FeatureCollection',
+				features
+			}
+
+			const layer = layers[layerName]
+			if (layer == undefined) {
+				throw `layer '${layerName}' doesn't exist`
+			}			
+
+			L.geoJSON(geoData, {
+				pointToLayer: function(feature, latlng) {
+					//console.log({feature, latlng})
+					return L.marker(latlng);
+				}
+			}).addTo(layer)
 		}
 
 		for (let shapeId in this.props.shapes) {
