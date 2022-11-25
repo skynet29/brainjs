@@ -1,3 +1,5 @@
+import { IconOptions } from "leaflet";
+
 declare namespace $$ {
 
     interface Object {
@@ -635,6 +637,18 @@ declare namespace Brainjs {
                 coordinates: Array<number>;
             }
 
+            interface IconOptions {
+                iconSize: [width: number, height: number];
+                iconAnchor: [x: number, y: number];
+                popupAnchor?: [x: number, y: number];
+                iconUrl: string;
+            }
+
+            interface GeoDataOptions {
+                pointToLayer: (feature, latlng) => L.Marker;
+                onPopup?: (feature) => string;
+            }
+
             interface Interface {
                 getShapes(): string[];
                 updateShape(shapeId: string, options: {[shapeProp: string]: any}): void;
@@ -646,7 +660,8 @@ declare namespace Brainjs {
                 getCenter(): LatLng;
                 panTo(latlng: LatLng);
                 flyTo(latlng: LatLng, zoom: number): void;
-                addGeoData(features: Array<Feature>, layerName: string): void;
+                addGeoData(features: Array<Feature>, layerName: string, options: GeoDataOptions): void;
+                createMarkerIcon(latLng: LatLng, iconOptions: IconOptions): void;
             }
         }
 

@@ -247,9 +247,21 @@ $$.control.registerControl('brainjs.map', {
 			return map.flyTo(latlng, zoom, { animate: true })
 		}
 
+		/**
+		 * 
+		 * @param {import("leaflet").LatLngExpression} latLng 
+		 * @param {import("leaflet").IconOptions} iconOptions 
+		 */
+		this.createMarkerIcon = function(latLng, iconOptions) {
+			const icon = L.icon(iconOptions)
+			return  L.marker(latLng, {icon})
+		}
 
-		this.addGeoData = function(features, layerName) {
+		this.addGeoData = function(features, layerName, options) {
 			console.log('addGeoData', {layerName})
+
+			options = options || {}
+
 			const geoData = {
 				type: 'FeatureCollection',
 				features
@@ -258,13 +270,27 @@ $$.control.registerControl('brainjs.map', {
 			const layer = layers[layerName]
 			if (layer == undefined) {
 				throw `layer '${layerName}' doesn't exist`
-			}			
+			}		
 
 			L.geoJSON(geoData, {
-				pointToLayer: function(feature, latlng) {
-					//console.log({feature, latlng})
-					return L.marker(latlng);
-				}
+				pointToLayer: (feature, latlng) => {
+					let marker = L.marker(latlng)
+					if (typeof options.pointToLayer == 'function') {
+						const ret = options.pointToLayer(feature, latlng)
+						if (ret != undefined) {
+							marker = ret
+						}
+					}
+					return marker
+				},
+				onEachFeature: function(feature, layer) {
+					if (typeof options.onPopup == 'function') {
+						const popupContent = options.onPopup(feature)
+						if (typeof popupContent == 'string') {
+							layer.bindPopup(popupContent)
+						}						
+					}					
+				}					
 			}).addTo(layer)
 		}
 
