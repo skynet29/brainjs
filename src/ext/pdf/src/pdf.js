@@ -38,10 +38,10 @@ $$.control.registerControl('brainjs.pdf', {
 			//console.log('renderPage', pageNo)
 
 			const page = await pdfDoc.getPage(pageNo)
-			const { width, height } = page.getViewport({scale: 1, rotation})
+			const { width, height } = page.getViewport({ scale: 1, rotation })
 			pageWidth = width
 			pageHeight = height
-			const viewport = page.getViewport({scale, rotation})
+			const viewport = page.getViewport({ scale, rotation })
 			canvas.width = viewport.width
 			canvas.height = viewport.height
 
@@ -60,13 +60,13 @@ $$.control.registerControl('brainjs.pdf', {
 
 		this.refresh = refresh
 
-		this.rotateLeft = function() {
+		this.rotateLeft = function () {
 			rotation = (rotation - 90) % 360
 			//console.log('rotateLeft', rotation)
 			return refresh()
 		}
 
-		this.rotateRight = function() {
+		this.rotateRight = function () {
 			rotation = (rotation + 90) % 360
 			//console.log('rotateRight', rotation)
 			return refresh()
@@ -100,8 +100,21 @@ $$.control.registerControl('brainjs.pdf', {
 		}
 
 		this.openFile = async function (url) {
-			//console.log('[pdf] openFile', url)
-			pdfDoc = await pdfjsLib.getDocument(url).promise
+			//console.log('[pdf] openFile', url, pwd)
+			const loadingTask = pdfjsLib.getDocument(url)
+			loadingTask.onPassword = async function (retFct, reason) {
+				//console.log({ retFct, reason })
+				const title = (reason == 1) ? 'Password needed' : 'Bad password'
+				const pwd = await $$.ui.showPrompt({label: 'Password', title})
+				if (pwd == null) {
+					retFct(new Error('Cancel'))
+				}
+				else {
+					retFct(pwd)
+				}				
+			}
+
+			pdfDoc = await loadingTask.promise
 			await refresh()
 			return pdfDoc.numPages
 		}
@@ -141,7 +154,7 @@ $$.control.registerControl('brainjs.pdf', {
 
 			for (let i = 1; i <= pdfDoc.numPages; i++) {
 				const page = await pdfDoc.getPage(i)
-				const viewport = page.getViewport({scale: 1})
+				const viewport = page.getViewport({ scale: 1 })
 				//console.log('viewport', viewport)
 				canvas.width = viewport.width
 				canvas.height = viewport.height
@@ -153,7 +166,7 @@ $$.control.registerControl('brainjs.pdf', {
 				}).promise
 
 				if (typeof options.onProgress == 'function') {
-					options.onProgress({page: i})
+					options.onProgress({ page: i })
 				}
 
 				html.push(`<img src=${canvas.toDataURL('image/png')}>`)

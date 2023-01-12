@@ -1,5 +1,3 @@
-import { IconOptions } from "leaflet";
-
 declare namespace $$ {
 
     interface Object {
