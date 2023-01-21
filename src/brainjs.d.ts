@@ -102,6 +102,12 @@ declare namespace $$ {
 
     };
 
+    declare namespace path {
+        function getFileName(fullPath: string): string;
+        function getDirName(fullPath: string): string;
+        function getFullPath(dirName: string, fileName: string): string;
+    }
+
     declare namespace ui {
 
         function openFileDialog(callback: (result: File | FileList) => void, multiple: boolean = false): void;
