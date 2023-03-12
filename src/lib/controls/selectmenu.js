@@ -1,23 +1,3 @@
-$( function() {
-    $.widget( "custom.combobox", $.ui.selectmenu, {
-      _renderItem: function( ul, item ) {
-        var li = $( "<li>" ),
-          wrapper = $( "<div>");
- 
-        if ( item.disabled ) {
-          li.addClass( "ui-state-disabled" );
-        }
- 
-        $( "<span>", {
-        	text: item.label,
-          style: item.element.attr( "data-style" )
-        })
-          .appendTo( wrapper );
- 
-        return li.append( wrapper ).appendTo( ul );
-      }
-    });
- })
 
 $$.control.registerControl('brainjs.combobox', {
 
@@ -39,16 +19,18 @@ $$.control.registerControl('brainjs.combobox', {
 
 		select.setItems(items)
 		select.val(elt.val())
+		select.css('width', '200px')
+		select.css('padding', '5px')
+		select.on('change', function(ev) {
+			ev.stopPropagation()
+			elt.trigger('comboboxchange')
+		})
+
 		select.prop('disabled', elt.prop('disabled'))
-		select.combobox({width}).combobox('menuWidget').css('max-height', maxHeight + 'px')
-		// select.on('selectmenuchange', () => {
-		// 	elt.trigger('selectmenuchange')
-		// })
 
 		this.setValue = function(val) {
 			//console.log('selectmenu setValue', val)
 			select.val(val)
-			select.combobox('refresh')
 		}
 
 		this.getValue = function() {
@@ -76,7 +58,6 @@ $$.control.registerControl('brainjs.combobox', {
 						select.val(data.items[0].value)
 					}
 				}
-				select.combobox('refresh')
 			}
 		}
 
