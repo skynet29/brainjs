@@ -10443,6 +10443,16 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .ui-slider-vertical .ui-slider-handle {
 	left: -0.55em;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+	-moz-appearance: textfield;
+  }
 .context-menu-list.data-title:before {
     content: attr(data-menutitle);
     display: block;

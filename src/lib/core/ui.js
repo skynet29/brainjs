@@ -93,9 +93,9 @@ function showPrompt(options) {
 function showForm(formDesc, onApply) {
 	//console.log('showForm', formDesc)
 
-	var div = $('<div>', {title: formDesc.title})
+	const div = $('<div>', {title: formDesc.title})
 
-	var form = $('<form>')
+	const form = $('<form>')
 		.appendTo(div)
 		.on('submit', function(ev) {
 			ev.preventDefault()
@@ -104,7 +104,9 @@ function showForm(formDesc, onApply) {
 				onApply(form.getFormData())
 			}				
 		})
-	var submitBtn = $('<input>', {type: 'submit', hidden: true}).appendTo(form)
+	const submitBtn = $('<input>', {type: 'submit', hidden: true}).appendTo(form)
+
+	const table = $('<table>').appendTo(form)
 
 	const fieldsDesc = formDesc.fields
 	for(let fieldName in fieldsDesc) {
@@ -112,20 +114,22 @@ function showForm(formDesc, onApply) {
 
 		const {label, input, value, attrs} = fieldDesc
 
-		const divField = $('<div>', {class: 'bn-flex-row bn-space-between w3-margin-bottom'}).appendTo(form)
-		var $label = $('<label>').text(label).appendTo(divField)
+		const tr = $('<tr>').appendTo(table)
+
+		$('<td>').text(label).appendTo(tr)
+		const td = $('<td>').appendTo(tr)
 
 		if (input === 'input') {
-			var $input = $('<input>')
-				.width(100)
+			$('<input>')
 				.attr(attrs)
 				.attr('name', fieldName)
 				.val(value)
 				.prop('required', true)
 				.uniqueId()
-				.appendTo(divField)
+				.css('padding', '5px')
+				.width('200px')
+				.appendTo(td)
 
-			$label.attr('for', $input.attr('id'))
 		}
 	}
 
@@ -135,7 +139,7 @@ function showForm(formDesc, onApply) {
 
 	div.dialog({
 		modal: true,
-		//width: 'auto',
+		width: 'auto',
 		close: function() {
 			$(this).dialog('destroy')
 		},
