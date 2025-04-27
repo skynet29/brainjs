@@ -14,8 +14,6 @@ declare namespace $$ {
             props?: Object;
             template?: string | GulpInject;
             init(elt: JQuery, ...services): void;
-            $iface?: string;
-            $events?: string;
 
         }
 
@@ -26,7 +24,6 @@ declare namespace $$ {
         interface RegisterServiceOptions {
             deps?: string[];
             init(config: any, ...services): void;
-            $iface?: string;
 
         }
 

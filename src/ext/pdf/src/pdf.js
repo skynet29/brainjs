@@ -24,8 +24,12 @@ $$.control.registerControl('brainjs.pdf', {
 		elt.css({ flex: '1', overflow: 'hidden' })
 
 		const canvas = document.createElement('canvas')
+		const linkLayer = document.createElement('canvas')
+		linkLayer.style.position = 'relative'
 		div.appendChild(canvas)
+		div.appendChild(linkLayer)
 		const canvasContext = canvas.getContext('2d')
+		const linkContext = linkLayer.getContext('2d')
 		let pdfDoc = null
 		let scale = 1
 		let currentPage = 1
@@ -34,22 +38,98 @@ $$.control.registerControl('brainjs.pdf', {
 		let pageWidth
 		let pageHeight
 
+		let annotations = []
+
+		// Gestion du survol
+		linkLayer.addEventListener('mousemove', function (event) {
+			const rect = linkLayer.getBoundingClientRect();
+			const x = event.clientX - rect.left;
+			const y = event.clientY - rect.top;
+			let hovering = false;
+
+			annotations.forEach(link => {
+				const [x1, y1, x2, y2] = link.rect;
+				if (x >= x1 && x <= x2 && y >= y1 && y <= y2) {
+					hovering = true;
+				}
+			});
+
+			if (hovering) {
+				linkLayer.style.cursor = 'pointer';
+			} else {
+				linkLayer.style.cursor = 'default';
+			}
+		});
+
+		// Ici on ajoute la détection du clic
+		linkLayer.addEventListener('click', function (event) {
+			const rect = linkLayer.getBoundingClientRect();
+			const x = event.clientX - rect.left;
+			const y = event.clientY - rect.top;
+
+			for (let link of annotations) {
+				const [x1, y1, x2, y2] = link.rect;
+				if (x >= x1 && x <= x2 && y >= y1 && y <= y2) {
+					if (link.url) {
+						console.log('Ouverture lien externe:', link.url);
+						window.open(link.url, '_blank');
+					} else if (link.dest) {
+						console.log('Lien interne cliqué :', link.dest);
+						// Ici, tu pourrais aller à une autre page du PDF si tu veux
+					}
+					break; // on arrête après avoir trouvé le lien
+				}
+			}
+		});
+
 		async function renderPage(pageNo) {
-			//console.log('renderPage', pageNo)
+			//console.log('renderPage', pageNo)'
 
 			const page = await pdfDoc.getPage(pageNo)
+
 			const { width, height } = page.getViewport({ scale: 1, rotation })
 			pageWidth = width
 			pageHeight = height
 			const viewport = page.getViewport({ scale, rotation })
-			canvas.width = viewport.width
-			canvas.height = viewport.height
+			linkLayer.width = canvas.width = viewport.width
+			linkLayer.height = canvas.height = viewport.height
+			linkLayer.style.top = `-${viewport.height}px`
+			//console.log('transform', viewport.transform)
+
 
 
 			await page.render({
 				canvasContext,
 				viewport
 			}).promise
+
+			annotations = await page.getAnnotations()
+			annotations = annotations.map((annot) => {
+				if (annot.subtype === 'Link' && annot.rect) {
+					const [x1, y1, x2, y2] = annot.rect
+
+					const rect = pdfjsLib.Util.normalizeRect([
+						x1 * viewport.transform[0],
+						viewport.height + y2 * viewport.transform[3],
+						x2 * viewport.transform[0],
+						viewport.height + y1 * viewport.transform[3]
+					])
+					return { rect, url: annot.url || null, dest: annot.dest || null };
+				}
+				return null
+			})
+				.filter(a => a !== null)
+			//console.log(annotations)
+
+			// linkContext.clearRect(0, 0, linkLayer.width, linkLayer.height)
+			// linkContext.fillStyle = 'rgba(0, 0, 255, 0.2)' // Bleu semi-transparent
+
+
+			// annotations.forEach(link => {
+			// 	const [x1, y1, x2, y2] = link.rect
+			// 	linkContext.fillRect(x1, y1, x2 - x1, y2 - y1)
+			// })
+
 
 			return pageNo
 		}
@@ -105,13 +185,13 @@ $$.control.registerControl('brainjs.pdf', {
 			loadingTask.onPassword = async function (retFct, reason) {
 				//console.log({ retFct, reason })
 				const title = (reason == 1) ? 'Password needed' : 'Bad password'
-				const pwd = await $$.ui.showPrompt({label: 'Password', title})
+				const pwd = await $$.ui.showPrompt({ label: 'Password', title })
 				if (pwd == null) {
 					retFct(new Error('Cancel'))
 				}
 				else {
 					retFct(pwd)
-				}				
+				}
 			}
 
 			pdfDoc = await loadingTask.promise
