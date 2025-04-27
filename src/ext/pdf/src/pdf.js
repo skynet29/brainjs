@@ -1,4 +1,4 @@
-
+//@ts-check
 $$.control.registerControl('brainjs.pdf', {
 
 	props: {
@@ -14,8 +14,11 @@ $$.control.registerControl('brainjs.pdf', {
 
 
 		const div = $('<div>').css({ height: '100%', width: '100%', overflow: 'scroll', 'text-align': 'center' }).appendTo(elt).get(0)
+		const div2 = document.createElement('div')
+		div2.style.position = 'relative'
+		div2.style.display = 'inline-block'
 
-
+		div.appendChild(div2)
 		const pdfjsLib = window['pdfjs-dist/build/pdf']
 		console.log('pdfVersion', pdfjsLib.version)
 
@@ -25,9 +28,12 @@ $$.control.registerControl('brainjs.pdf', {
 
 		const canvas = document.createElement('canvas')
 		const linkLayer = document.createElement('canvas')
-		linkLayer.style.position = 'relative'
-		div.appendChild(canvas)
-		div.appendChild(linkLayer)
+		linkLayer.style.position = 'absolute'
+		linkLayer.style.top = '0px';
+		linkLayer.style.left = '0px';
+
+		div2.appendChild(canvas)
+		div2.appendChild(linkLayer)
 		const canvasContext = canvas.getContext('2d')
 		const linkContext = linkLayer.getContext('2d')
 		let pdfDoc = null
@@ -93,7 +99,7 @@ $$.control.registerControl('brainjs.pdf', {
 			const viewport = page.getViewport({ scale, rotation })
 			linkLayer.width = canvas.width = viewport.width
 			linkLayer.height = canvas.height = viewport.height
-			linkLayer.style.top = `-${viewport.height}px`
+			//linkLayer.style.top = `-${viewport.height}px`
 			//console.log('transform', viewport.transform)
 
 
