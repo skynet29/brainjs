@@ -46,27 +46,29 @@ $$.control.registerControl('brainjs.map', {
 		const map = L.map(div, mapOptions)
 		const shapes = {}
 		const layers = {}
+		const layerCtrl = L.control.layers()
 
-		const confLayer = {}
+		layerCtrl.addTo(map)
 
-		for (let layerName in this.props.layers) {
-			const { label, visible, cluster } = this.props.layers[layerName]
+		function addLayer(layerName, { label, visible, cluster }) {
+			if (layers[layerName] != undefined) {
+				throw `layer ${layerName} already exists !!`
+			}
 			console.log('add layer', {label, visible, cluster})
 			const layer = (cluster === true) ? new L.markerClusterGroup() : new L.FeatureGroup()
 			layers[layerName] = layer
 			if (typeof label == 'string') {
-				confLayer[label] = layer
-			}
+
+				layerCtrl.addOverlay(layer, label)
+		}
 
 			if (visible === true) {
 				map.addLayer(layer)
 			}
-
-			
 		}
 
-		if (Object.keys(confLayer).length != 0) {
-			L.control.layers({}, confLayer).addTo(map)
+		for (const [layerName, options] of Object.entries(this.props.layers)) {
+			addLayer(layerName, options)			
 		}
 
 		if (this.props.scale) {
@@ -103,6 +105,8 @@ $$.control.registerControl('brainjs.map', {
 			//console.log('[map] onclick', ev)
 			elt.trigger('mapclick', { latlng: ev.latlng })
 		})
+
+		this.addLayer = addLayer
 
 		this.getShapes = function () {
 			return Object.keys(shapes)

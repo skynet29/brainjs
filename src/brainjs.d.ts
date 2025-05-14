@@ -663,6 +663,7 @@ declare namespace Brainjs {
                 flyTo(latlng: LatLng, zoom: number): void;
                 addGeoData(features: Array<Feature>, layerName: string, options: GeoDataOptions): void;
                 createMarkerIcon(latLng: LatLng, iconOptions: IconOptions): void;
+                addLayer(layerName: string, options: { label?: string, visible?: boolean, cluster?: boolean }): void;
             }
         }
 
