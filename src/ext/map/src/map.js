@@ -47,20 +47,25 @@ $$.control.registerControl('brainjs.map', {
 		const shapes = {}
 		const layers = {}
 		const layerCtrl = L.control.layers()
+		const layerOpenPopupOnActivates = {}
 
 		layerCtrl.addTo(map)
 
-		function addLayer(layerName, { label, visible, cluster }) {
+		function addLayer(layerName, { label, visible, cluster, openPopupOnActivate }) {
 			if (layers[layerName] != undefined) {
 				throw `layer ${layerName} already exists !!`
 			}
-			console.log('add layer', {label, visible, cluster})
+			console.log('add layer', { label, visible, cluster, openPopupOnActivate })
 			const layer = (cluster === true) ? new L.markerClusterGroup() : new L.FeatureGroup()
 			layers[layerName] = layer
+			if (label && openPopupOnActivate) {
+				layerOpenPopupOnActivates[label] = true
+			}
+
 			if (typeof label == 'string') {
 
 				layerCtrl.addOverlay(layer, label)
-		}
+			}
 
 			if (visible === true) {
 				map.addLayer(layer)
@@ -68,7 +73,7 @@ $$.control.registerControl('brainjs.map', {
 		}
 
 		for (const [layerName, options] of Object.entries(this.props.layers)) {
-			addLayer(layerName, options)			
+			addLayer(layerName, options)
 		}
 
 		if (this.props.scale) {
@@ -104,6 +109,18 @@ $$.control.registerControl('brainjs.map', {
 		map.on('click', function (ev) {
 			//console.log('[map] onclick', ev)
 			elt.trigger('mapclick', { latlng: ev.latlng })
+		})
+
+		map.on('overlayadd', function (ev) {
+			//console.log('overlayadd', ev)
+			if (layerOpenPopupOnActivates[ev.name] === true) {
+				ev.layer.eachLayer(function (layer) {
+					if (layer instanceof L.Marker && layer.getPopup()) {
+						layer.openPopup();
+					}
+				})
+			}
+
 		})
 
 		this.addLayer = addLayer
@@ -169,9 +186,9 @@ $$.control.registerControl('brainjs.map', {
 									elt.trigger('mapshapecontextmenu', { id, cmd, latlng: ev.latlng })
 								}
 							}
-	
+
 						})
-	
+
 					}
 				}
 
@@ -256,13 +273,13 @@ $$.control.registerControl('brainjs.map', {
 		 * @param {import("leaflet").LatLngExpression} latLng 
 		 * @param {import("leaflet").IconOptions} iconOptions 
 		 */
-		this.createMarkerIcon = function(latLng, iconOptions) {
+		this.createMarkerIcon = function (latLng, iconOptions) {
 			const icon = L.icon(iconOptions)
-			return  L.marker(latLng, {icon})
+			return L.marker(latLng, { icon })
 		}
 
-		this.addGeoData = function(features, layerName, options) {
-			console.log('addGeoData', {layerName})
+		this.addGeoData = function (features, layerName, options) {
+			console.log('addGeoData', { layerName })
 
 			options = options || {}
 
@@ -274,7 +291,7 @@ $$.control.registerControl('brainjs.map', {
 			const layer = layers[layerName]
 			if (layer == undefined) {
 				throw `layer '${layerName}' doesn't exist`
-			}		
+			}
 
 			L.geoJSON(geoData, {
 				pointToLayer: (feature, latlng) => {
@@ -287,14 +304,14 @@ $$.control.registerControl('brainjs.map', {
 					}
 					return marker
 				},
-				onEachFeature: function(feature, layer) {
+				onEachFeature: function (feature, layer) {
 					if (typeof options.onPopup == 'function') {
 						const popupContent = options.onPopup(feature)
 						if (typeof popupContent == 'string') {
 							layer.bindPopup(popupContent)
-						}						
-					}					
-				}					
+						}
+					}
+				}
 			}).addTo(layer)
 		}
 
