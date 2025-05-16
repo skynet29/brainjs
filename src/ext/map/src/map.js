@@ -6,6 +6,7 @@ $$.control.registerControl('brainjs.map', {
 		tileUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 		center: { lat: 51.505, lng: -0.09 }, // london city
 		zoom: 13,
+		maxZoom: 18,
 		layers: {},
 		scale: false,
 		coordinates: false,
@@ -17,12 +18,12 @@ $$.control.registerControl('brainjs.map', {
 
 		const div = $('<div>').css('height', '100%').appendTo(elt).get(0)
 
-		const { center, zoom, tileUrl, contextMenu } = this.props
+		const { center, zoom, tileUrl, contextMenu, maxZoom } = this.props
 
 		const mapOptions = {
 			center,
 			zoom,
-			maxZoom: 20,
+			maxZoom,
 			closePopupOnClick: false,
 			contextmenu: true,
 			//contextmenuWidth: 200,
@@ -122,6 +123,7 @@ $$.control.registerControl('brainjs.map', {
 			}
 
 		})
+
 
 		this.addLayer = addLayer
 
