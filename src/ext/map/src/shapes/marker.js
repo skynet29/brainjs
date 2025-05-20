@@ -33,7 +33,7 @@ $$.module.registerModule('brainjs.map.shape.marker', function() {
 			if (data.popup) {
 				const content = data.popup.content
 				if (typeof content == 'string') {
-					delete data.popup.content
+					//delete data.popup.content
 					const options = $.extend({autoClose: false, closeButton: true, autoPan: false}, data.popup)
 					let popup = L.popup(options)
 					popup.setContent(content)
@@ -54,7 +54,7 @@ $$.module.registerModule('brainjs.map.shape.marker', function() {
 
 		update: function(layer, data) {
 		
-
+			//console.log('updateMarker', data)
 			if (data.latlng) {
 				layer.setLatLng(data.latlng)
 			}
@@ -65,8 +65,8 @@ $$.module.registerModule('brainjs.map.shape.marker', function() {
 				layer.setRotationAngle(data.rotationAngle)
 			}	
 
-			if (data.popupContent) {
-				layer.setPopupContent(data.popupContent)
+			if (data.popup && data.popup.content) {
+				layer.setPopupContent(data.popup.content)
 			}	
 
 		},

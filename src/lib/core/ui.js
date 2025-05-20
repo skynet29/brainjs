@@ -112,7 +112,7 @@ function showForm(formDesc, onApply) {
 	for(let fieldName in fieldsDesc) {
 		const fieldDesc = fieldsDesc[fieldName]
 
-		const {label, input, value, attrs} = fieldDesc
+		const {label, input, value, attrs, items} = fieldDesc
 
 		const tr = $('<tr>').appendTo(table)
 
@@ -129,7 +129,16 @@ function showForm(formDesc, onApply) {
 				.css('padding', '5px')
 				.width('200px')
 				.appendTo(td)
-
+		}
+		else if (input === 'select') {
+			$('<select>')
+				.attr('name', fieldName)
+				.uniqueId()
+				.css('padding', '5px')
+				.width('200px')
+				.setItems(items || [])
+				.val(value)
+				.appendTo(td)
 		}
 	}
 
