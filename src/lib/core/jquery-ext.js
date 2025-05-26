@@ -127,7 +127,8 @@
     this.find('[name]').each(function () {
       var elt = $(this)
       var name = elt.attr('name')
-      ret[name] = elt.getValue()
+      const val = elt.getValue()
+      ret[name] = (typeof val == 'string') ? val.trim() : val
 
     })
 
