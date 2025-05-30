@@ -296,6 +296,7 @@ $$.control.registerControl('brainjs.map', {
 			}
 
 			L.geoJSON(geoData, {
+				style: options.style,
 				pointToLayer: (feature, latlng) => {
 					let marker = L.marker(latlng)
 					if (typeof options.pointToLayer == 'function') {

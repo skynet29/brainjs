@@ -132,14 +132,15 @@ declare namespace $$ {
         interface FieldDescriptor {
             label: string;
             input: string;
-            value: string;
-            attrs: { [attrName]: any }
+            value?: string;
+            attrs: { [attrName]: any };
+            items?: Array<string>
         };
 
         interface FormOptions {
             title: string;
-            fields: { [fieldName]: FieldDescriptor };
-            data?: { [fieldName]: any };
+            fields: { [fieldName: string]: FieldDescriptor };
+            data?: { [fieldName: string]: any };
         };
 
         function showForm(formDesc: FormOptions, onApply: (data: { [fieldName]: any }) => void): void;
@@ -648,6 +649,7 @@ declare namespace Brainjs {
             interface GeoDataOptions {
                 pointToLayer: (feature, latlng) => L.Marker;
                 onPopup?: (feature) => string;
+                style?: {[key: string]: any};
             }
 
             interface Interface {
