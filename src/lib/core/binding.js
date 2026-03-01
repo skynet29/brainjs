@@ -9,6 +9,7 @@
     'bn-html': 'html',
     'bn-load': 'load',
     'bn-data': 'setData',
+    'bn-items': 'setItems',
     'bn-val': 'setValue',
     'bn-show': 'setVisible',
     'bn-visible': 'setVisibility',
